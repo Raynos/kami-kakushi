@@ -60,3 +60,33 @@ scorecard live in
    the reading queue.
 2. The report is worth the human's eye specifically for the dead season
    wheel: it is a *gameplay* regression surfaced by a layout plan.
+
+---
+
+## Follow-up — the audit the dead season wheel demands
+
+Filed
+[`docs/plans/opus-2026-07-18-unreachable-verb-audit.md`](../../docs/plans/opus-2026-07-18-unreachable-verb-audit.md)
+(reading queue) rather than leaving the finding as a "next steps" line
+here — a journal is a record, not a queue.
+
+Two things surfaced while grounding it:
+
+- **The sim leans on `advance_season` structurally**, not incidentally.
+  `autoplay.ts:444` turns the wheel to refill a drained paddy pool and
+  states the R7 granary target climbs *because* of it; `:568` collects
+  the Phase-2 seasonal judge the same way. The sim dispatches the intent
+  directly, so it exercised a verb no player could reach. Most likely no
+  band actually moved (the sim never went through the UI), but per
+  ADR-132 that is a machine verdict nobody has taken.
+- **Why nothing caught it.** `affordance-coverage.test.ts` lists
+  `advance_season` in `PLAYER_INTENTS` and passed throughout. Its
+  `sweep()` mounts into **jsdom** and calls `.click()` on queried
+  elements — jsdom does no layout and no hit-testing, so
+  `pointer-events`, occlusion and zero size are invisible to it. The
+  ratchet proves a handler is wired to an element that exists, never
+  that a real click reaches it. The reachability half belongs in the e2e
+  lane, where Playwright's actionability checks honour all three.
+
+That second point is the durable one, and it generalises past this bug:
+**every** control the ratchet "covers" carries the same blind spot.

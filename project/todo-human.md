@@ -36,6 +36,16 @@
   (DEV → Prototypes → ⤢ Pictogram A/B). *(The plan left the queue —
   engaged live + archived done.)*
 - [ ]
+  [`docs/plans/opus-2026-07-18-unreachable-verb-audit.md`](../docs/plans/opus-2026-07-18-unreachable-verb-audit.md)
+  — the follow-up the dead season wheel demands: the balance sim leans
+  on `advance_season` (it refills the paddy pool, and the R7 granary
+  target rides that), but it dispatches the intent directly — so the
+  sim exercised a verb no player could reach. Were the R2+ bands ever
+  reachable? Plus the reason nothing caught it: the affordance ratchet
+  runs in jsdom, which has no hit-testing, so it can't see
+  `pointer-events`. Likeliest honest answer is "no band moved" — the
+  value is the gate.
+- [ ]
   [`project/audit/reports/2026-07-18-phone-shell-defects.md`](audit/reports/2026-07-18-phone-shell-defects.md)
   — the three 390px shell defects are **fixed** (built autonomously,
   s219; the plan left the queue archived done). Worth your eye for
