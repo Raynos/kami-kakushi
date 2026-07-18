@@ -1,18 +1,15 @@
 # Rebuild talking: state-derived asks + authored beats (FB-415)
 
-**Status:** ▶️ IN-PROGRESS — steps 1–5 built & shipped (2026-07-18,
-session 210 — 9e2dff3c · 353fdacf · 10c00d0f · e8afaac4; ADR-200);
-only the authored waves remain. The
-engine, the `## ask` grammar + R0–R2 seed, the three-variant surface
-(HR-45, A ships), the D8 re-homing (talk_to retired, full-T0 floor
-proven), and the D6 freshness are all live. **REMAINING, queued
-here: the per-person ADR-139 ask-answer waves** — upgrade the
-placeholder labels/answers (each `-word` person-ask + the D2 seed
-asks) bundle by bundle in the Story switcher; discovery-hint asks
-join per wave. The FIRST wave also wires ask units into
-`narrative/takes.ts` (the overlay hook `ask.<id>.<line-id>` is live;
-only the bundle-grammar side is missing — journal s210 §3). Pick
-this plan up to run a wave.
+**Status:** ✅ DONE (2026-07-18, session 218 — 095e1951; s210 built
+steps 1–5 at 9e2dff3c · 353fdacf · 10c00d0f · e8afaac4, ADR-200).
+The ask waves landed as three ADR-139 bundles — `ask-voice` (HR-49,
+all 14 native-ask labels) · `ask-house` (HR-50, standing +
+house-wants/mend branches) · `ask-village` (HR-51, village answers +
+the THREE new D2 discovery-hint asks) — with the takes-compiler ask
+grammar, lazy overlay labels, and native-prose→flavor re-home
+(journal s218). PH6-proven live on :5264. Human-gated residue, homed
+in the queue: HR-45 (surface variant pick → triggers the PRD ripple)
+and HR-49/50/51 (take picks → prune the bundles).
 
 **Rulings (human, 2026-07-18 — pre-build Q&A):**
 - **Routing:** all five steps build in the Fable session (no Opus

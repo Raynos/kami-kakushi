@@ -93,14 +93,36 @@ pictogram co-agent mid-session). Pass-2 demerits that killed takes:
 P10 prop-contracts (a mattock the game can't hand over), invented
 drill canon, asserted surveillance, two-sentence chrome labels.
 
+## 3 · Landed, PH6-proven, plan closed
+
+The crowded tree made committing the interesting part: three
+co-agents' WIP (pictogram golden pins, bestiary formatting, a moved
+plan's dead link) red-blocked five commit attempts. Landed both units
+as ONE commit (they share flavor.md) via a background green-window
+retry loop (`tmp/s218/commit-retry.sh` — checkpoint-refresh + pathspec
+commit every 90s; caught the window on try 2) → `095e1951`.
+
+PH6 drive (headless, the shared :5264): Genemon's plates render the
+three new labels, the standing ask answers inline with the picked
+prose, and all three bundles sit in the DEV Review DOM — shots in
+`project/audit/screens/2026-07-18-ask-waves/`.
+
+Close-out: plan Status → ✅ DONE, archived to `project/archive/`;
+snapshot updated (talk system COMPLETE, picks HR-45 + HR-49/50/51);
+HR-45 gains the on-sign-off note (pick → prune variants + run
+`/prd-ripple` for the retired-C4.2 PRD text — the ripple's home in
+the queue). Story-bible D5 presence-matrix ripple: not touched —
+the waves authored no presence changes.
+
 <!-- append further entries below, in order -->
 
 ---
 
 ## Next intended steps (current)
 
-1. Land the two commits (wiring · waves) in a green co-agent window.
-2. Close the plan: Status ✅ → archive → snapshot → checkpoint push.
+1. Push `main` (`pnpm run push` — full-suite lane) once the co-agent
+   window allows.
+2. Session done after the checkpoint — one plan per session.
 
 ## Landmines (current)
 

@@ -111,6 +111,11 @@ heard asks (D6) are shared mechanics, not variant choices.
     with Genemon → press the plates. DEV → Review → Variants →
     **talk** to switch. Screenshots:
     `project/audit/screens/2026-07-18-talk-diverge/`.
+  - **On sign-off (s218 note):** your pick here closes the talk plan's
+    last human gate — the agent then prunes the losing variants AND
+    runs `/prd-ripple` (the PRD's ADR-114 people/talk section still
+    describes the retired C4.2 cursor; the ripple waits on this pick
+    per ADR-168). The ask WORDS are the sibling items HR-49/50/51.
   - **Verdict:** _(awaiting your pick)_
 
 ## ▸ R1 · the estate opens (Map/Estate tab reveals)

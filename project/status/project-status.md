@@ -48,6 +48,9 @@ specced, not built** ([`prd.md`](../../docs/living/prd.md)).
   afterglow beat + the R1 intro line. Picks: **HR-46 · HR-47**.
 - **✅ PICTOGRAM A/B (#15, s216):** 11 marks both ways, blind-passed:
   **picto 10/11 PASS · emoji 8/11 FAIL**. Verdict: **HR-48**.
+- **✅ TALK SYSTEM COMPLETE (FB-415/ADR-200, s210+s218):** asks at
+  every person; the waves landed — 18 labels + answers at pick voice,
+  3 NEW discovery-hint asks. Picks: **HR-45 · HR-49/50/51**.
 - **✅ BODY SPLIT (ADR-178) · ESTATE (ADR-177):** works chain
   (**HR-27**) · diverges (**HR-29/HR-30**). **✅ FOUNDATIONS:** bible
   (ADR-150) · PRD freeze cancelled (ADR-168) · UI-v2/taste lock
@@ -61,16 +64,13 @@ The live queue: [`../human-in-the-loop/`](../human-in-the-loop).
 
 - **HR-1** 🔲 — play the full T0 arc: fun & pacing (look certified).
 - **HD-40** 🔲 — **the kitchen-only pot.** BUILT, one line turns it on;
-  held — priced out of the old [3,25] band (R3 31.6). The band is
-  [3,28] now (ADR-197) and cook no longer mends: worth a re-sim.
-- **HR-42** 🔲 — the R3 **delight line** (+1 agi pick, ADR-190):
-  3 takes at DEV → Story `adr190-nudge`.
-- **HR-33 + HR-32b** 🔲 — the four zone-reveal VNs; VN-only or
-  VN + map-ink announce?
+  held on the old [3,25] band — [3,28] + no cook-mend: worth a re-sim.
+- **HR-42** 🔲 — the R3 **delight line** (`adr190-nudge`, 3 takes).
+- **HR-33 + HR-32b** 🔲 — the four zone-reveal VNs; announce shape?
 - **ONE home for every pick: DEV → Review** — Story ⇄ Variants behind
   one switch; each row carries its **HR-n**. **Story** 🔲 HR-18…21 ·
-  HR-27 · HR-39 · HR-40 · HR-42 · HR-43 · **Variants** 🔲 HR-6 · HR-5 ·
-  HR-2A–D · HR-29/30 · HR-45 · HR-46.
+  HR-27 · HR-39 · HR-40 · HR-42 · HR-43 · HR-49/50/51 · **Variants** 🔲
+  HR-6 · HR-5 · HR-2A–D · HR-29/30 · HR-45 · HR-46.
 
 ## Toolchain
 
@@ -110,11 +110,11 @@ FB-257. `dev`·`build`·`/ship`.
    server on localhost:5264 (never spawn/kill your own). **`?dev=no`**
    for the true player layout; the page NEVER auto-reloads (FB-257).
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the FB-415 ask-answer waves (ADR-139) ·
-   the bestiary-plates plan (`docs/plans/`).
+4. **Next (autonomous):** the live `docs/plans/` queue (bestiary
+   plates · pictogram follow-ups); the talk plan is DONE + archived.
 5. **Shared tree (ADR-196 locks live):** pathspec commits only; push
    with **`pnpm run push`** (bare `git push` is blocked; lane held →
    commits stay local by design). Render-split LANDED (session 203):
    surface work goes in `src/ui/render|dev/`, not the shells.
 
-<!-- rewrite-debt: 15/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 16/20 · last full rewrite: 2026-07-13 -->
