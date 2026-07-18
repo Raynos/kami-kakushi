@@ -3,7 +3,6 @@
 import { el } from '../render';
 import { openT1Map, openT2Map } from '../map-sheets/sheet';
 import { openStampBook } from '../stamp-book/book';
-import { openEstateSheet } from '../estate-sheet/demo';
 import { openSceneCards } from '../scene-cards/cards';
 import { openSceneCardsV1 } from '../scene-cards/cards-v1';
 import { mono } from './widgets';
@@ -17,9 +16,9 @@ export function buildProtosPane(opts: { pane: HTMLElement }): void {
   //    · Map sheets — T0/T1 review maps (2026-07-07 story reboot): the rebooted tier-sheet
   //      zone rosters as full-screen survey sheets, read-only, self-contained in map-sheets/
   //      (T0 + T1 side by side on purpose; T2 the valley downstream).
-  //    · New UI — E3 stamp book (fable-2026-07-08-graphics-explorations.md; fixture-fed) and
-  //      E1 estate sheet (okoshi-ezu cutaway, STANDALONE of map-sheets — spec in
-  //      src/ui/estate-sheet/README.md, HR-16). Prototype-first law: zero game integration.
+  //    · New UI — E3 stamp book (fable-2026-07-08-graphics-explorations.md; fixture-fed).
+  //      The E1 estate-sheet door RETIRED 2026-07-18 (craft pass 3d, TST1): the sheet
+  //      ships live as the Estate 家 tab's variant A — one home; review via the HR-30 row.
   //    · Parked — E2 scene-card pilots, human-parked 2026-07-08 with BOTH versions kept as
   //      concept references: v2 (kage-e + press — the kept look) and v1 (figurative — ruled slop).
   const protoGroup = (title: string): void => {
@@ -37,9 +36,8 @@ export function buildProtosPane(opts: { pane: HTMLElement }): void {
   protoGroup('Map sheets');
   protoBtn('⤢ T1 map — the estate at its true scale', () => openT1Map());
   protoBtn('⤢ T2 map — the valley, Asagiri downstream', () => openT2Map());
-  protoGroup('New UI (E3 / E1)');
+  protoGroup('New UI (E3)');
   protoBtn('⤢ Stamp book — E3 progression prototype', () => openStampBook());
-  protoBtn('⤢ Estate sheet — E1 okoshi-ezu prototype', () => openEstateSheet());
   protoGroup('Parked UI prototypes');
   protoBtn('⤢ Scene cards v2 — kage-e (E2 · parked)', () => openSceneCards());
   protoBtn('⤢ Scene cards v1 — figurative (E2 · parked)', () =>
