@@ -44,8 +44,8 @@ specced, not built** ([`prd.md`](../../docs/living/prd.md)).
   re-renders EVERYTHING (logged lines incl.); takes gen-compile to
   flat maps behind a HARD prose-only gate; ten setters → ONE overlay.
 - **✅ SEAL-BOOK STRIP (ADR-201, s214):** the run record as a compact
-  Character-tab strip (v16 `rungRecord`+`defeatDays`; 3 variants,
-  blind-passed, pick at **HR-46**). NOT DONE: the afterglow beat.
+  Character-tab strip (v16 record; 3 variants, blind-passed) + the
+  afterglow beat + the R1 intro line. Picks: **HR-46 · HR-47**.
 - **✅ BODY SPLIT (ADR-178) · ESTATE (ADR-177):** works chain
   (**HR-27**) · diverges (**HR-29/HR-30**). **✅ FOUNDATIONS:** bible
   (ADR-150) · PRD freeze cancelled (ADR-168) · UI-v2/taste lock
@@ -110,11 +110,11 @@ FB-257. `dev`·`build`·`/ship`.
    server on localhost:5264 (never spawn/kill your own). **`?dev=no`**
    for the true player layout; the page NEVER auto-reloads (FB-257).
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the stamp-book afterglow beat + its
-   ADR-139 intro line (plan, s214) · the FB-415 ask-answer waves.
+4. **Next (autonomous):** the FB-415 ask-answer waves (ADR-139) ·
+   the bestiary-plates / pictogram-AB plans (`docs/plans/`).
 5. **Shared tree (ADR-196 locks live):** pathspec commits only; push
    with **`pnpm run push`** (bare `git push` is blocked; lane held →
    commits stay local by design). Render-split LANDED (session 203):
    surface work goes in `src/ui/render|dev/`, not the shells.
 
-<!-- rewrite-debt: 13/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 14/20 · last full rewrite: 2026-07-13 -->

@@ -1,10 +1,11 @@
 # Stamp book (E3) — spec, state feed, home, and the look diverge
 
-**Status:** 🔨 IN-PROGRESS (2026-07-18, session 214 — ADR-201 rulings
-locked; steps 1+2 and the compact diverge (4+5) LANDED incl. golden
-pins + blind pass (HR-46 filed). REMAINING: the afterglow beat +
-the ADR-139 unit naming the book, and the HR-46 pick → prod
-promotion/prune.)
+**Status:** 🔨 IN-PROGRESS (2026-07-18, session 214 — BUILD COMPLETE:
+rulings (ADR-201) · spec · v16 state feed · compact diverge + pins +
+blind pass · the afterglow beat · the sealbook-intro ADR-139 unit.
+REMAINING is human-gated only: the **HR-46** variant pick + the
+**HR-47** line pick (carrying the bible new-fact) → then the
+pick-driven prod promotion/prune closes the plan.)
 **Confidence:** ( 30% Opus, 70% Fable ) — the stamp grammar and the
 look diverge are Fable craft; the state feed and DEV wiring are
 mechanical.
