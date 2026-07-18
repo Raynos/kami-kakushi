@@ -34,10 +34,6 @@
   — #15 pulled forward: the honest 10-item pictogram-vs-emoji contact
   sheet, blind-passed; "both slop, keep emoji" stays a valid verdict.
 - [ ]
-  [`docs/plans/fable-2026-07-18-stamp-book-resume.md`](../docs/plans/fable-2026-07-18-stamp-book-resume.md)
-  — #8+10 resumed ("yeah good, continue later"): spec → state feed →
-  home HD → the ADR-075 look diverge; the Plan-B gate is satisfied.
-- [ ]
   [`docs/plans/fable-2026-07-18-phone-shell-defects.md`](../docs/plans/fable-2026-07-18-phone-shell-defects.md)
   — three 390px shell defects the estate blind readers caught in
   passing (log clips the Standing panel · season pill occludes the
