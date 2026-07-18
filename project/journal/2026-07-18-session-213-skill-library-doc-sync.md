@@ -53,3 +53,43 @@ build wins), incl. retiring the twice-rotted `playtest.mjs`.
 - The 72-wrap hook flags cascade: splitting a long line pushes
   overflow into the merged next line — reflow the whole sentence
   block, not one line at a time.
+
+---
+
+# Entry 2 — the library lands (same session, resumed)
+
+**Summary:** The 14-skill successor library is authored, reviewed
+(3 lenses: factual / doctrine / usability — 35 findings, 2 BLOCKING),
+fixed, spot-checked, and committed under `.claude/skills/kami-*`.
+The human's Phase-1 rulings got their durable record.
+
+## What changed
+- `.claude/skills/kami-*/SKILL.md` (14 new skills, ~4,700 lines):
+  change-control · debugging-playbook · failure-archaeology ·
+  architecture-contract · domain-reference · config-and-flags ·
+  build-and-env · verify-gates · extension-recipes · save-and-schema
+  · narrative-grammar · balance-analysis-toolkit · research-frontier
+  · cohesion-campaign. Audience: zero-context Opus-solo sessions
+  (human ruling R2). Authored by a 14-agent workflow grounded in a
+  15-agent discovery sweep; every fact re-verified in-repo (PH2).
+- `project/feedback-human/2026-07-18-skill-library-rulings.md` — the
+  durable record of the Phase-1 Q&A rulings (R1 cohesion steer
+  verbatim, R2 audience, R3 slop-costliest, R4 graphics frontier)
+  that four skills anchor on. The doctrine reviewer caught that
+  these lived only in chat.
+
+## Next intended steps
+1. The cohesion campaign's first session locks the R1 steer as an
+   ADR (noted in `kami-cohesion-campaign` provenance).
+2. Residual uncertainty (labeled in-skill): bisect-in-worktree
+   etiquette is derived, not mandated; e2e ~50s is doc-sourced, not
+   re-measured; the narrative `## ask` grammar section notes the
+   FB-415 work was landing mid-authoring — re-verify on first use.
+
+## Landmines
+- The review-link gate REDed tree-wide mid-landing on w7:p1's
+  uncommitted `stamp-book` surface naming an unfiled HR-46 — NOT
+  this session's red; pinged w7:p1 and waited rather than skipping
+  (don't fight someone else's red).
+- AGENTS.md sits at exactly its 500-line cap — any future edit there
+  must displace, not add (bit this session; culled 4 lines).
