@@ -114,6 +114,56 @@ rect.sbc-inspected {
   min-width: 1.6rem;
 }
 
+/* ── the seal-book AFTERGLOW (ADR-201 ruling 1) — a transient ceremony
+   moment after a rank-up: the strip presents once, the fresh seal presses
+   in, click/Esc or ~4s dismisses. Same layer discipline as .rankup-seal. */
+.seal-afterglow {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 60;
+  background: rgba(7, 8, 16, 0.5);
+  cursor: pointer;
+  animation: sbc-ag-in 0.35s ease-out;
+}
+.seal-afterglow.fading {
+  opacity: 0;
+  transition: opacity 0.45s ease-out;
+}
+.seal-afterglow-card {
+  width: min(620px, 94%);
+  background: var(--steel-1);
+  padding: 0.5rem 0.6rem 0.6rem;
+}
+@keyframes sbc-ag-in {
+  from {
+    opacity: 0;
+  }
+}
+/* the fresh seal presses in — the wrapper g carries no SVG transform, so the
+   CSS scale composes cleanly over the seal's own hand-rotation */
+.sbc-pressing {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.seal-afterglow-card.animate .sbc-pressing {
+  animation: sbc-press 0.7s ease-out 0.3s backwards;
+}
+@keyframes sbc-press {
+  from {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(0.97);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
 /* the ONE inspect popover (ruling 4) — a small overlay card, never a reflow. */
 .sbc-pop {
   position: absolute;

@@ -130,8 +130,24 @@ C's thread-as-glitch + paging affordance, B's mobile wrap
 hierarchy, the next-seal popover requirement list. Pin regenerated
 deliberately with the fixes.
 
+## The afterglow landed (same session, "go")
+
+- `showSealAfterglow` (render/modals.ts, beside the rank-up seal it
+  extends — TST1): after a rank ceremony the compact strip presents
+  ONCE, scrolled to the fresh seal, the seal pressing in
+  (`.sbc-pressing` wrapper-g so CSS scale composes over the seal's
+  own rotation); click/Esc or ~4s dismisses; reduced-motion honored.
+- Trigger mirrors the slop-warning latch (render.ts):
+  `pendingAfterglow` on the exact promotion diff, held until the
+  rung-up VN + scene queue close AND any slop scrim is answered —
+  story first, consent second, ceremony after.
+- Proven headless: `rung-R2` → `__qa.toRung('R3')` → afterglow
+  captured (`afterglow-R3.png`), Esc dismissed clean.
+- Choreography is the shipped concertina's; a B/C pick at HR-46
+  would bring its own (named there).
+
 ## Next intended steps
 
-1. The afterglow beat (ADR-201 ruling 1's ceremony half) + the
-   ADR-139 story unit naming the book — the plan's remaining step.
+1. The ADR-139 story unit naming the book (the P10 debt) — 3 blind
+   takes → bundle → DEV Story switcher → HR row.
 2. HR-46 awaits the human's variant pick; alternates stay DEV-only.

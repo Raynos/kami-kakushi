@@ -498,6 +498,12 @@ export function mount(
   // until the scene closes — the player goes through the rung-up story first, then
   // meets the warning on the shell (human, 2026-07-10 follow-up).
   let pendingSlopWarning: 'R1' | 'R2' | null = null;
+  // The seal-book AFTERGLOW (ADR-201 ruling 1): latched on the exact promotion
+  // diff, held until the rung-up VN (and any queued scene) closes — the story
+  // plays first, then the book presents the fresh press. A DEV rung teleport
+  // still shows it (harmless, and it exercises the surface); the SLOP scrim,
+  // when both fire, holds the afterglow until it is answered.
+  let pendingAfterglow = false;
   let introEndingRender = false;
 
   const shell = el('div', 'shell paper');
@@ -1170,11 +1176,12 @@ export function mount(
 
   // The one-shot overlays (rank-up seal / ascension / slop warning) live in
   // render/modals.ts (render-split).
-  const { showRankUp, showAscension, showSlopWarning } = createOverlays({
-    shell,
-    root,
-    sfx: hooks.sfx,
-  });
+  const { showRankUp, showAscension, showSlopWarning, showSealAfterglow } =
+    createOverlays({
+      shell,
+      root,
+      sfx: hooks.sfx,
+    });
 
   // The inventory pair (kura storehouse + home/belongings) lives in render/inventory.ts
   // (render-split).
@@ -1454,6 +1461,7 @@ export function mount(
       // FB-153 — the beat modal already performed the ceremony (skip-once).
       if (suppressRankUpOverlay) suppressRankUpOverlay = false;
       else showRankUp(state);
+      pendingAfterglow = true; // ADR-201 — the book presents after the story
       // SLOP threshold gates (human, 2026-07-10) — exact-step matches, and only
       // when a player-initiated control armed the latch (never a DEV teleport).
       if (slopGateArmed) {
@@ -1473,6 +1481,20 @@ export function mount(
     ) {
       showSlopWarning(pendingSlopWarning);
       pendingSlopWarning = null;
+    }
+    // The seal-book afterglow waits out the same things the slop warning does,
+    // PLUS the slop scrim itself (consent first, ceremony after) and any prior
+    // afterglow still on screen (a DEV multi-rung jump collapses to one).
+    if (
+      pendingAfterglow &&
+      !vnActive(state) &&
+      state.sceneQueue.length === 0 &&
+      pendingSlopWarning === null &&
+      !root.querySelector('.slop-scrim') &&
+      !shell.querySelector('.seal-afterglow')
+    ) {
+      pendingAfterglow = false;
+      showSealAfterglow(state);
     }
     introEndingRender = false; // one-shot: the intro-reveal render is done
     firstRender = false;

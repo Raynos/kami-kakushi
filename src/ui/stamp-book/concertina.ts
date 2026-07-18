@@ -30,8 +30,16 @@ function panelX(i: number, total: number): number {
 }
 
 /** Paint the concertina into `host` (cleared). `host` must live inside the
- *  positioned section card so the shared popover can anchor. */
-export function paintConcertina(host: HTMLElement, data: StripData): void {
+ *  positioned section card so the shared popover can anchor.
+ *  `opts.pressRung` marks that rung's seal as FRESHLY PRESSED (the ADR-201
+ *  afterglow): its group carries `.sbc-pressing`, which CSS animates once —
+ *  the drawing itself is identical (the golden pin sees no class-only
+ *  difference in geometry). */
+export function paintConcertina(
+  host: HTMLElement,
+  data: StripData,
+  opts?: { pressRung?: string },
+): void {
   host.textContent = '';
   const total = data.slots.length;
   const w = total * SLOT_W;
@@ -126,7 +134,22 @@ export function paintConcertina(host: HTMLElement, data: StripData): void {
     const [cx, cy] = anchors[i]!;
     const ground = i % 2 === 0 ? 'var(--washi)' : 'var(--washi-shade)';
     if (slot.state === 'pressed') {
-      drawSeal(svg, cx, cy, SEAL_SIZE, slot.rung, slot.kanji ?? '', ground);
+      const g = drawSeal(
+        svg,
+        cx,
+        cy,
+        SEAL_SIZE,
+        slot.rung,
+        slot.kanji ?? '',
+        ground,
+      );
+      if (opts?.pressRung === slot.rung) {
+        // wrap for the press animation: the wrapper carries no attribute
+        // transform, so CSS can scale it without stomping the seal's rotation
+        const press = sv('g', { class: 'sbc-pressing' });
+        svg.insertBefore(press, g);
+        press.append(g);
+      }
       sealText(svg, cx, cy + SEAL_SIZE / 2 + 24, slot.title ?? '', {
         size: 10.5,
         color: 'var(--ink)',

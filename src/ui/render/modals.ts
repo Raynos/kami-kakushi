@@ -3,6 +3,8 @@
 // (human, 2026-07-10).
 import { currentRank, NAMES, type GameState } from '../../core';
 import { el } from '../render';
+import { stripFromState } from '../stamp-book/from-state';
+import { paintConcertina } from '../stamp-book/concertina';
 import type { Sfx } from '../sfx';
 
 export function createOverlays(ctx: {
@@ -14,6 +16,7 @@ export function createOverlays(ctx: {
   showRankUp(state: GameState): void;
   showAscension(state: GameState): void;
   showSlopWarning(target: 'R1' | 'R2'): void;
+  showSealAfterglow(state: GameState): void;
 } {
   const { shell, root, sfx } = ctx;
 
@@ -161,5 +164,46 @@ export function createOverlays(ctx: {
     focusTarget.focus();
   }
 
-  return { showRankUp, showAscension, showSlopWarning };
+  // ── the seal-book AFTERGLOW (ADR-201 ruling 1) — after a rank ceremony
+  //    resolves (the VN closed, the hanko flash done), the book presents
+  //    itself ONCE: the compact strip, scrolled to the fresh seal, the seal
+  //    pressing in. A transient moment, not a surface — click/Esc or ~4s
+  //    dismisses; the revisitable home stays the Character tab (TST1).
+  //    Always the shipped concertina rendering (a variant pick would bring
+  //    its own choreography — named in HR-46). ──
+  function showSealAfterglow(state: GameState): void {
+    const overlay = el('div', 'seal-afterglow');
+    overlay.setAttribute('role', 'status');
+    const card = el('div', 'frame seal-afterglow-card');
+    const head = el('div', 'skill-head');
+    head.append(el('span', 'skill-name', 'Seal-book 朱印帳'));
+    card.append(head);
+    const host = el('div', 'sbc-host');
+    card.append(host);
+    overlay.append(card);
+    const reduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+    if (!reduced) card.classList.add('animate');
+    paintConcertina(host, stripFromState(state), {
+      pressRung: state.rung, // the seal this ceremony pressed
+    });
+    shell.append(overlay);
+    let gone = false;
+    const dismiss = (): void => {
+      if (gone) return;
+      gone = true;
+      document.removeEventListener('keydown', onKey);
+      overlay.classList.add('fading');
+      window.setTimeout(() => overlay.remove(), reduced ? 0 : 450);
+    };
+    const onKey = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape') dismiss();
+    };
+    document.addEventListener('keydown', onKey);
+    overlay.addEventListener('click', dismiss);
+    window.setTimeout(dismiss, reduced ? 2600 : 4200);
+  }
+
+  return { showRankUp, showAscension, showSlopWarning, showSealAfterglow };
 }
