@@ -46,27 +46,27 @@ specced, not built** ([`prd.md`](../../docs/living/prd.md)).
 - **✅ SEAL-BOOK STRIP (ADR-201, s214):** the run record as a compact
   Character-tab strip (v16 record; 3 variants, blind-passed) + the
   afterglow beat + the R1 intro line. Picks: **HR-46 · HR-47**.
+- **✅ PICTOGRAM A/B (#15, s216):** 11 marks both ways, blind-passed:
+  **picto 10/11 PASS · emoji 8/11 FAIL**. Verdict: **HR-48**.
 - **✅ BODY SPLIT (ADR-178) · ESTATE (ADR-177):** works chain
   (**HR-27**) · diverges (**HR-29/HR-30**). **✅ FOUNDATIONS:** bible
   (ADR-150) · PRD freeze cancelled (ADR-168) · UI-v2/taste lock
   (ADR-144/126). **NOT DONE:** Phase-2 economy.
-- **🧊 PARKED:** Plan K · T1 emergent-nodes (`docs/plans/t1/`) · T2
-  rungs/fog (`docs/plans/t2/`, human 2026-07-17).
+- **🧊 PARKED:** Plan K · T1 emergent-nodes · T2 rungs/fog
+  (`docs/plans/t1/` · `t2/`, human 2026-07-17).
 
 ## Waiting on the human
 
 The live queue: [`../human-in-the-loop/`](../human-in-the-loop).
 
-- **HR-1** 🔲 — play the full T0 arc: the fun & pacing call on the
-  live build (the LOOK is already UI-v2 certified).
+- **HR-1** 🔲 — play the full T0 arc: fun & pacing (look certified).
 - **HD-40** 🔲 — **the kitchen-only pot.** BUILT, one line turns it on;
   held — priced out of the old [3,25] band (R3 31.6). The band is
   [3,28] now (ADR-197) and cook no longer mends: worth a re-sim.
-- **HR-42** 🔲 — the R3 **delight line**: the one pick in T0 that pays
-  (+1 agi) is back (ADR-190); 3 takes at DEV → Story
-  `adr190-nudge`.
-- **HR-33** + **HR-32b** 🔲 — the four zone-reveal VNs; and does a zone
-  announce itself VN-only, or VN + map-ink?
+- **HR-42** 🔲 — the R3 **delight line** (+1 agi pick, ADR-190):
+  3 takes at DEV → Story `adr190-nudge`.
+- **HR-33 + HR-32b** 🔲 — the four zone-reveal VNs; VN-only or
+  VN + map-ink announce?
 - **ONE home for every pick: DEV → Review** — Story ⇄ Variants behind
   one switch; each row carries its **HR-n**. **Story** 🔲 HR-18…21 ·
   HR-27 · HR-39 · HR-40 · HR-42 · HR-43 · **Variants** 🔲 HR-6 · HR-5 ·
@@ -104,17 +104,17 @@ FB-257. `dev`·`build`·`/ship`.
 
 1. Read the **newest journal** + `todo-human.md` for forks:
    <!-- gen:begin resume-journal (pnpm run checkpoint — do not edit inside) -->
-   [`journal/2026-07-18-session-217-bestiary-plates.md`](../journal/2026-07-18-session-217-bestiary-plates.md)
+   [`journal/2026-07-18-session-219-phone-shell-defects.md`](../journal/2026-07-18-session-219-phone-shell-defects.md)
    <!-- gen:end resume-journal -->
 2. `pnpm install` → `pnpm run verify` (green) → reuse the shared dev
    server on localhost:5264 (never spawn/kill your own). **`?dev=no`**
    for the true player layout; the page NEVER auto-reloads (FB-257).
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
 4. **Next (autonomous):** the FB-415 ask-answer waves (ADR-139) ·
-   the bestiary-plates / pictogram-AB plans (`docs/plans/`).
+   the bestiary-plates plan (`docs/plans/`).
 5. **Shared tree (ADR-196 locks live):** pathspec commits only; push
    with **`pnpm run push`** (bare `git push` is blocked; lane held →
    commits stay local by design). Render-split LANDED (session 203):
    surface work goes in `src/ui/render|dev/`, not the shells.
 
-<!-- rewrite-debt: 14/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 15/20 · last full rewrite: 2026-07-13 -->

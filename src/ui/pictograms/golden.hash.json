@@ -1,0 +1,46 @@
+{
+  "rice": {
+    "hash": "40f844ef",
+    "paths": 3
+  },
+  "coin": {
+    "hash": "8172da08",
+    "paths": 2
+  },
+  "wood": {
+    "hash": "ab523070",
+    "paths": 4
+  },
+  "sake": {
+    "hash": "2c674cd8",
+    "paths": 2
+  },
+  "deed": {
+    "hash": "ce52fb1b",
+    "paths": 3
+  },
+  "blade": {
+    "hash": "1123b040",
+    "paths": 3
+  },
+  "straw_mat": {
+    "hash": "8ec9a02c",
+    "paths": 3
+  },
+  "bowl": {
+    "hash": "474c2932",
+    "paths": 2
+  },
+  "bedding": {
+    "hash": "58b1c550",
+    "paths": 3
+  },
+  "hearth": {
+    "hash": "afe6a1f2",
+    "paths": 4
+  },
+  "chest": {
+    "hash": "58864e41",
+    "paths": 4
+  }
+}

@@ -261,6 +261,45 @@ your pick here also blesses (or rejects) that fact.
     ADR-198). The afterglow + strip: Character tab.
   - **Verdict:** _(awaiting your pick)_
 
+### HR-48 🔲 [DEV-only · #15] — Pictogram A/B verdict: 11 marks vs emoji
+
+**The honest A/B you pulled forward 2026-07-18** (plan
+`fable-2026-07-18-pictogram-ab.md`, now archived; your session-216
+rulings: 11-item roster incl. hearth, bar = at most 2 misses per
+column, Fable readers). Code-drawn stroke-grammar pictograms (one
+hand: ≤5 strokes, one weight, `var(--ink)`, seeded brush jitter,
+golden-pinned) against the shipped cooled emoji, both at the 16px
+row scale that matters. **Nothing has shipped — this verdict is the
+only thing that can.**
+
+- **Blind pass (3 blind Fable readers, majority-scored):**
+  **A pictograms 10/11 PASS · B emoji 8/11 FAIL** (bar ≥9/11). A's
+  one miss: `wood` reads as a KEY. B's three: 🪙 reads as a MOON
+  under the `.emoji` grayscale cooling (a curated §7 mark!), and
+  🧺/🔥 (mat/hearth — no period emoji exists) name the wrong object.
+  Full table:
+  `project/audit/reports/2026-07-18-pictogram-blind-pass.md`.
+- **Taste brief (pass 1):** P2 one ink home (brush.ts) + shared
+  `.emoji` untouched · P5 fixed grid/cells · P6 complete at every
+  width · P19 chrome register · P20 shared modal shell · V-a marks
+  stay decorative (aria-hidden) · V-b one hand for the whole set.
+- **Scorecard (A · pictograms):** 6✔ · 0✘ · 15— (P6 clip caught
+  [briefed] and fixed before scoring; no blind-spot ✘).
+- **Scorecard (B · emoji):** 6✔ · 0✘ · 15— — its blind FAIL is the
+  measurement, not a principle ✘; but the cooled-coin-as-moon is a
+  TST4 hazard the moment emoji ever carry item state.
+- **How to look LIVE:** DEV → Prototypes → **⤢ Pictogram A/B** —
+  row-scale grid (the test) over the 96px craft strip; `blind mode`
+  shows exactly what the readers saw.
+- **Your verdict** (all three pre-sanctioned): **pictograms win**
+  (authorizes the follow-up: ui-design §7 + the register's ADR-127
+  note amendment + a shipped-use plan) · **emoji win / keep emoji** ·
+  **both slop**. The maker's read, for what it's worth: A won the
+  measurement honestly, and `wood` has one craft round left under
+  the plan's two-round cap if you want a fix-and-retest before
+  ruling.
+- **Verdict:** _(awaiting your call)_
+
 ## ▸ R3 · combat & the wider house (Combat/Inventory tabs reveal)
 
 ### HR-2B 🔲 [R3 · fills R7] — House-Influence panel (家威 grade) — pick a variant (ADR-075)

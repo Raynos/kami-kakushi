@@ -1,6 +1,10 @@
 # Item pictograms vs emoji — the honest 10-item A/B (#15)
 
-**Status:** 📋 PROPOSED (2026-07-18, session 211)
+**Status:** ✅ DONE (2026-07-18, session 216) — built + blind-passed;
+A 10/11 PASS · B 8/11 FAIL; verdict is HR-48. Report:
+`project/audit/reports/2026-07-18-pictogram-blind-pass.md`. Human
+rulings at build time: 11-item roster (+hearth), bar ≥9/11, Fable
+readers.
 **Confidence:** ( 20% Opus, 80% Fable ) — the stroke grammar and the
 slop verdict are taste-critical; the harness around them is mechanical.
 **Template:** build
