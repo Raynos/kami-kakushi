@@ -460,6 +460,71 @@ forecast**, and where it haunts; an un-faced foe stays **fogged**
     dev-tags: kept true by the review-link gate -->
   - **Verdict:** _(awaiting the human)_
 
+#### Addendum (2026-07-18, session 217) — the beast register 獣譜 plates: built, blind-passed twice, PARKED by the kill switch
+
+The #4 graphics plan
+(`docs/plans/fable-2026-07-18-bestiary-plates.md`, engaged live — you
+answered its three forks, then went AFK) built code-drawn field-guide
+plates as a candidate **option d** for this panel. Outcome, honestly:
+**the two-round blind-pass kill switch fired, so the plates are
+PARKED as a DEV reference and no `bestiary-d` variant was wired** —
+the shipped default is untouched, and un-parking is your call.
+
+- **What exists:** `src/ui/bestiary-plates/` — spec (README: the
+  document fiction is the house's old **beast register**, drawn by a
+  retainer whose seal wore past reading; a ruined plate re-inks only
+  when the house can attest the beast by facing it; the register
+  keeps no men, so the bandit stays a blank page), `drawPlate` (AC-6:
+  threat marks derive from `mobCombatStats`; golden-pinned), and a
+  contact sheet.
+- **How to look:** DEV panel → **Prototypes** → "⤢ Bestiary plates —
+  the beast register 獣譜" (faced + unfaced per foe, click to
+  enlarge; the **Blind crop** toggle shows exactly what the blind
+  readers judged).
+- **The verdict record:** round 1 FAIL 6/9
+  (`project/audit/reports/2026-07-18-bestiary-plates-blind-round1.md`)
+  → craft round → round 2 **8/9 naming, but still FAIL**
+  (`…-blind-round2.md`): the troop big-male reads as an upright
+  hare (1/3), and both rounds failed B1 facture ("flat vector, not
+  hand ink"). The judge's concrete fix list is in the round-2 report
+  — a round 3 is cheap if you want one; "park stands" is equally
+  valid (the scene-cards precedent).
+- **Taste brief (pass 1):** TST3 the fiction causes scout-by-fighting
+  · P9 unfaced leaks nothing (hover included — golden-tested) · P2
+  one ink toolkit (brush.ts), Andon tokens only · TST2 seeded
+  determinism · V-craft stroke discipline.
+- **Scorecard (plates, pass 2):** 14✔ · 2✘ · 5— — ✘ V-craft
+  [briefed]: B1 facture failed both blind rounds (the wash-fill
+  bodies read flat; fix list recorded); ✘ P6 [blind spot]: the
+  round-1 enlarge overlay bled the page grid through every judged
+  capture (fixed in round 2 — opaque backdrop).
+- **Field-note prose (ADR-139, you ruled it IN scope):** three blind
+  takes were authored for the 9 plate notes (the old hand's voice).
+  They stay OUT of canon while the plates are parked — recorded here
+  as the pick record instead (no dead canon keys):
+  - **A · the huntsman's measure** (field craft, hazard, season) —
+    e.g. wolf: *"It comes to the storehouse silent in a lean winter
+    and wastes nothing; I do not say I stopped it, only that I
+    lived."*
+  - **B · the scholar's eye** (honzōgaku precision) — e.g. wolf:
+    *"In a lean winter it comes to the storehouse without sound; it
+    takes no more than it needs, and is not driven off."*
+  - **C · old acquaintances** (intimacy through repeated contest) —
+    e.g. wolf: *"The lean wolf and I have shared several winters
+    now; I do not say I have beaten him, only that I am still
+    here."* — monkey: *"Ten years of the grove monkeys and I still
+    swing where they were; they know my reach better than I know
+    theirs."*
+  - **Self-pick: C** — it makes the register a life's record, and a
+    nameless man's book passing to a nameless man is the fiction's
+    heart (TST3); B runner-up (cleanest document voice). Full take
+    sets: session-217 journal. If the plates un-park, C lands in
+    `narrative/flavor.md` as `plate*` keys via the takes bundle.
+- **Your options here:** (1) park stands — plates stay a DEV
+  reference; (2) order round 3 with the judge's fix list; (3) adopt
+  as-is anyway (your taste overrules the bar); (4) note the
+  `bestiary-c` scroll could adopt plates in its portrait slot later.
+
 ### HR-6 🔲 [R3] — home / Inventory panel — pick a variant (ADR-111, ADR-075)
 
 The home / belongings / comfort surface (Inventory tab, reveals R3);

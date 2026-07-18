@@ -20,7 +20,7 @@ const CSS = `
 .bpc-cell svg{width:100%;height:auto;display:block}
 .bpc-cap{font-size:11px;color:var(--ink-soft)}
 .bpc-tools{display:flex;gap:8px;align-items:center}
-.bpc-big{position:fixed;inset:0;z-index:10001;display:flex;align-items:center;justify-content:center;background:rgba(6,8,12,.82);cursor:zoom-out}
+.bpc-big{position:fixed;inset:0;z-index:10001;display:flex;align-items:center;justify-content:center;background:var(--steel-0,#0e1016);cursor:zoom-out}
 .bpc-big svg{height:min(92dvh,900px);width:auto}
 `;
 

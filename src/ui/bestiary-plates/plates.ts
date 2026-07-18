@@ -173,25 +173,36 @@ function rat(
     `${seed}-b`,
     1.2,
   );
-  // ear + the long bare tail
-  hairline(
+  // ear — a solid little wedge; eye — a carved dab (round-2: the
+  // round-1 hairline ear read as a plant stem, and no eye = no animal)
+  detail(
     g,
     [
       [x - 3 * s, y - 9 * s],
-      [x - 5 * s, y - 13 * s],
+      [x - 6 * s, y - 14 * s],
     ],
     `${seed}-e`,
-    1.2,
+    2.5 * s,
   );
+  carve(
+    g,
+    [
+      [x - 8 * s, y - 2 * s],
+      [x - 5.5 * s, y - 2 * s],
+    ],
+    `${seed}-eye`,
+    1.6 * s,
+  );
+  // the long bare tail, trailing behind and DOWN
   hairline(
     g,
     [
       [x + 18 * s, y + 1 * s],
-      [x + 30 * s, y + 5 * s],
-      [x + 40 * s, y + 2 * s],
+      [x + 30 * s, y + 6 * s],
+      [x + 42 * s, y + 3 * s],
     ],
     `${seed}-t`,
-    1.5,
+    1.6,
   );
 }
 
@@ -236,40 +247,63 @@ const FIGURES: Partial<Record<MobId, (g: SVGElement, seed: string) => void>> = {
       ],
       `${seed}-body`,
     );
-    // the bushy tail — a drooping teardrop off the rump, furred dry
+    // the bushy tail — ATTACHED at the rump (round-2: the detached
+    // paddle read as a beaver's), ringed like a tanuki's
     mass(
       g,
       [
-        [148, 84],
-        [168, 76],
-        [184, 82],
-        [188, 92],
-        [178, 102],
-        [160, 104],
-        [148, 96],
+        [142, 84],
+        [166, 74],
+        [184, 80],
+        [190, 92],
+        [182, 104],
+        [162, 106],
+        [142, 100],
       ],
       `${seed}-tail`,
       2.5,
     );
-    detail(
+    carve(
       g,
       [
-        [156, 86],
-        [180, 94],
+        [168, 78],
+        [164, 100],
       ],
-      `${seed}-fur`,
-      3.5,
-      true,
+      `${seed}-ring1`,
+      2.5,
     );
     carve(
       g,
       [
-        [38, 102],
-        [54, 93],
+        [180, 84],
+        [176, 102],
+      ],
+      `${seed}-ring2`,
+      2.5,
+    );
+    // the eye-mask — a ROUND dark patch on the face, never a stripe
+    // (round-2: the stripe read as the badger's face-stripe)
+    carve(
+      g,
+      [
+        [41, 99],
+        [49, 95],
       ],
       `${seed}-mask`,
-      5,
-    ); // the eye-mask, cut across the head
+      8,
+    );
+    // back contour — ink facture over the fill
+    detail(
+      g,
+      [
+        [60, 78],
+        [100, 62],
+        [140, 72],
+      ],
+      `${seed}-ctr`,
+      2.4,
+      true,
+    );
     ground(g, 24, 190, 133, `${seed}-gnd`);
   },
   badger(g, seed) {
@@ -346,6 +380,19 @@ const FIGURES: Partial<Record<MobId, (g: SVGElement, seed: string) => void>> = {
         r: 0.9,
         color: 'var(--ink-faint)',
       },
+    );
+    // back contour — ink facture along the flat spine
+    detail(
+      g,
+      [
+        [56, 94],
+        [92, 84],
+        [140, 86],
+        [172, 98],
+      ],
+      `${seed}-ctr`,
+      2.2,
+      true,
     );
     ground(g, 6, 190, 133, `${seed}-gnd`);
   },
@@ -427,181 +474,395 @@ const FIGURES: Partial<Record<MobId, (g: SVGElement, seed: string) => void>> = {
       `${seed}-tail`,
       3.5,
     );
+    // back contour — the hunched curve inked over the fill
+    detail(
+      g,
+      [
+        [98, 52],
+        [118, 72],
+        [132, 102],
+      ],
+      `${seed}-ctr`,
+      2.2,
+      true,
+    );
     ground(g, 40, 186, 133, `${seed}-gnd`);
   },
   monkey_male(g, seed) {
-    // the KING read: upright, chest out, arms spread wide, plainly
-    // BIGGER than the sitting monkey — one big standing silhouette
+    // the KING read (round-2 redesign after the unanimous "scarecrow"
+    // verdict): upright big ape — bent arms ending in HANDS, a shaggy
+    // mane mass around head+shoulders, muzzle + brow, thick bent legs,
+    // a tail stub. Never a T-pose, nothing above the head.
+    // mane first, so the head sits on it
+    detail(
+      g,
+      [
+        [124, 38],
+        [138, 50],
+        [142, 64],
+      ],
+      `${seed}-mane1`,
+      12,
+      true,
+    );
+    detail(
+      g,
+      [
+        [92, 40],
+        [84, 54],
+      ],
+      `${seed}-mane2`,
+      8,
+      true,
+    );
+    detail(
+      g,
+      [
+        [112, 26],
+        [124, 30],
+      ],
+      `${seed}-mane3`,
+      8,
+      true,
+    );
+    // stout upright torso
     mass(
       g,
       [
-        [116, 30],
-        [106, 38],
-        [102, 50],
-        [92, 58],
-        [70, 68],
-        [54, 82],
-        [58, 92],
-        [76, 82],
-        [94, 76],
-        [96, 100],
-        [92, 122],
-        [86, 146],
-        [102, 146],
-        [106, 124],
-        [112, 120],
-        [118, 124],
-        [120, 146],
-        [136, 146],
-        [130, 120],
-        [128, 98],
-        [130, 76],
-        [148, 82],
-        [166, 92],
-        [172, 82],
-        [152, 66],
-        [132, 56],
-        [128, 46],
-        [126, 34],
+        [104, 62],
+        [96, 78],
+        [94, 102],
+        [98, 122],
+        [110, 128],
+        [122, 124],
+        [128, 100],
+        [126, 76],
+        [118, 62],
       ],
-      `${seed}-body`,
+      `${seed}-torso`,
     );
-    // mane — dry fur strokes off the head
-    detail(
+    // head — muzzle left, browed
+    mass(
       g,
       [
-        [104, 44],
-        [96, 52],
+        [82, 52],
+        [86, 42],
+        [96, 32],
+        [110, 28],
+        [122, 34],
+        [124, 46],
+        [114, 56],
+        [98, 58],
+        [86, 58],
       ],
-      `${seed}-m1`,
-      4,
-      true,
-    );
-    detail(
-      g,
-      [
-        [128, 40],
-        [136, 48],
-      ],
-      `${seed}-m2`,
-      4,
-      true,
-    );
-    detail(
-      g,
-      [
-        [116, 28],
-        [114, 20],
-      ],
-      `${seed}-m3`,
-      3.5,
-      true,
+      `${seed}-head`,
+      1.6,
     );
     carve(
       g,
       [
-        [106, 42],
-        [122, 38],
+        [88, 44],
+        [102, 38],
       ],
       `${seed}-brow`,
       2.6,
-    ); // the brow
-    // hands
-    hairline(
+    );
+    carve(
       g,
       [
-        [56, 88],
-        [46, 94],
+        [90, 49],
+        [94, 48],
       ],
-      `${seed}-h1`,
-      2.2,
+      `${seed}-eye`,
+      2,
+    );
+    // near arm — bent at the elbow, ending in a hand with fingers
+    mass(
+      g,
+      [
+        [96, 66],
+        [82, 76],
+        [72, 90],
+        [76, 98],
+        [86, 90],
+        [98, 78],
+        [104, 70],
+      ],
+      `${seed}-arm1`,
+      1.6,
+    );
+    mass(
+      g,
+      [
+        [70, 92],
+        [60, 98],
+        [64, 104],
+        [74, 100],
+      ],
+      `${seed}-hand1`,
+      1.2,
     );
     hairline(
       g,
       [
-        [168, 88],
-        [178, 94],
+        [62, 100],
+        [54, 104],
       ],
-      `${seed}-h2`,
-      2.2,
+      `${seed}-f1`,
+      1.6,
+    );
+    hairline(
+      g,
+      [
+        [64, 103],
+        [58, 108],
+      ],
+      `${seed}-f2`,
+      1.6,
+    );
+    // far arm — bent, dimmer (depth), also handed
+    brushStroke(
+      g,
+      [
+        [124, 70],
+        [140, 84],
+        [148, 98],
+      ],
+      {
+        seed: `${seed}-arm2`,
+        w: 8,
+        color: 'var(--silver-dim)',
+        amp: 1.2,
+      },
+    );
+    mass(
+      g,
+      [
+        [146, 96],
+        [156, 100],
+        [152, 108],
+        [144, 104],
+      ],
+      `${seed}-hand2`,
+      1.2,
+    );
+    // thick bent legs, feet gripping the ground
+    mass(
+      g,
+      [
+        [98, 120],
+        [90, 132],
+        [88, 144],
+        [104, 146],
+        [106, 134],
+        [104, 124],
+      ],
+      `${seed}-leg1`,
+      1.6,
+    );
+    mass(
+      g,
+      [
+        [116, 122],
+        [122, 134],
+        [126, 144],
+        [138, 146],
+        [130, 132],
+        [122, 122],
+      ],
+      `${seed}-leg2`,
+      1.6,
+    );
+    // tail stub
+    detail(
+      g,
+      [
+        [124, 118],
+        [138, 126],
+      ],
+      `${seed}-tail`,
+      4,
+    );
+    // spine contour — ink facture over the fill
+    detail(
+      g,
+      [
+        [112, 30],
+        [126, 60],
+        [128, 96],
+      ],
+      `${seed}-ctr`,
+      2.5,
+      true,
     );
     ground(g, 60, 170, 148, `${seed}-gnd`);
   },
   feral_dog(g, seed) {
-    // the LEAN read: head slung low and forward, jaw open, ribs carved,
-    // belly tucked high, tail hung low
+    // the LEAN read (round-2 redesign after the unanimous "boar with
+    // slash wounds" verdict): muzzle LIFTED off the ground, jaw open
+    // with a tooth tick, one folded ear, CURVED rib arcs on the
+    // barrel, thin neck, tail hung low between the hocks.
     mass(
       g,
       [
-        [24, 96],
-        [40, 88],
-        [52, 82],
-        [56, 74],
-        [62, 82],
-        [76, 76],
-        [104, 72],
-        [132, 76],
-        [148, 82],
-        [158, 96],
-        [164, 114],
-        [158, 117],
-        [150, 102],
-        [144, 96],
-        [150, 130],
-        [141, 130],
-        [134, 98],
-        [112, 96],
-        [94, 100],
-        [82, 102],
+        [22, 78],
+        [38, 72],
+        [52, 66],
+        [58, 58],
+        [66, 68],
+        [80, 68],
+        [106, 66],
+        [132, 70],
+        [146, 76],
+        [144, 92],
+        [148, 130],
+        [139, 130],
+        [132, 94],
+        [112, 92],
+        [94, 96],
+        [82, 98],
         [84, 131],
         [75, 131],
-        [72, 102],
-        [62, 94],
-        [44, 100],
-        [30, 106],
-        [26, 100],
+        [72, 98],
+        [64, 88],
+        [54, 80],
+        [40, 80],
+        [28, 84],
       ],
       `${seed}-body`,
     );
-    // the open lower jaw
+    // folded ear flap over the skull
+    mass(
+      g,
+      [
+        [54, 62],
+        [64, 58],
+        [66, 66],
+        [58, 68],
+      ],
+      `${seed}-ear`,
+      1.2,
+    );
+    // open lower jaw + a tooth tick in the gap
     detail(
       g,
       [
-        [28, 106],
-        [42, 102],
+        [24, 88],
+        [38, 84],
       ],
       `${seed}-jaw`,
-      2.5,
+      3,
     );
-    // ribs, carved out of the flank
+    hairline(
+      g,
+      [
+        [28, 82],
+        [30, 86],
+      ],
+      `${seed}-tooth`,
+      1.2,
+    );
     carve(
       g,
       [
-        [88, 84],
-        [91, 95],
+        [42, 72],
+        [48, 70],
+      ],
+      `${seed}-eye`,
+      2,
+    );
+    // ribs — CURVED arcs following the barrel, never straight slashes
+    carve(
+      g,
+      [
+        [86, 78],
+        [83, 86],
+        [85, 93],
       ],
       `${seed}-r1`,
-      1.8,
+      1.7,
     );
     carve(
       g,
       [
-        [98, 83],
-        [101, 94],
+        [96, 77],
+        [93, 85],
+        [95, 92],
       ],
       `${seed}-r2`,
-      1.8,
+      1.7,
     );
     carve(
       g,
       [
-        [108, 83],
-        [111, 93],
+        [106, 77],
+        [103, 85],
+        [105, 91],
       ],
       `${seed}-r3`,
-      1.8,
+      1.7,
     );
-    ground(g, 20, 176, 133, `${seed}-gnd`);
+    carve(
+      g,
+      [
+        [116, 78],
+        [113, 85],
+        [115, 91],
+      ],
+      `${seed}-r4`,
+      1.7,
+    );
+    // far legs — filled, dimmer, attached at the belly (never sticks)
+    brushStroke(
+      g,
+      [
+        [92, 94],
+        [96, 130],
+      ],
+      {
+        seed: `${seed}-l3`,
+        w: 5,
+        color: 'var(--silver-dim)',
+        amp: 1,
+      },
+    );
+    brushStroke(
+      g,
+      [
+        [124, 92],
+        [130, 129],
+      ],
+      {
+        seed: `${seed}-l4`,
+        w: 5,
+        color: 'var(--silver-dim)',
+        amp: 1,
+      },
+    );
+    // the tail — thin, hung LOW between the hocks
+    detail(
+      g,
+      [
+        [144, 84],
+        [148, 104],
+        [142, 120],
+      ],
+      `${seed}-tail`,
+      3.5,
+    );
+    // spine contour
+    detail(
+      g,
+      [
+        [56, 66],
+        [104, 64],
+        [144, 74],
+      ],
+      `${seed}-ctr`,
+      2.2,
+      true,
+    );
+    ground(g, 16, 176, 133, `${seed}-gnd`);
   },
   wolf(g, seed) {
     // the BIG still read: dead-level heavy back, ears up, deep chest,
@@ -652,24 +913,32 @@ const FIGURES: Partial<Record<MobId, (g: SVGElement, seed: string) => void>> = {
       9,
       true,
     );
-    // the two far legs, dimmer (depth)
-    hairline(
+    // the two far legs — filled, dimmer, attached at the belly
+    brushStroke(
       g,
       [
-        [108, 84],
-        [110, 136],
+        [108, 80],
+        [112, 136],
       ],
-      `${seed}-l3`,
-      4,
+      {
+        seed: `${seed}-l3`,
+        w: 6,
+        color: 'var(--silver-dim)',
+        amp: 1,
+      },
     );
-    hairline(
+    brushStroke(
       g,
       [
-        [140, 80],
-        [144, 136],
+        [140, 76],
+        [146, 136],
       ],
-      `${seed}-l4`,
-      4,
+      {
+        seed: `${seed}-l4`,
+        w: 6,
+        color: 'var(--silver-dim)',
+        amp: 1,
+      },
     );
     carve(
       g,
@@ -680,67 +949,125 @@ const FIGURES: Partial<Record<MobId, (g: SVGElement, seed: string) => void>> = {
       `${seed}-eye`,
       2,
     ); // the level eye
+    // back contour — ink facture along the level spine
+    detail(
+      g,
+      [
+        [56, 50],
+        [104, 44],
+        [160, 52],
+      ],
+      `${seed}-ctr`,
+      2.5,
+      true,
+    );
     ground(g, 18, 196, 140, `${seed}-gnd`);
   },
   river_rats(g, seed) {
-    // the SWARM at the water's edge: three bodies among reeds, one
-    // swimming — the weir, not the storehouse
-    waveComb(g, 100, 122, 150, { seed: `${seed}-w1`, rows: 3 });
-    waveComb(g, 62, 131, 90, { seed: `${seed}-w2`, rows: 2, opacity: 0.35 });
+    // the SWARM at the WATER (round-2 redesign after the "stones in
+    // farmland" verdict): a dark water band with ripples and a shore
+    // line, the swimmer as head + wake-V, shore rats with ears/eyes
+    // and trailing tails, reeds BENT with clustered seed heads.
+    wash(
+      g,
+      [
+        [14, 112],
+        [198, 108],
+        [198, 140],
+        [14, 140],
+      ],
+      {
+        seed: `${seed}-water`,
+        fill: 'var(--steel-0, #0e1016)',
+        opacity: 0.75,
+        amp: 2.5,
+      },
+    );
+    waveComb(g, 70, 122, 110, { seed: `${seed}-w1`, rows: 3, opacity: 0.7 });
+    waveComb(g, 150, 128, 80, { seed: `${seed}-w2`, rows: 2, opacity: 0.5 });
+    inkLine(
+      g,
+      [
+        [14, 111],
+        [198, 107],
+      ],
+      {
+        seed: `${seed}-shore`,
+        w: 1.4,
+        color: 'var(--silver-dim)',
+        amp: 1.5,
+      },
+    );
+    // reeds — bent, seed heads clustered at the tips
     hairline(
       g,
       [
-        [150, 128],
-        [156, 60],
+        [150, 126],
+        [158, 92],
+        [172, 64],
       ],
       `${seed}-rd1`,
     );
     hairline(
       g,
       [
-        [162, 126],
-        [164, 56],
+        [162, 124],
+        [168, 94],
+        [180, 70],
       ],
       `${seed}-rd2`,
     );
     hairline(
       g,
       [
-        [172, 128],
-        [178, 66],
+        [174, 126],
+        [176, 96],
+        [184, 76],
       ],
       `${seed}-rd3`,
     );
     detail(
       g,
       [
-        [156, 60],
-        [151, 52],
+        [168, 66],
+        [176, 60],
       ],
       `${seed}-sh1`,
-      2.5,
+      3.5,
+      true,
     );
     detail(
       g,
       [
-        [164, 56],
-        [160, 47],
+        [177, 72],
+        [185, 67],
       ],
       `${seed}-sh2`,
-      2.5,
+      3.5,
+      true,
     );
-    rat(g, 56, 100, 1.25, `${seed}-ra`);
-    rat(g, 102, 110, 1, `${seed}-rb`);
-    // the swimmer — only the humped back over the wave line
+    detail(
+      g,
+      [
+        [181, 78],
+        [189, 74],
+      ],
+      `${seed}-sh3`,
+      3,
+      true,
+    );
+    // shore rats on the bank above the water line
+    rat(g, 52, 96, 1.4, `${seed}-ra`);
+    rat(g, 102, 102, 1.1, `${seed}-rb`);
+    // the swimmer — only the head above water, a wake-V opening behind
     mass(
       g,
       [
-        [120, 118],
-        [128, 110],
-        [140, 108],
-        [148, 114],
-        [140, 118],
-        [126, 119],
+        [120, 120],
+        [126, 114],
+        [134, 113],
+        [138, 118],
+        [130, 122],
       ],
       `${seed}-rc`,
       1.2,
@@ -748,11 +1075,20 @@ const FIGURES: Partial<Record<MobId, (g: SVGElement, seed: string) => void>> = {
     hairline(
       g,
       [
-        [148, 114],
-        [162, 112],
+        [138, 118],
+        [154, 112],
       ],
-      `${seed}-rct`,
-      1.4,
+      `${seed}-wk1`,
+      1.3,
+    );
+    hairline(
+      g,
+      [
+        [138, 121],
+        [156, 124],
+      ],
+      `${seed}-wk2`,
+      1.3,
     );
   },
   store_rats(g, seed) {
@@ -881,7 +1217,34 @@ const FIGURES: Partial<Record<MobId, (g: SVGElement, seed: string) => void>> = {
         amp: 0.8,
       },
     );
-    // body: the S traced as one closed band (top edge out, bottom back)
+    // beam end + tile scallops — the roofline reads as ARCHITECTURE
+    // (round-2: the bare slope read as a hillside)
+    mass(
+      g,
+      [
+        [10, 100],
+        [24, 99],
+        [25, 116],
+        [11, 117],
+      ],
+      `${seed}-bmend`,
+      1.2,
+    );
+    for (let i = 0; i < 6; i++) {
+      const x0 = 30 + i * 27;
+      hairline(
+        g,
+        [
+          [x0, 118],
+          [x0 + 9, 123],
+          [x0 + 18, 117],
+        ],
+        `${seed}-tile${i}`,
+        1.2,
+      );
+    }
+    // body: the S traced as one closed band, THICKER than round 1
+    // (the ribbon read as a snake/sash)
     mass(
       g,
       [
@@ -894,15 +1257,15 @@ const FIGURES: Partial<Record<MobId, (g: SVGElement, seed: string) => void>> = {
         [72, 90],
         [56, 96],
         [44, 104],
-        [50, 110],
-        [62, 104],
-        [78, 96],
-        [92, 90],
-        [110, 96],
-        [130, 84],
-        [148, 76],
-        [162, 72],
-        [172, 74],
+        [50, 112],
+        [62, 108],
+        [78, 101],
+        [92, 95],
+        [110, 101],
+        [130, 90],
+        [148, 82],
+        [162, 78],
+        [172, 76],
       ],
       `${seed}-body`,
       1.6,
@@ -916,54 +1279,120 @@ const FIGURES: Partial<Record<MobId, (g: SVGElement, seed: string) => void>> = {
         [24, 130],
       ],
       `${seed}-tail`,
-      8,
+      10,
       true,
     );
-    hairline(
+    // the head end differentiated: two ears, an eye, whiskers
+    detail(
       g,
       [
-        [156, 60],
-        [154, 54],
+        [154, 62],
+        [151, 56],
       ],
-      `${seed}-ear`,
-      1.5,
-    );
-    // little legs gripping the beam
-    hairline(
-      g,
-      [
-        [70, 96],
-        [68, 106],
-      ],
-      `${seed}-l1`,
+      `${seed}-ear1`,
       2.5,
     );
+    detail(
+      g,
+      [
+        [160, 60],
+        [158, 54],
+      ],
+      `${seed}-ear2`,
+      2.5,
+    );
+    carve(
+      g,
+      [
+        [162, 68],
+        [165, 68],
+      ],
+      `${seed}-eye`,
+      1.8,
+    );
     hairline(
+      g,
+      [
+        [172, 70],
+        [181, 68],
+      ],
+      `${seed}-wh1`,
+      1,
+    );
+    hairline(
+      g,
+      [
+        [172, 72],
+        [181, 74],
+      ],
+      `${seed}-wh2`,
+      1,
+    );
+    // legs — filled, joined at the body with hip bulges (never sticks)
+    brushStroke(
+      g,
+      [
+        [70, 94],
+        [67, 108],
+      ],
+      {
+        seed: `${seed}-l1`,
+        w: 4.5,
+        color: 'var(--silver-dim)',
+        amp: 1,
+      },
+    );
+    brushStroke(
       g,
       [
         [100, 96],
-        [100, 105],
+        [99, 107],
       ],
-      `${seed}-l2`,
-      2.5,
+      {
+        seed: `${seed}-l2`,
+        w: 4.5,
+        color: 'var(--silver-dim)',
+        amp: 1,
+      },
     );
-    hairline(
+    brushStroke(
       g,
       [
-        [128, 84],
-        [128, 100],
+        [128, 86],
+        [128, 102],
       ],
-      `${seed}-l3`,
-      2.5,
+      {
+        seed: `${seed}-l3`,
+        w: 4.5,
+        color: 'var(--silver-dim)',
+        amp: 1,
+      },
     );
-    hairline(
+    brushStroke(
       g,
       [
-        [148, 78],
-        [150, 100],
+        [148, 82],
+        [150, 102],
       ],
-      `${seed}-l4`,
-      2.5,
+      {
+        seed: `${seed}-l4`,
+        w: 4.5,
+        color: 'var(--silver-dim)',
+        amp: 1,
+      },
+    );
+    // spine contour along the S
+    detail(
+      g,
+      [
+        [58, 96],
+        [92, 86],
+        [130, 80],
+        [166, 66],
+      ],
+      `${seed}-ctr`,
+      2.2,
+      true,
     );
   },
   // the bandit (野伏) deliberately has NO figure — the register keeps no

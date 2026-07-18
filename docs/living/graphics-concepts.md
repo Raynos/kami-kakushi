@@ -55,7 +55,7 @@ E1's Estate tab).
 
 | # | concept | home | pull-forward condition |
 |---|---|---|---|
-| 4 | **Bestiary field-guide plates** | The HR-5 Combat-tab Bestiary panel (confirmed) | Combat reveals at R3; queue behind the top 3 — condition MET (the explore slate ran 2026-07-08). **Plan authored 2026-07-18** (human pull-forward): `docs/plans/fable-2026-07-18-bestiary-plates.md`. |
+| 4 | **Bestiary field-guide plates** | The HR-5 Combat-tab Bestiary panel (confirmed) | **BUILT → PARKED (REFERENCE) 2026-07-18** — `src/ui/bestiary-plates/` (DEV Prototypes → beast register 獣譜); the plan's two-round blind-pass kill switch fired (round 2: 8/9 naming, facture short). Verdict + un-park options: the HR-5 addendum; reports in `project/audit/reports/`. |
 | 6 | **Family register** (kafu) | UNKNOWN — that's the point | FIND THE HOME FIRST: a placement proposal the human rules on, before any drawing. |
 | 15 | **Item pictogram A/B** ⚠️ | Inventory tab (R3) | **BUILT + BLIND-PASSED (s216, 2026-07-18) — verdict with the human as HR-48.** 11-item contact sheet both ways (DEV → Prototypes → ⤢ Pictogram A/B): pictograms 10/11 PASS, emoji 8/11 FAIL (bar ≥9/11) — `project/audit/reports/2026-07-18-pictogram-blind-pass.md`. ADR-127's emoji clause amends only on a WIN verdict (that follow-up is HR-48-authorized, not this plan's). Plan (archived): `project/archive/fable-2026-07-18-pictogram-ab.md`. |
 

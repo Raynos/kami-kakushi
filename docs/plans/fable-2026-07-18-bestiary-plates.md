@@ -1,7 +1,13 @@
 # Bestiary plates — the drawn field guide (#4)
 
-**Status:** ▶️ IN PROGRESS (engaged live 2026-07-18, session 217 —
-rulings below)
+**Status:** ⏸️ PARKED (2026-07-18, session 217) — steps 1–4 done; the
+two-round blind-pass kill switch fired (round 2: 8/9 naming, B1
+facture failed twice), so step 5's `bestiary-d` fork was NOT wired.
+Plates live as a DEV reference (Prototypes → beast register); the
+**HR-5 addendum** carries the verdict record + un-park options (round
+3 with the judge's fix list · adopt as-is · park stands). Prose takes
+authored + picked (C), held out of canon with the park. Reports:
+`project/audit/reports/2026-07-18-bestiary-plates-blind-round{1,2}.md`.
 
 ## Rulings (human, 2026-07-18 — engaged live, session 217)
 

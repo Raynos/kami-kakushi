@@ -30,6 +30,12 @@
   — the four quest shapes ADR-184's reveal wave actually produced
   (emergent, deliberately not an ADR — your call)
 - [ ]
+  [`project/audit/reports/2026-07-18-bestiary-plates-blind-round2.md`](audit/reports/2026-07-18-bestiary-plates-blind-round2.md)
+  — #4 bestiary plates ran while you were AFK: built + blind-passed
+  twice, round 2 hit 8/9 naming but the two-round kill switch fired
+  → PARKED as a DEV reference. Verdict + un-park options live in the
+  **HR-5 addendum**; view via DEV → Prototypes → beast register 獣譜.
+- [ ]
   [`project/audit/reports/2026-07-18-pictogram-blind-pass.md`](audit/reports/2026-07-18-pictogram-blind-pass.md)
   — the #15 A/B ran (you gave the rulings live, then went AFK):
   pictograms 10/11 PASS, emoji 8/11 FAIL. Verdict is **HR-48**

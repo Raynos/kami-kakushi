@@ -1,111 +1,111 @@
 {
   "river_rats.faced": {
-    "hash": "02ca1b4e",
-    "nodes": 47
+    "hash": "b7203268",
+    "nodes": 53
   },
   "river_rats.unfaced": {
     "hash": "38c8e87d",
     "nodes": 13
   },
   "river_rats.blind": {
-    "hash": "463be39e",
-    "nodes": 27
+    "hash": "293cf394",
+    "nodes": 33
   },
   "tanuki.faced": {
-    "hash": "241fb9d4",
-    "nodes": 29
+    "hash": "81ad1100",
+    "nodes": 31
   },
   "tanuki.unfaced": {
     "hash": "94376b22",
     "nodes": 13
   },
   "tanuki.blind": {
-    "hash": "455c17d6",
-    "nodes": 12
+    "hash": "2e1e619a",
+    "nodes": 14
   },
   "badger.faced": {
-    "hash": "9f310346",
-    "nodes": 33
+    "hash": "a6997e8c",
+    "nodes": 36
   },
   "badger.unfaced": {
     "hash": "b9155ff4",
     "nodes": 13
   },
   "badger.blind": {
-    "hash": "e9e38eb9",
-    "nodes": 13
+    "hash": "43748487",
+    "nodes": 16
   },
   "monkey.faced": {
-    "hash": "a03d90d7",
-    "nodes": 35
+    "hash": "0218ddda",
+    "nodes": 36
   },
   "monkey.unfaced": {
     "hash": "d9b2e60a",
     "nodes": 13
   },
   "monkey.blind": {
-    "hash": "aed01565",
-    "nodes": 14
+    "hash": "6728a678",
+    "nodes": 15
   },
   "monkey_male.faced": {
-    "hash": "4f450f22",
-    "nodes": 34
+    "hash": "14d5062e",
+    "nodes": 44
   },
   "monkey_male.unfaced": {
     "hash": "60002733",
     "nodes": 13
   },
   "monkey_male.blind": {
-    "hash": "4a4c25f9",
-    "nodes": 15
+    "hash": "fa840065",
+    "nodes": 25
   },
   "feral_dog.faced": {
-    "hash": "0747ba55",
-    "nodes": 34
+    "hash": "73e73a8c",
+    "nodes": 42
   },
   "feral_dog.unfaced": {
     "hash": "e3503036",
     "nodes": 13
   },
   "feral_dog.blind": {
-    "hash": "370c2d28",
-    "nodes": 13
+    "hash": "6a0b9a83",
+    "nodes": 21
   },
   "store_rats.faced": {
-    "hash": "2bcba4a3",
-    "nodes": 41
+    "hash": "d14fa604",
+    "nodes": 42
   },
   "store_rats.unfaced": {
     "hash": "367d7ebb",
     "nodes": 13
   },
   "store_rats.blind": {
-    "hash": "768b3e27",
-    "nodes": 21
+    "hash": "967eb336",
+    "nodes": 22
   },
   "marten.faced": {
-    "hash": "c33734ba",
-    "nodes": 36
+    "hash": "1b4606ad",
+    "nodes": 49
   },
   "marten.unfaced": {
     "hash": "8824270b",
     "nodes": 13
   },
   "marten.blind": {
-    "hash": "b81a25ba",
-    "nodes": 16
+    "hash": "1d089b45",
+    "nodes": 29
   },
   "wolf.faced": {
-    "hash": "6c61efbc",
-    "nodes": 33
+    "hash": "04ceb541",
+    "nodes": 35
   },
   "wolf.unfaced": {
     "hash": "b6819e90",
     "nodes": 13
   },
   "wolf.blind": {
-    "hash": "b71d860a",
-    "nodes": 13
+    "hash": "11062ba3",
+    "nodes": 15
   },
   "bandit.faced": {
     "hash": "5fa7b7ff",
