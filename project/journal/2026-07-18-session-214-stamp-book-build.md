@@ -117,10 +117,21 @@ app-info — no log/scene/text-flow surface here).
   §5 rubric: A 20 · B 20 · C 17; tie broken conservative on
   Intentionality → A stays the default.
 
+## Blind pass + redlines (same session)
+
+Two fresh readers over the captures; report + ADR-188 checklist:
+`project/audit/reports/2026-07-18-stamp-book-blind-pass.md`. A's
+grammar fully read; ruling 5 held (nothing future leaked). Three
+fixes landed off it: the next-slot count moved off the
+decorative-only `--ink-faint` token; lean ink made visibly dying
+(0.9 @ 0.55); scroll edge-fades + thin scrollbar so the clipped
+panel reads as "more book this way". Deferred, logged in the HR:
+C's thread-as-glitch + paging affordance, B's mobile wrap
+hierarchy, the next-seal popover requirement list. Pin regenerated
+deliberately with the fixes.
+
 ## Next intended steps
 
 1. The afterglow beat (ADR-201 ruling 1's ceremony half) + the
    ADR-139 story unit naming the book — the plan's remaining step.
-2. Blind pass: fresh readers grade the strip against the README
-   rubric; report to `project/audit/reports/`.
-3. HR-46 awaits the human's variant pick; alternates stay DEV-only.
+2. HR-46 awaits the human's variant pick; alternates stay DEV-only.

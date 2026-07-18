@@ -36,6 +36,10 @@ export function paintConcertina(host: HTMLElement, data: StripData): void {
   const total = data.slots.length;
   const w = total * SLOT_W;
 
+  // wrap + edge fades: the clipped panel must read as "more book this way",
+  // not as a defect (blind pass) — pointer-inert gradients over each edge.
+  const wrap = document.createElement('div');
+  wrap.className = 'sbc-wrap';
   const scroll = document.createElement('div');
   scroll.className = 'sbc-scroll';
   const svg = sv('svg', {
@@ -45,7 +49,13 @@ export function paintConcertina(host: HTMLElement, data: StripData): void {
     class: 'sbc-strip',
   }) as SVGSVGElement;
   scroll.append(svg);
-  host.append(scroll);
+  wrap.append(scroll);
+  const fadeL = document.createElement('div');
+  fadeL.className = 'sbc-fade sbc-fade-l';
+  const fadeR = document.createElement('div');
+  fadeR.className = 'sbc-fade sbc-fade-r';
+  wrap.append(fadeL, fadeR);
+  host.append(wrap);
 
   // panels — alternating washi shades, fold creases between (the folded book)
   for (let i = 0; i < total; i++) {
@@ -140,7 +150,8 @@ export function paintConcertina(host: HTMLElement, data: StripData): void {
         cx,
         cy + SEAL_SIZE / 2 + 40,
         `${slot.reqsDone ?? 0} of ${slot.reqsTotal ?? 0}`,
-        { size: 9, color: 'var(--ink-faint)', font: 'body' },
+        // --ink-soft, not --ink-faint: the count is load-bearing (blind pass)
+        { size: 9, color: 'var(--ink-soft)', font: 'body' },
       );
     } else {
       drawSilhouette(svg, cx, cy, SEAL_SIZE * 0.86, slot.rung);

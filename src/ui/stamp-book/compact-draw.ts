@@ -211,9 +211,10 @@ export function drawStretch(
   pts.push(at(0.82), to);
   brushStroke(parent, pts, {
     seed: `sbc-ink-${seed}`,
-    w: s.lean ? 1.1 : s.knots > 0 ? 2.6 : 2.2,
+    // lean = visibly dying ink (blind pass: 1.1 @ 0.85 read as uniform)
+    w: s.lean ? 0.9 : s.knots > 0 ? 2.6 : 2.2,
     color: s.knots > 0 ? 'var(--ink)' : 'var(--ink-soft)',
-    opacity: 0.85,
+    opacity: s.lean ? 0.55 : 0.85,
     taperIn: 0.1,
     taperOut: 0.1,
     dry: s.lean,

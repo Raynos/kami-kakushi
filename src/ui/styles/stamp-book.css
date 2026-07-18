@@ -13,14 +13,34 @@
 
 /* variant A — the concertina strip: natural drawing width, internal
    horizontal scroll (P6/P20); opens at the frontier (JS sets scrollLeft). */
-.sbc-scroll {
-  overflow-x: auto;
-  overflow-y: hidden;
+.sbc-wrap {
+  position: relative;
   border: 1px solid var(--silver-faint);
   background: var(--void);
 }
+.sbc-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin; /* the scroll is real — show it (blind pass) */
+}
 .sbc-scroll svg {
   display: block;
+}
+/* edge fades — a clipped panel reads as "more book this way", not a bug */
+.sbc-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  pointer-events: none;
+}
+.sbc-fade-l {
+  left: 0;
+  background: linear-gradient(to right, var(--void), transparent);
+}
+.sbc-fade-r {
+  right: 0;
+  background: linear-gradient(to left, var(--void), transparent);
 }
 .sbc-hot {
   cursor: pointer;

@@ -204,6 +204,14 @@ ceremony) is the plan's named NEXT step, not in this bundle.
     surface exists to carry); B is the cleanest mobile read and the
     one to pick if you want pure legibility; C is the strongest
     object fiction at the cost of the whole-run glance.
+  - **Blind pass (2 fresh readers):**
+    `project/audit/reports/2026-07-18-stamp-book-blind-pass.md` — A's
+    grammar fully read (progress · next · the knot); ruling 5 held
+    (future slots leaked nothing). Three fixes landed off it
+    (load-bearing count token, lean-ink visibility, scroll edge
+    fades). For your pick: C's cross-page thread read as a GLITCH to
+    a fresh eye (a C pick needs it redrawn) and B's mobile wrap puts
+    the next-goal cell bottom-right — both logged, not fixed.
   - **How to look:** DEV → Scenarios → `rung-R4` (mid-run: dated
     presses, one fall, a lean stretch) → Character tab. DEV → Review →
     Variants → **stamp-book** to switch. Screenshots:

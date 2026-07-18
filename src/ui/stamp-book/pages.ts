@@ -175,7 +175,8 @@ export function paintPages(host: HTMLElement, data: StripData): void {
         cx,
         cy + SEAL_SIZE / 2 + 38,
         `${slot.reqsDone ?? 0} of ${slot.reqsTotal ?? 0}`,
-        { size: 9.5, color: 'var(--ink-faint)', font: 'body' },
+        // --ink-soft, not --ink-faint: the count is load-bearing (blind pass)
+        { size: 9.5, color: 'var(--ink-soft)', font: 'body' },
       );
     } else {
       drawSilhouette(svg, cx, cy, SEAL_SIZE * 0.8, `pg-${slot.rung}`);
