@@ -27,9 +27,157 @@ import {
   estateFixtureFromState,
   estateSheetSignature,
 } from '../estate-sheet/from-state';
+import { attachSheetViewer } from '../map-sheets/viewer';
+import { brushStroke, inkLine } from '../map-sheets/brush';
 import type { DevApi } from '../dev';
 
 type Dispatch = (intent: Intent) => void;
+
+// ── the 凡例 as APP furniture (craft pass 3c, HR-30 P2) — the in-sheet 8.4px
+//    legend box was prototype-native and a smudge at pane scale; the decoder is
+//    now an Andon strip beside the drawing, its MARKS still brush-drawn (the
+//    document stays period; the furniture becomes the app's). One helper feeds
+//    both the 家 card and the study overlay (TST1).
+function legendGlyph(kind: 'fresh' | 'struck' | 'closed'): SVGSVGElement {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 26 14');
+  svg.setAttribute('width', '26');
+  svg.setAttribute('height', '14');
+  svg.setAttribute('aria-hidden', 'true');
+  if (kind === 'fresh') {
+    brushStroke(
+      svg,
+      [
+        [2, 7],
+        [24, 7],
+      ],
+      { seed: 'leg:gold', w: 2.6, color: 'var(--gold)' },
+    );
+  } else if (kind === 'struck') {
+    brushStroke(
+      svg,
+      [
+        [2, 9],
+        [24, 6],
+      ],
+      { seed: 'leg:shu', w: 2, color: 'var(--shu)', opacity: 0.85 },
+    );
+  } else {
+    // the ONE closed convention (3b): vertical boards + the tie band
+    for (const x of [8, 13, 18]) {
+      inkLine(
+        svg,
+        [
+          [x, 2],
+          [x, 12],
+        ],
+        { seed: `leg:sh${x}`, color: 'var(--ink-soft)', w: 1, amp: 0.3 },
+      );
+    }
+    inkLine(
+      svg,
+      [
+        [4, 7],
+        [22, 7],
+      ],
+      { seed: 'leg:tie', color: 'var(--ink-soft)', w: 1.6, amp: 0.4 },
+    );
+  }
+  return svg;
+}
+
+function legendStrip(): HTMLElement {
+  const strip = el('div', 'estate-sheet-legend');
+  strip.append(el('span', 'leg-tag', '凡例'));
+  const item = (kind: Parameters<typeof legendGlyph>[0], label: string) => {
+    const it = el('span', 'leg-item');
+    it.append(legendGlyph(kind), document.createTextNode(label));
+    strip.append(it);
+  };
+  item('fresh', '新 — this season’s work');
+  item('struck', '改 — struck by the reviser');
+  item('closed', 'closed — kept, not lost');
+  return strip;
+}
+
+// ── tap-to-maximize (craft pass 3a, HR-30 P20 — ruling R2): the inline sheet
+//    is a fit-width PREVIEW; studying happens in a full-viewport blow-up that
+//    reuses the ONE sheet-viewer engine (map-sheets/viewer.ts) + the live
+//    map's maximize idiom (normal stacking, so the capture overlay still
+//    paints above; z below the FB-3 pen). Painted fresh from state on open,
+//    torn down whole on close — the card underneath never rebuilds (TST2).
+function sheetCaption(state: GameState): string {
+  const opened = HOUSE_ROOMS.filter((room) => isUnlocked(state, room.surface));
+  return opened.length > 0
+    ? `Reopened: ${opened.map((room) => `${room.kanji} ${room.label}`).join(' · ')}`
+    : 'The inner house waits, shuttered.';
+}
+
+function openSheetStudy(state: GameState): void {
+  const max = el('div', 'estate-sheet-max');
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', `0 0 ${SHEET_A_W} ${SHEET_A_H}`);
+  svg.setAttribute('class', 'estate-sheet-max-svg');
+  svg.setAttribute('role', 'img');
+  svg.setAttribute(
+    'aria-label',
+    'The estate survey sheet, full screen — drag to pan and zoom',
+  );
+  paintSheetA(svg, estateFixtureFromState(state));
+  max.append(svg);
+  const viewer = attachSheetViewer(
+    svg,
+    { x: 0, y: 0, w: SHEET_A_W, h: SHEET_A_H },
+    { panningClass: 'estate-sheet-panning' },
+  );
+  const onKey = (e: KeyboardEvent): void => {
+    if (e.key === 'Escape') close();
+  };
+  const close = (): void => {
+    document.removeEventListener('keydown', onKey);
+    viewer.dispose();
+    max.remove();
+  };
+  const controls = el('div', 'estate-sheet-max-controls');
+  const chip = (label: string, act: () => void, aria: string): void => {
+    const b = el('button', 'estate-sheet-chip', label) as HTMLButtonElement;
+    b.type = 'button';
+    b.setAttribute('aria-label', aria);
+    b.addEventListener('click', act);
+    controls.append(b);
+  };
+  chip('⊕', () => viewer.zoomCentre(1 / 1.35), 'Zoom in');
+  chip('⊖', () => viewer.zoomCentre(1.35), 'Zoom out');
+  chip('⤢ fit', viewer.fit, 'Fit the whole sheet');
+  chip('⛶ exit', close, 'Close the sheet');
+  // the bottom plate: the decoder AND the state line ride into the study view
+  // (the blind after-pass hunted for the "Reopened" reading it had seen on the
+  // card); width-capped clear of the DEV toggle's corner.
+  const plate = el('div', 'estate-sheet-max-plate');
+  plate.append(
+    legendStrip(),
+    el('div', 'rung-hint estate-sheet-caption', sheetCaption(state)),
+  );
+  // the engine pinch-zooms on touch — say so in the device's own language
+  const coarse =
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(pointer: coarse)').matches;
+  const hint = el(
+    'div',
+    'estate-sheet-hint',
+    coarse ? 'drag to pan · pinch to zoom' : 'drag to pan · scroll to zoom',
+  );
+  max.append(controls, plate, hint);
+  document.addEventListener('keydown', onKey);
+  document.body.append(max);
+  viewer.applyVb();
+  // On a narrow/portrait screen a whole-sheet fit is a letterbox postage stamp
+  // (the after blind pass: "the payoff requires a second action") — open ON the
+  // compound instead; ⤢ fit still gives the whole document.
+  if (window.innerWidth < 920 && window.innerWidth < window.innerHeight) {
+    viewer.focusAt(600, 520, 780);
+  }
+}
 
 export function createEstateView(ctx: {
   worksPane: HTMLElement;
@@ -288,7 +436,20 @@ export function createEstateView(ctx: {
     estateSig = sig;
     estatePane.replaceChildren();
     const card = el('div', 'rung-card frame estate-sheet-card');
-    card.append(el('div', 'rung-now', 'Estate 家 · the house, drawn'));
+    const head = el('div', 'estate-sheet-head');
+    head.append(el('div', 'rung-now', 'Estate 家 · the house, drawn'));
+    // P17 — the study door is ADVERTISED (a chip), not a secret gesture;
+    // the preview itself is the same door (cursor + aria say so).
+    const study = el(
+      'button',
+      'estate-sheet-chip',
+      '⛶ study',
+    ) as HTMLButtonElement;
+    study.type = 'button';
+    study.setAttribute('aria-label', 'Study the sheet full-screen');
+    study.addEventListener('click', () => openSheetStudy(state));
+    head.append(study);
+    card.append(head);
     const holder = el('div', 'estate-sheet-holder');
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', `0 0 ${SHEET_A_W} ${SHEET_A_H}`);
@@ -296,22 +457,15 @@ export function createEstateView(ctx: {
     svg.setAttribute('role', 'img');
     svg.setAttribute(
       'aria-label',
-      'The estate survey sheet — the house as it stands',
+      'The estate survey sheet — the house as it stands. Activate to study full-screen.',
     );
     paintSheetA(svg, estateFixtureFromState(state));
     holder.append(svg);
+    holder.addEventListener('click', () => openSheetStudy(state));
     card.append(holder);
-    const opened = HOUSE_ROOMS.filter((room) =>
-      isUnlocked(state, room.surface),
-    );
+    card.append(legendStrip());
     card.append(
-      el(
-        'div',
-        'rung-hint estate-sheet-caption',
-        opened.length > 0
-          ? `Reopened: ${opened.map((room) => `${room.kanji} ${room.label}`).join(' · ')}`
-          : 'The inner house waits, shuttered.',
-      ),
+      el('div', 'rung-hint estate-sheet-caption', sheetCaption(state)),
     );
     estatePane.append(card);
   }

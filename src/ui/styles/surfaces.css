@@ -638,9 +638,16 @@
 }
 
 /* ── ADR-177 F5 — Estate 家 · the house, drawn (default A: the E1 fold-in) ──── */
+.estate-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1);
+}
 .estate-sheet-holder {
   margin-top: var(--space-2);
   overflow: hidden;
+  cursor: zoom-in; /* the preview is a door to the study view (P17) */
 }
 .estate-sheet-svg {
   display: block;
@@ -649,4 +656,100 @@
 }
 .estate-sheet-caption {
   margin-top: var(--space-1);
+}
+/* the 凡例 as app furniture (craft pass 3c) — Andon strip, brush-drawn marks */
+.estate-sheet-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.9rem;
+  margin-top: var(--space-1);
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--silver-faint);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.estate-sheet-legend .leg-tag {
+  color: var(--silver-hi);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+.estate-sheet-legend .leg-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.estate-sheet-legend svg {
+  display: block;
+  flex: none;
+}
+/* the shared small-chip idiom (mirrors the live map's sheetmap-zoom chips) */
+.estate-sheet-chip {
+  font:
+    12px/1.4 ui-monospace,
+    SFMono-Regular,
+    monospace;
+  cursor: pointer;
+  border: 1px solid var(--silver-faint);
+  border-radius: 3px;
+  padding: 0.15rem 0.5rem;
+  background: var(--steel-2);
+  color: var(--ink-soft);
+}
+.estate-sheet-chip:hover {
+  color: var(--ink);
+  border-color: var(--silver);
+}
+/* the study view (craft pass 3a, ruling R2) — the live map's maximize idiom:
+   a CSS blow-up in NORMAL stacking (no Fullscreen top layer) so the FB-3
+   capture overlay + pen still paint above it. */
+.estate-sheet-max {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  background: var(--void);
+}
+.estate-sheet-max-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+.estate-sheet-max-svg.estate-sheet-panning {
+  cursor: grabbing;
+}
+.estate-sheet-max-controls {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
+  display: flex;
+  gap: 0.2rem;
+}
+.estate-sheet-max-plate {
+  position: absolute;
+  left: 0.6rem;
+  bottom: 1.6rem;
+  max-width: min(34rem, calc(100% - 7.5rem)); /* clear of the DEV corner */
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--silver-faint);
+  background: var(--steel-2);
+}
+.estate-sheet-max-plate .estate-sheet-legend {
+  margin: 0;
+  padding: 0;
+  border-top: none;
+}
+.estate-sheet-max-plate .estate-sheet-caption {
+  margin-top: 0.2rem;
+  font-size: var(--fs-small);
+}
+.estate-sheet-hint {
+  position: absolute;
+  left: 0.6rem;
+  bottom: 0.45rem;
+  font-size: 11px;
+  color: var(--ink-faint);
+  pointer-events: none;
 }

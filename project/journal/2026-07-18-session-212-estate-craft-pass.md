@@ -76,6 +76,43 @@ pass; full standard walked):
 - The tree went GREEN mid-session (talk WIP + skill library landed);
   the dev-server law fix committed clean, no skip.
 
+- **3a + 3c landed** (with 3b in one craft commit — the working tree
+  merged them in sheet-a.ts): the 凡例 left the sheet and is an
+  Andon strip beside the drawing (brush-drawn marks, app type; the
+  study overlay reuses the same helper); the diegetic cartouche +
+  ken bar stay on the document (H1). Tap-to-maximize ships: an
+  advertised ⛶ study chip + the preview itself open a full-viewport
+  blow-up on the SHARED sheet-viewer engine (map-sheets/viewer.ts),
+  the live map's maximize idiom. Headless drive proves: overlay
+  opens (desktop + phone), zoom legible at 390px, Esc closes.
+- **3d landed**: the fixture-era DEV proto door deleted
+  (protos-pane button + `estate-sheet/demo.ts`); estate-sheet
+  README header un-staled (shipped state + craft-pass deltas
+  recorded beside the rules).
+
+## Taste Pass 2 — scorecard (variant A, post-craft)
+
+Full 21-walk. **13✔ · 1✘ · 7—** (n/a: P3 P8 P13 P14 P15 P16 P18
+P21 → 7 with P7 scored ✔-borderline below).
+
+- ✘ **P2 [briefed] — NAMED CUT:** the study/zoom chip style
+  (`estate-sheet-chip`) is a THIRD copy of the small-chip rule
+  (`t0v2-zoom` in the DEV modal, `sheetmap-zoom` in the live map's
+  scoped CSS) — mirrored byte-for-byte, not shared-sourced.
+  Consolidating means touching both map modules mid-open-review
+  (seam + TST2 risk), so it ships named; recorded in the HR-30
+  addendum for the human's call.
+- ✔-borderline **P7**: the legend strip's 12px/11px chrome type is
+  fixed-px like the map chips it mirrors — A−/A+ scales the reading
+  registers, not chrome; consistent with the shipped idiom.
+- Everything the brief named otherwise holds: P1 (door deleted),
+  P5/TST2 (overlay is its own layer; card never rebuilds on
+  open/close), P6 (phone card paints complete — capture proof),
+  P17 (chip + zoom-in cursor + aria), P19 (chip tight, sheet
+  breathes), P20 (normal-stacking blow-up, no page scrollbar),
+  TST3 (cartouche + 凡例 stay diegetic), TST4 (one closed
+  convention, legend-decoded).
+
 ## Next intended steps
 
 1. Step 1 — register truth fix (graphics-concepts row 5).

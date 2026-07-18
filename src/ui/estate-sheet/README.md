@@ -8,13 +8,17 @@ parallel experiment that REUSES some of that module's code (`brush.ts`,
 (`map-spec.md`), its scale-class registry (`map-styles.md`), its master
 layout, or its golden pin. This README is the experiment's whole spec:
 the document fiction, the room truths, the re-ink grammar, and the
-blind-reader rubric its captures are judged against. Prototype-first
-law: DEV-menu only, fixture-fed, zero game integration (integration is
-E1.4, separately gated).
+blind-reader rubric its captures are judged against. ~~Prototype-first
+law: DEV-menu only, fixture-fed, zero game integration~~ →
+**SHIPPED (2026-07-13 fold-in): the sheet is the Estate 家 tab's
+variant A**, painted over live state (`from-state.ts`); the
+fixture-era DEV demo door retired 2026-07-18 (craft pass 3d, TST1 —
+one home). Review: **HR-30** (`estate-house` row); HR-16 closed
+"needs more work", answered by the 2026-07-18 craft pass (see
+"Craft pass" below).
 
-The prototype ships **2 working look variants** (ADR-075 diverge,
+The module ships **2 working look variants** (ADR-075 diverge,
 capped at 2 by the human 2026-07-08) — see "The variant fork" below.
-Review: HR-16 in `project/human-in-the-loop/review.md`.
 
 World facts derive from the story bible
 ([`05-world.md`](../../../docs/story-bible/05-world.md) "The estate
@@ -168,6 +172,30 @@ before any drawing; these are the spec's teeth.
 Iteration loop: capture → one fresh blind-describe agent per variant →
 a judge scores THESE E-lines → fix → repeat until all **M** pass and
 ≥ half of **S** on the picked variant.
+
+## Craft pass (2026-07-18 — the HR-30 ✘s, rulings locked with the human)
+
+Deltas beside the rules they refine (plan:
+`docs/plans/fable-2026-07-18-estate-sheet-craft-pass.md`; baseline +
+after reports in `project/audit/reports/`):
+
+- **One closed convention (TST4, refines H5's shutter law).** Plan
+  rooms shutter with the SAME vertical-board + tie marks the wall
+  faces use — the old 45° plan-hatch was a second convention the
+  凡例 never decoded (blind readers called it "mothballed").
+- **The 凡例 is APP furniture now (P2).** Variant A no longer draws
+  the in-sheet legend box; the decoder is an Andon strip beside the
+  drawing (`render/estate.ts legendStrip`, marks still brush-drawn),
+  legible at every width. Sheet B keeps its own in-sheet legend
+  (unreviewed under HR-30 — additive-only law). The diegetic
+  cartouche + ken bar stay ON the document (H1 needs the 母屋 lie
+  told by the sheet itself).
+- **Tap-to-maximize (P20, ruling R2).** The inline sheet is a
+  fit-width preview; an advertised ⛶ study chip (and the preview
+  itself) opens a full-viewport blow-up on the ONE shared
+  sheet-viewer engine (`map-sheets/viewer.ts` — pan/zoom/pinch),
+  the live map's maximize idiom (normal stacking, capture overlay
+  safe).
 
 ## Module shape
 

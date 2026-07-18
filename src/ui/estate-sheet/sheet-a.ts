@@ -17,7 +17,6 @@ import {
   freshStamp,
   hatchArea,
   kenBar,
-  legendBox,
   rakeArcs,
   roofProfile,
   ruinBackdrop,
@@ -176,10 +175,12 @@ export function paintSheetA(root: SVGElement, fx: EstateFixture): void {
   paintEastPiece(root, fx);
   paintResidencePiece(root, fx);
 
-  // ── furniture ──
+  // ── furniture ── (the 凡例 left the sheet 2026-07-18 — craft pass 3c:
+  //    it is APP furniture now, an Andon strip beside the drawing
+  //    (render/estate.ts legendStrip); the diegetic cartouche + ken bar
+  //    stay ON the document, where H1 needs the 母屋 lie told.)
   cartouche(root, 60, 56, { seed: 'a:cart', revealed: fx.ruinRevealed });
   kenBar(root, 66, 936, { seed: 'a:ken', ken: KEN });
-  legendBox(root, 1040, 918, { seed: 'a:leg' });
   txt(root, 60, 246, fx.label, {
     size: 11,
     color: 'var(--ink-soft)',
@@ -337,8 +338,11 @@ function paintPlanRoom(
     );
   }
   if (ink.state === 'closed') {
-    // closed-but-kept: a light diagonal shut-hatch + the tie band — clearly
-    // not floor, clearly not ruin-ink
+    // closed-but-kept: the SAME shutter-board convention the 凡例 and the
+    // wall faces teach — vertical boards + the tie band. One closed mark,
+    // one legend row (the 45° hatch was a second convention the legend
+    // never decoded; blind readers called it "mothballed" — 2026-07-18
+    // baseline, TST4).
     hatchArea(
       g,
       [
@@ -349,11 +353,11 @@ function paintPlanRoom(
       ],
       {
         seed: `a:${room.id}:shut`,
-        angle: 45,
-        spacing: 8.5,
-        color: 'var(--ink-faint)',
-        w: 0.7,
-        opacity: 0.55,
+        angle: 90,
+        spacing: 7.5,
+        color: 'var(--ink-soft)',
+        w: 0.9,
+        opacity: 0.6,
       },
     );
     inkLine(
