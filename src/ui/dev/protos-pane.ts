@@ -3,6 +3,8 @@
 import { el } from '../render';
 import { openT1Map, openT2Map } from '../map-sheets/sheet';
 import { openStampBook } from '../stamp-book/book';
+import { openContactSheet } from '../bestiary-plates/contact-sheet';
+import { openPictogramSheet } from '../pictograms/sheet';
 import { openSceneCards } from '../scene-cards/cards';
 import { openSceneCardsV1 } from '../scene-cards/cards-v1';
 import { mono } from './widgets';
@@ -19,6 +21,8 @@ export function buildProtosPane(opts: { pane: HTMLElement }): void {
   //    · New UI — E3 stamp book (fable-2026-07-08-graphics-explorations.md; fixture-fed).
   //      The E1 estate-sheet door RETIRED 2026-07-18 (craft pass 3d, TST1): the sheet
   //      ships live as the Estate 家 tab's variant A — one home; review via the HR-30 row.
+  //    · Graphics A/B — #15 pictogram contact sheet (fable-2026-07-18-pictogram-ab.md):
+  //      11 items pictogram-vs-emoji, blind-passed; verdict via its HR item, nothing ships.
   //    · Parked — E2 scene-card pilots, human-parked 2026-07-08 with BOTH versions kept as
   //      concept references: v2 (kage-e + press — the kept look) and v1 (figurative — ruled slop).
   const protoGroup = (title: string): void => {
@@ -38,6 +42,14 @@ export function buildProtosPane(opts: { pane: HTMLElement }): void {
   protoBtn('⤢ T2 map — the valley, Asagiri downstream', () => openT2Map());
   protoGroup('New UI (E3)');
   protoBtn('⤢ Stamp book — E3 progression prototype', () => openStampBook());
+  protoGroup('Graphics A/B (#15)');
+  protoBtn('⤢ Pictogram A/B — 11 marks vs emoji', () => openPictogramSheet());
+  protoGroup('Beast register (#4)');
+  //    · #4 bestiary plates (fable-2026-07-18-bestiary-plates.md): the 獣譜 survey
+  //      plates for the HR-5 panel — contact sheet w/ faced+unfaced + the blind crop.
+  protoBtn('⤢ Bestiary plates — the beast register 獣譜', () =>
+    openContactSheet(),
+  );
   protoGroup('Parked UI prototypes');
   protoBtn('⤢ Scene cards v2 — kage-e (E2 · parked)', () => openSceneCards());
   protoBtn('⤢ Scene cards v1 — figurative (E2 · parked)', () =>
