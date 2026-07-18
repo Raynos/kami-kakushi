@@ -24,19 +24,15 @@ specced, not built** ([`prd.md`](../../docs/living/prd.md)).
 
 ## Where we are now
 
-- **✅ SAVE = FACTS ONLY, `src/` IS TRUTH (ADR-186 + s192):** the log is
-  a DERIVED VIEW — a line re-renders from current `src/`, addressed by
-  **NAME** (v11→v12), so a reorder can't re-point an old save's line.
-- **✅ PROGRESSION = ONE MODEL, ALL TIERS (ADR-182/183):** the
-  flat-points rung-meter is **DEAD at every tier** — a rung promotes
-  when its **authored objective-requirement list** is 100% done. Every
-  T1+ list must span BOTH tracks — canon, **no teeth yet**.
-- **✅ SLEEP — TIME MOVES WITHOUT WORK (ADR-187):** a `sleep` verb at
-  your woodshed corner (R4+, the only bed) — one press = one dawn,
-  priced: acts forfeited, the house still eats. Sim SKIP-BLIND.
-- **✅ ZONE-REVEAL LAW (ADR-184):** a zone opens **only inside a VN**;
-  a rung-up VN opens **≤2** (gated). Five zones earn side-quest VNs;
-  the woodshed rides to **R4**. Fog stands: sheet CLIPS, one viewer.
+- **✅ SAVE = FACTS ONLY (ADR-186 + s192):** the log is a DERIVED view
+  re-rendered from current `src/`, lines addressed by NAME (v11→v12).
+- **✅ PROGRESSION = ONE MODEL (ADR-182/183):** flat points DEAD — a
+  rung promotes when its authored requirement list is 100% done; T1+
+  lists span BOTH tracks — canon, **no teeth yet**.
+- **✅ SLEEP (ADR-187):** time moves without work — one press = one
+  dawn at the woodshed bed (R4+), priced. Sim SKIP-BLIND.
+- **✅ ZONE-REVEAL LAW (ADR-184):** zones open only inside VNs (≤2 per
+  rung-up); five side-quest VNs; woodshed at R4; fog stands.
 - **✅ SICKROOM MEND LANE (ADR-164/197, s202):** HP mends ONLY at the
   sickroom — `treat` (mon-only, hides when broke) + `rest_sickroom`
   (free pallet day); cook heal SEVERED (food = belly). Band [3, 28].
@@ -48,6 +44,9 @@ specced, not built** ([`prd.md`](../../docs/living/prd.md)).
   afterglow beat + the R1 intro line. Picks: **HR-46 · HR-47**.
 - **✅ PICTOGRAM A/B (#15, s216):** 11 marks both ways, blind-passed:
   **picto 10/11 PASS · emoji 8/11 FAIL**. Verdict: **HR-48**.
+- **⏸️ BEAST REGISTER (#4, s217):** 獣譜 plates built, blind-passed ×2
+  (8/9 naming, facture short) → kill switch: **PARKED as DEV ref**;
+  prose picked + held. **HR-5 addendum** = verdict + un-park options.
 - **✅ TALK SYSTEM COMPLETE (FB-415/ADR-200, s210+s218):** asks at
   every person; the waves landed — 18 labels + answers at pick voice,
   3 NEW discovery-hint asks. Picks: **HR-45 · HR-49/50/51**.
@@ -110,11 +109,12 @@ FB-257. `dev`·`build`·`/ship`.
    server on localhost:5264 (never spawn/kill your own). **`?dev=no`**
    for the true player layout; the page NEVER auto-reloads (FB-257).
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the live `docs/plans/` queue (bestiary
-   plates · pictogram follow-ups); the talk plan is DONE + archived.
+4. **Next (autonomous):** the live `docs/plans/` queue (pictogram
+   follow-ups; bestiary plates PARKED → HR-5); the talk plan is DONE
+   + archived.
 5. **Shared tree (ADR-196 locks live):** pathspec commits only; push
    with **`pnpm run push`** (bare `git push` is blocked; lane held →
    commits stay local by design). Render-split LANDED (session 203):
    surface work goes in `src/ui/render|dev/`, not the shells.
 
-<!-- rewrite-debt: 16/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 17/20 · last full rewrite: 2026-07-13 -->
