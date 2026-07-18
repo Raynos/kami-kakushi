@@ -70,6 +70,7 @@ voice: narrator
 
 ## scene-def count
 trigger: scripted
+reading: R5
 once: true
 speaker: genemon
 voice: steward
@@ -159,6 +160,7 @@ flags: r5-offered-search
 
 ## scene-def count-resolve
 trigger: scripted
+reading: R5
 once: true
 speaker: genemon
 voice: steward
@@ -612,6 +614,7 @@ door. Meals were terms for a man staying a week."
 
 ## scene-def r7-dream
 trigger: scripted
+reading: R7
 once: true
 voice: narrator
 

@@ -197,7 +197,7 @@ export function parseSceneTrigger(
 export interface SceneDefNode {
   readonly kind: 'scene-def';
   readonly id: string;
-  /** Raw `key: value` meta (trigger / once / voice / speaker / motivates). */
+  /** Raw `key: value` meta (trigger / reading / once / voice / speaker / motivates). */
   readonly meta: Map<string, { value: string; loc: Loc }>;
   readonly greeting: ProseLine[];
   readonly topics: TopicNode[];
@@ -339,6 +339,7 @@ const RESERVED = new Set([
   'title',
   'motivates',
   'trigger',
+  'reading',
   'once',
   'after',
   'when',
@@ -628,7 +629,7 @@ export function parseNarrative(source: string, file: string): NarrativeDoc {
           scene.kind === 'rung'
             ? ['speaker', 'voice', 'motivates']
             : scene.kind === 'scene-def'
-              ? ['trigger', 'once', 'voice', 'speaker', 'motivates']
+              ? ['trigger', 'reading', 'once', 'voice', 'speaker', 'motivates']
               : // FB-362 — `title:` is the intro scene's per-scene 幕-head display label
                 // (stamped as the log `context`, splitting the cold open into act cards).
                 ['speaker', 'voice', 'title'];

@@ -38,10 +38,6 @@
   — #8+10 resumed ("yeah good, continue later"): spec → state feed →
   home HD → the ADR-075 look diverge; the Plan-B gate is satisfied.
 - [ ]
-  [`docs/plans/fable-2026-07-18-reading-script-interleave.md`](../docs/plans/fable-2026-07-18-reading-script-interleave.md)
-  — fix t0-story.md's broken R1→R7 spine (R2/R5 filed under
-  "Generalized scenes"); pulls the BACKLOG note forward.
-- [ ]
   [`docs/plans/fable-2026-07-18-estate-sheet-craft-pass.md`](../docs/plans/fable-2026-07-18-estate-sheet-craft-pass.md)
   — #5 past "needs more work": the three HR-30 scorecard ✘s (mobile ·
   shutters · idiom), additive under the open review, pin + blind-pass.

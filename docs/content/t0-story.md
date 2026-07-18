@@ -193,6 +193,24 @@
 - "And if there were?" <small>· flags r1-asked-owing</small>
   **Genemon:** "Then the house is paid first, for as long as you eat its rice. Whoever else holds the claim can come and find you after that. So far nobody has come."
 
+## R2 · The yard-hand 庭男
+
+### r2-yard-hand
+
+*(trigger: rung R2, once)*
+
+> First light. The broom stands against the gatepost where you left it. The hand who kept the yard's round quit for the lowlands; nobody has said whose it is now.
+
+> You take the broom. Nobody takes it back.
+
+> The round takes the morning: the gate swept, the forecourt raked, the water in, the wood up off the ground. Dusk round, then the kitchen threshold, the bowl. Genemon comes past with the day-book under his arm and does not slow.
+
+**Genemon:** "Rice from the new moon. One measure the day, dry, weighed at the kura door. Meals were terms for a man staying a week."
+
+> He is through the door before you can set the bowl down.
+
+> A meal ends with the eating. Rice keeps.
+
 ## R3 · The grain-watch 蔵番
 
 > Dawn comes grey through the kura door. The blood on the sill has dried black, and most of it is yours. Inside, the rice sits in its rows, untouched, exactly as it was put. Sōan has strapped your ribs so tight that breathing is a decision.
@@ -323,108 +341,7 @@
 - "I was carried once. Not again." <small>· flags r4-not-carried</small>
   **Kihei:** "Then don't be. Dawn."
 
-## R6 · The trusted hand 用人
-
-> Morning, the forecourt. Genemon's window stands open, the day-book out, and beside it a purse the size of a fist, dark with handling.
-
-**Genemon:** "Salt, one shō. Waxed thread, two hanks. Lamp oil, one masu. Yohei sets his boards up at the gate by mid-morning."
-
-**Genemon:** "Two hands short since spring, and I cannot leave the book on a market morning. So."
-
-> He counts the coins into your palm one at a time, watching each one land.
-
-**Genemon:** "Forty mon. Count them back."
-
-**You:** "Forty."
-
-> He watches the whole count. When it comes out even he does not nod. He enters something in the day-book, unasked.
-
-> You did not work the number out. It was there before the last coin landed, and you could not say how it got there. Whatever he has entered, it is not the count.
-
-**Genemon:** "His prices are his own. The house's figures are mine. Go."
-
-> Market morning at the gate. Yohei's boards are up and the gateyard has people in it for once — baskets, a mule, talk. The woman ahead of you pulls her basket an inch closer when you stop beside her. The talk is rain over the pass and the price of salt, and it thins a little when you step to the boards, and then picks up again. It was never about you.
-
-**Yohei:** "The house's hand, and carrying the house's purse — there's news by itself. Rain over the pass, the dye-man's held at the ford a week, so waxed thread is scarce, so the thread is eleven. Salt fifteen, the oil fourteen — fair as water, those two. Eleven for the thread, then?"
-
-**Ask** — "You priced me high, my first market."
-
-**Yohei:** "I did. First market, you were the road's — a road man pays the road's price, carries it off, and is gone. A house man comes back twelve markets a year. I price the coming back."
-
-**Ask** — "What holds the dye-man?"
-
-**Yohei:** "The ford, swollen, and no hurry in him — lowland wages are fat this year and half the carriers went down for them. Your house lost two hands to the same road, I hear."
-
-**Decide** — The thread is eleven. The steward reckoned nine.
-
-- "Nine. Count it with me." <small>· memory yohei +1 (square) · flags r6-flat</small>
-  **Yohei:** "Ha — the steward's figure, out of the steward's own mouth. Nine, nine, take it. Twelve markets a year, I'd rather be the stall you count at than the one you walk past."
-
-- "Eleven, then." <small>· memory yohei +0 (a mark still) · flags r6-over</small>
-  **Yohei:** "Done, and kindly done. Salt, oil, thread — mind the oil, it sweats in the sun. My regards to the kitchen."
-
-- "Then the house does without thread." <small>· memory yohei +0 (hard) · flags r6-back</small>
-  **Yohei:** "As you like. Thread keeps, and so do I. Salt and oil, twenty-nine — and tell the steward it's the dye-man sets that price, not me."
-
-## R7 · The named hand 名代
-
-> The board, past supper, past the year's tax. The household's noises are done for the day. Genemon has the day-book open under the lamp and a fresh page ruled, and he does not look up until the last column of the old one is footed.
-
-**Genemon:** "Stand where I can see you. This is quick."
-
-**Genemon:** "A full year and more, this book has said 'one man, name unknown.' Every entry, the same six strokes spent on a man the whole yard knows on sight. Paper is not free. Neither is my evening."
-
-> He turns back through the pages — a winter, a wolf, a harvest — to the first entry, and reads it aloud, once. One man, name unknown. Then he dips the brush, and holds it over the page a breath longer than any entry needs.
-
-**Genemon:** "Gonbei. Every hired man this house has kept has carried it before you. The house's name for you, then. Earn a better."
-
-> He writes it small and square — the hand of a man who has written all his life and never once for pleasure — and the thing is done. One man, Gonbei, sound.
-
-> The book has your hands in it: the loads, the counts that came out even, the night at the sill. It has never had anything else of you. Neither have you.
-
-**Ask** — "What changes?"
-
-**Genemon:** "Your name, on the page. A day-wage, as before, and the house's purse when it's sent out with you. And watched — as every name on this book is watched."
-
-**Genemon:** "And one thing more. From this season's close I rule a second reckoning — not the hands. The house. Stores past the winter's need, walls that held, ground taken back. One line, each season, in this book's plain words. I have written this house's losses for thirty-one years. I mean to write something else before I am done."
-
-**Ask** — "Who carried it before me?"
-
-> The question costs you something to ask, and Genemon looks up as if a chair had spoken. Then he turns the book back further than he turned it for the ink, to a page the lamp barely reaches.
-
-**Genemon:** "Four, in my years. Two served their seasons out and went to the lowlands. One died of a winter chest, in the house's service; his dates are here. The fourth was let go. There was a year this house could keep no one it did not have to keep. That is the whole of it."
-
-> The same name, four times over, each line ruled through — dated, footed, closed. He answers the rest of the question by writing the date on the fifth, and the fifth stands open.
-
-**Decide** — The ink is drying. How do you take the name?
-
-- "It will do." <small>· memory genemon +1 (plain) · flags r7-plain</small>
-  **Genemon:** "So it will. Take what is left in the pot as you pass the kitchen. It is paid for."
-
-- "Then I'll earn the better one." <small>· memory genemon +1 (ambitious) · flags r7-earn</small>
-  **Genemon:** "Better is earned at the season's close, like everything on this book. I will hold you to the word."
-
-- "Until mine comes back, it can serve." <small>· memory genemon +1 (guarded) · flags r7-mine</small>
-  **Genemon:** "As you say. An entry can be amended."
-
-## Generalized scenes (G3.5 stub)
-
-> Season overlays, side-beats, and the nengu ceremony — triggered outside the
-> rung ladder. A STUB at G3.5 (grammar samples); the real content lands at G4.1.
-
-### nengu-autumn-frame
-
-*(trigger: scripted)*
-
-> Autumn thins to its last day, and the board comes out at an hour it does not usually keep. The whole house comes with it: the family by the book, the hands by the door, and you in the corner — counted as part of the room, and not asked into it.
-
-> Genemon reads the year against the house. The harvest in and weighed, the lease, the winter's wood — and then the land tax, owed to the lord in rice, which must be paid before the season is allowed to turn.
-
-> Nobody reads the sum aloud. It arrives the way weather arrives: the room goes still around it, a breath drawn and not let go, every eye on the book and none on one another.
-
-> Chiyo looks once, and briefly, at a screen that will not be in its room by spring. That is all that is shown of it, and none of it is explained. The house is poorer than it looks. You are learning how much poorer by what leaves it.
-
-> The book closes. The house has answered for the land; its autumn can end. You are still in the corner. Nobody tells you the season is over. It is.
+## R5 · The accused 咎人
 
 ### count
 
@@ -512,6 +429,135 @@
 > Eleven marks on a board, kept by a man who has never worked nearer to you than the next row. It is the fullest account of you that exists, and nobody asked you for any of it.
 
 > That evening the wage enters the day-book: so many mon, and against the entry, where a name would go, a mark. It is still not a name.
+
+## R6 · The trusted hand 用人
+
+> Morning, the forecourt. Genemon's window stands open, the day-book out, and beside it a purse the size of a fist, dark with handling.
+
+**Genemon:** "Salt, one shō. Waxed thread, two hanks. Lamp oil, one masu. Yohei sets his boards up at the gate by mid-morning."
+
+**Genemon:** "Two hands short since spring, and I cannot leave the book on a market morning. So."
+
+> He counts the coins into your palm one at a time, watching each one land.
+
+**Genemon:** "Forty mon. Count them back."
+
+**You:** "Forty."
+
+> He watches the whole count. When it comes out even he does not nod. He enters something in the day-book, unasked.
+
+> You did not work the number out. It was there before the last coin landed, and you could not say how it got there. Whatever he has entered, it is not the count.
+
+**Genemon:** "His prices are his own. The house's figures are mine. Go."
+
+> Market morning at the gate. Yohei's boards are up and the gateyard has people in it for once — baskets, a mule, talk. The woman ahead of you pulls her basket an inch closer when you stop beside her. The talk is rain over the pass and the price of salt, and it thins a little when you step to the boards, and then picks up again. It was never about you.
+
+**Yohei:** "The house's hand, and carrying the house's purse — there's news by itself. Rain over the pass, the dye-man's held at the ford a week, so waxed thread is scarce, so the thread is eleven. Salt fifteen, the oil fourteen — fair as water, those two. Eleven for the thread, then?"
+
+**Ask** — "You priced me high, my first market."
+
+**Yohei:** "I did. First market, you were the road's — a road man pays the road's price, carries it off, and is gone. A house man comes back twelve markets a year. I price the coming back."
+
+**Ask** — "What holds the dye-man?"
+
+**Yohei:** "The ford, swollen, and no hurry in him — lowland wages are fat this year and half the carriers went down for them. Your house lost two hands to the same road, I hear."
+
+**Decide** — The thread is eleven. The steward reckoned nine.
+
+- "Nine. Count it with me." <small>· memory yohei +1 (square) · flags r6-flat</small>
+  **Yohei:** "Ha — the steward's figure, out of the steward's own mouth. Nine, nine, take it. Twelve markets a year, I'd rather be the stall you count at than the one you walk past."
+
+- "Eleven, then." <small>· memory yohei +0 (a mark still) · flags r6-over</small>
+  **Yohei:** "Done, and kindly done. Salt, oil, thread — mind the oil, it sweats in the sun. My regards to the kitchen."
+
+- "Then the house does without thread." <small>· memory yohei +0 (hard) · flags r6-back</small>
+  **Yohei:** "As you like. Thread keeps, and so do I. Salt and oil, twenty-nine — and tell the steward it's the dye-man sets that price, not me."
+
+## R7 · The named hand 名代
+
+> The board, past supper, past the year's tax. The household's noises are done for the day. Genemon has the day-book open under the lamp and a fresh page ruled, and he does not look up until the last column of the old one is footed.
+
+**Genemon:** "Stand where I can see you. This is quick."
+
+**Genemon:** "A full year and more, this book has said 'one man, name unknown.' Every entry, the same six strokes spent on a man the whole yard knows on sight. Paper is not free. Neither is my evening."
+
+> He turns back through the pages — a winter, a wolf, a harvest — to the first entry, and reads it aloud, once. One man, name unknown. Then he dips the brush, and holds it over the page a breath longer than any entry needs.
+
+**Genemon:** "Gonbei. Every hired man this house has kept has carried it before you. The house's name for you, then. Earn a better."
+
+> He writes it small and square — the hand of a man who has written all his life and never once for pleasure — and the thing is done. One man, Gonbei, sound.
+
+> The book has your hands in it: the loads, the counts that came out even, the night at the sill. It has never had anything else of you. Neither have you.
+
+**Ask** — "What changes?"
+
+**Genemon:** "Your name, on the page. A day-wage, as before, and the house's purse when it's sent out with you. And watched — as every name on this book is watched."
+
+**Genemon:** "And one thing more. From this season's close I rule a second reckoning — not the hands. The house. Stores past the winter's need, walls that held, ground taken back. One line, each season, in this book's plain words. I have written this house's losses for thirty-one years. I mean to write something else before I am done."
+
+**Ask** — "Who carried it before me?"
+
+> The question costs you something to ask, and Genemon looks up as if a chair had spoken. Then he turns the book back further than he turned it for the ink, to a page the lamp barely reaches.
+
+**Genemon:** "Four, in my years. Two served their seasons out and went to the lowlands. One died of a winter chest, in the house's service; his dates are here. The fourth was let go. There was a year this house could keep no one it did not have to keep. That is the whole of it."
+
+> The same name, four times over, each line ruled through — dated, footed, closed. He answers the rest of the question by writing the date on the fifth, and the fifth stands open.
+
+**Decide** — The ink is drying. How do you take the name?
+
+- "It will do." <small>· memory genemon +1 (plain) · flags r7-plain</small>
+  **Genemon:** "So it will. Take what is left in the pot as you pass the kitchen. It is paid for."
+
+- "Then I'll earn the better one." <small>· memory genemon +1 (ambitious) · flags r7-earn</small>
+  **Genemon:** "Better is earned at the season's close, like everything on this book. I will hold you to the word."
+
+- "Until mine comes back, it can serve." <small>· memory genemon +1 (guarded) · flags r7-mine</small>
+  **Genemon:** "As you say. An entry can be amended."
+
+### r7-dream
+
+*(trigger: scripted, once)*
+
+> The woodshed, late. On the doorstep, folded under a stone against the wind: your straw coat, mended at the shoulder in small even stitches that no one will own to. You carry it in, lie down on the mat, and for once sleep at once.
+
+> The book has a name in it now. The dream does not use it.
+
+> — a road, climbing. Rain on it.
+
+> The weight across his shoulders is right. Two loads and the pole, and his feet know the next stone without being asked. Below the road, water — he cannot see it, but it is there the way a wall is there in a dark room.
+
+> Behind him on the climb, somebody calls a name. Short, worn smooth, thrown easy — a name that has landed a thousand times and expects to land now.
+
+> He turns to answer.
+
+> The mountain moves.
+
+> After that there is only the water, and the road going away upward, and the voice still calling — smaller, and smaller. He knows the name is his. He cannot hear it.
+
+> He wakes in the woodshed with his mouth open around a word that is not there. Rain, real rain, small on the roof. The coat is where he left it.
+
+**Gonbei:** "There was a road."
+
+> Nobody answers. It is a long while before he sleeps again, and the dream, that night, does not come back.
+
+## Generalized scenes (G3.5 stub)
+
+> Season overlays, side-beats, and the nengu ceremony — triggered outside the
+> rung ladder. A STUB at G3.5 (grammar samples); the real content lands at G4.1.
+
+### nengu-autumn-frame
+
+*(trigger: scripted)*
+
+> Autumn thins to its last day, and the board comes out at an hour it does not usually keep. The whole house comes with it: the family by the book, the hands by the door, and you in the corner — counted as part of the room, and not asked into it.
+
+> Genemon reads the year against the house. The harvest in and weighed, the lease, the winter's wood — and then the land tax, owed to the lord in rice, which must be paid before the season is allowed to turn.
+
+> Nobody reads the sum aloud. It arrives the way weather arrives: the room goes still around it, a breath drawn and not let go, every eye on the book and none on one another.
+
+> Chiyo looks once, and briefly, at a screen that will not be in its room by spring. That is all that is shown of it, and none of it is explained. The house is poorer than it looks. You are learning how much poorer by what leaves it.
+
+> The book closes. The house has answered for the land; its autumn can end. You are still in the corner. Nobody tells you the season is over. It is.
 
 ### sb-grove
 
@@ -648,48 +694,6 @@
 **Shinnosuke:** "See. You're the other one they don't tell. What did he write — did you see what he wrote?"
 
 > You didn't. The boy climbs down and goes in to his copywork, and you oil the hinges under the crest, and the kura keeps whatever it keeps.
-
-### r2-yard-hand
-
-*(trigger: rung R2, once)*
-
-> First light. The broom stands against the gatepost where you left it. The hand who kept the yard's round quit for the lowlands; nobody has said whose it is now.
-
-> You take the broom. Nobody takes it back.
-
-> The round takes the morning: the gate swept, the forecourt raked, the water in, the wood up off the ground. Dusk round, then the kitchen threshold, the bowl. Genemon comes past with the day-book under his arm and does not slow.
-
-**Genemon:** "Rice from the new moon. One measure the day, dry, weighed at the kura door. Meals were terms for a man staying a week."
-
-> He is through the door before you can set the bowl down.
-
-> A meal ends with the eating. Rice keeps.
-
-### r7-dream
-
-*(trigger: scripted, once)*
-
-> The woodshed, late. On the doorstep, folded under a stone against the wind: your straw coat, mended at the shoulder in small even stitches that no one will own to. You carry it in, lie down on the mat, and for once sleep at once.
-
-> The book has a name in it now. The dream does not use it.
-
-> — a road, climbing. Rain on it.
-
-> The weight across his shoulders is right. Two loads and the pole, and his feet know the next stone without being asked. Below the road, water — he cannot see it, but it is there the way a wall is there in a dark room.
-
-> Behind him on the climb, somebody calls a name. Short, worn smooth, thrown easy — a name that has landed a thousand times and expects to land now.
-
-> He turns to answer.
-
-> The mountain moves.
-
-> After that there is only the water, and the road going away upward, and the voice still calling — smaller, and smaller. He knows the name is his. He cannot hear it.
-
-> He wakes in the woodshed with his mouth open around a word that is not there. Rain, real rain, small on the roof. The coat is where he left it.
-
-**Gonbei:** "There was a road."
-
-> Nobody answers. It is a long while before he sleeps again, and the dream, that night, does not come back.
 
 ### turn-winter
 

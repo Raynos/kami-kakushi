@@ -1,6 +1,8 @@
 # t0-story.md — interleave rung-triggered scenes into the ladder
 
-**Status:** 📋 PROPOSED (2026-07-18, session 211)
+**Status:** ✅ DONE (2026-07-18, session 215 — shipped; scope grew
+by one under the human's live call: `r7-dream` also gained
+`reading: R7`, the same rung-ascension pattern as `count`)
 **Confidence:** ( 75% Opus, 25% Fable ) — mechanical emitter work; the
 only judgment is the shape of the one grammar-meta addition.
 **Template:** process

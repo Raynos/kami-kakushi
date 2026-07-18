@@ -432,6 +432,48 @@ flags: sb-dog-fed
       'a scene-def react must be a speech line spoken by an NPC',
     );
   });
+
+  // ── the `reading:` key (2026-07-18 interleave) — reading-script placement
+  // only, zero runtime meaning. Valid ranks derive from RANKS (R0 excluded —
+  // the intro IS the R0 beat); a rung trigger already places its def, so a
+  // second placement source REDs. ──
+  it('a reading: rank on a non-rung-triggered scene-def is clean', () => {
+    const v = validate(
+      SILENT.replace('once: true\n', 'once: true\nreading: R5\n'),
+    );
+    expect(v.errors).toEqual([]);
+    expect(v.warnings).toEqual([]);
+  });
+
+  it('RED — reading: rejects a rank outside the ladder', () => {
+    expectError(
+      SILENT.replace('once: true\n', 'once: true\nreading: R0\n'),
+      'is not a ladder rung',
+    );
+    expectError(
+      SILENT.replace('once: true\n', 'once: true\nreading: R9\n'),
+      'is not a ladder rung',
+    );
+  });
+
+  it('RED — reading: on a rung-triggered def is a second placement source', () => {
+    expectError(
+      SILENT.replace('trigger: season-exit autumn', 'trigger: rung R2').replace(
+        'once: true\n',
+        'once: true\nreading: R2\n',
+      ),
+      'one placement source',
+    );
+  });
+
+  it('RED — reading: on a non-scene-def block is an unknown meta key', () => {
+    expect(() =>
+      parseNarrative(
+        BASE.replace('voice: steward\n', 'voice: steward\nreading: R5\n'),
+        'fixture.md',
+      ),
+    ).toThrowError(NarrativeError);
+  });
 });
 
 // ── the line-id grammar (2026-07-13 — ADR-186's "known limit", closed) ──────────────────────

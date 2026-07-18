@@ -555,6 +555,30 @@ function validateSceneDef(
   if (!def.meta.get('voice')) {
     err(def.loc, `scene-def "${def.id}" is missing "voice:" meta`);
   }
+  // `reading: R<n>` — reading-script placement ONLY (zero runtime meaning; emit
+  // ignores it). Valid ranks derive from RANKS; R0 takes no ladder section (the
+  // intro IS the R0 beat, D-110). A def whose trigger is already `rung <R#>` is
+  // placed by the trigger — a second placement source could silently disagree.
+  const reading = def.meta.get('reading');
+  if (reading) {
+    const rank = reading.value.trim();
+    const ladder = RANKS.filter((r) => r.id !== 'R0').map((r) => r.id);
+    if (!ladder.includes(rank as never)) {
+      err(
+        reading.loc,
+        `scene-def "${def.id}": reading rank "${rank}" is not a ladder rung (${ladder.join(', ')})`,
+      );
+    }
+    const trig = def.meta.get('trigger');
+    const parsed = trig ? parseSceneTrigger(trig.value) : undefined;
+    if (parsed?.ok && parsed.trigger.kind === 'rung') {
+      err(
+        reading.loc,
+        `scene-def "${def.id}": a rung trigger already places it in the reading ` +
+          `script — drop "reading:" (one placement source)`,
+      );
+    }
+  }
 }
 
 function validateDialogueDef(

@@ -8,6 +8,7 @@
 
 import { RANKS } from '../../core/content/ranks';
 import { NAMES } from '../../core/content/names';
+import { parseSceneTrigger } from './parse';
 import type {
   IntroSceneNode,
   NarrativeDoc,
@@ -109,6 +110,21 @@ function sceneLines(
   return out;
 }
 
+/** The rung a scene-def is ladder-placed at in the READING script, if any: its
+ *  `reading:` meta (doc placement only — zero runtime meaning), else a
+ *  `rung <R#>` trigger. Everything else is genuinely ladder-external and stays
+ *  in the generalized section. */
+function placedRungOf(def: SceneDefNode): string | undefined {
+  const reading = def.meta.get('reading')?.value;
+  if (reading !== undefined) return reading.trim();
+  const trigger = def.meta.get('trigger')?.value;
+  if (trigger === undefined) return undefined;
+  const parsed = parseSceneTrigger(trigger);
+  return parsed.ok && parsed.trigger.kind === 'rung'
+    ? parsed.trigger.rung
+    : undefined;
+}
+
 /** Render a generalized `## scene-def` (storywave G3.5) — trigger tag + greeting + optional
  *  decision (a decision-less scene-def is a narration-only beat, so nothing to render past its
  *  greeting). */
@@ -171,28 +187,44 @@ export function emitStoryDoc(docs: readonly NarrativeDoc[]): string {
     L.push(...sceneLines(scene, resolve));
   }
 
-  // ── the rung beats ──
-  for (const scene of docs
-    .flatMap((d) => d.blocks)
-    .filter((b) => b.kind === 'rung')) {
-    const rank = RANK_BY_ID.get(scene.rankKey);
-    const title = rank ? `${rank.title} ${rank.kanji}` : scene.rankKey;
-    L.push(`## ${scene.rankKey} · ${title}`, '');
-    L.push(...sceneLines(scene, resolve));
-  }
-
-  // ── the generalized scenes (storywave G3.5 — a STUB until G4.1 fills scenes.md) ──
+  // ── the rung ladder (interleave, 2026-07-18) — walk RANKS in order so the
+  // spine reads R1→R7 continuous. A rung's section carries its `## rung` beat
+  // (if authored) plus every scene-def placed there (`reading:` meta or a
+  // `rung <R#>` trigger): R2's silent rung and R5's accusation night are
+  // scene-defs, so before this the script skipped their rungs entirely. ──
+  const rungScenes = new Map(
+    docs
+      .flatMap((d) => d.blocks)
+      .filter((b) => b.kind === 'rung')
+      .map((b) => [b.rankKey, b]),
+  );
   const sceneDefs = docs
     .flatMap((d) => d.blocks)
     .filter((b) => b.kind === 'scene-def');
-  if (sceneDefs.length > 0) {
+  for (const rank of RANKS) {
+    // R0 takes no rung section — the intro IS the R0 beat (D-110).
+    if (rank.id === 'R0') continue;
+    const beat = rungScenes.get(rank.id);
+    const placed = sceneDefs.filter((d) => placedRungOf(d) === rank.id);
+    if (!beat && placed.length === 0) continue;
+    L.push(`## ${rank.id} · ${rank.title} ${rank.kanji}`, '');
+    if (beat) L.push(...sceneLines(beat, resolve));
+    for (const def of placed) {
+      L.push(`### ${def.id}`, '');
+      L.push(...sceneDefLines(def, resolve));
+    }
+  }
+
+  // ── the generalized scenes (storywave G3.5 — a STUB until G4.1 fills scenes.md) ──
+  const generalDefs = sceneDefs.filter((d) => placedRungOf(d) === undefined);
+  if (generalDefs.length > 0) {
     L.push('## Generalized scenes (G3.5 stub)', '');
     L.push(
       '> Season overlays, side-beats, and the nengu ceremony — triggered outside the',
       '> rung ladder. A STUB at G3.5 (grammar samples); the real content lands at G4.1.',
       '',
     );
-    for (const def of sceneDefs) {
+    for (const def of generalDefs) {
       L.push(`### ${def.id}`, '');
       L.push(...sceneDefLines(def, resolve));
     }
