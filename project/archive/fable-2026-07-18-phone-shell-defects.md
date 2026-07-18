@@ -1,6 +1,14 @@
 # Fix the three 390px shell defects the estate blind pass surfaced
 
-**Status:** 📋 PROPOSED (2026-07-18, session 212)
+**Status:** ✅ DONE (2026-07-18, session 219 — built autonomously by an
+Opus session). All three defects fixed, plus a fourth found while
+diagnosing defect 2: the `End the … 季` button was unclickable at every
+viewport (`pointer-events: none` inherited from `.clock-dock`), so the
+manual season wheel had never been reachable. Diagnosis, before/after
+evidence and the two-pass taste scorecard:
+[`project/audit/reports/2026-07-18-phone-shell-defects.md`](../../project/audit/reports/2026-07-18-phone-shell-defects.md).
+Defect 1 was NOT an overlap — measured clean — it was the collapsed log
+band clipping its own content; see the report for what actually broke.
 **Confidence:** ( 40% Opus, 60% Fable ) — mostly mechanical CSS/layout
 work, but defect 1 touches the mobile log recomposition (TST2-risky)
 and the fixes must be judged on real phone captures.

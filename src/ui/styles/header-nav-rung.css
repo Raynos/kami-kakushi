@@ -22,13 +22,18 @@
   width: 110px;
 }
 
-/* HP / life meter (D-076) — a verdigris "life" fill (distinct from satiety's teal), the exact
-   number beside it, turning vermilion (.bar.low) when hurt so "heal now" reads at a glance. */
+/* HP / life meter (D-076) — the exact number beside it, turning vermilion
+   (.bar.low) when hurt so "heal now" reads at a glance.
+   The flat `background: var(--rokusho)` fill that used to sit here is GONE. It was
+   `.vital.health .bar > span` (0,3,1), which beat shell-layout.css's identical-
+   specificity B.4 gradient on source order (this file imports later) AND outranked
+   `.bar.low > span` (0,2,1) outright. So the alarm colour could never paint: at
+   1/100 the bar still measured `rgb(153,162,191)` while its numeral screamed, and
+   the ADR-076 promise above was never kept. The fill now belongs solely to
+   shell-layout.css's meter rules (P2 — one primitive per idiom); the alarm's own
+   specificity fix lives beside them. */
 .vital.health .bar {
   width: 110px;
-}
-.vital.health .bar > span {
-  background: var(--rokusho);
 }
 .vital.health .value,
 .vital.stamina .value,

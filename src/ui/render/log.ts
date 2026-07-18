@@ -112,7 +112,16 @@ export function createLogView(ctx: {
     if (!mobileLogBand.matches) return;
     const t = e.target as HTMLElement;
     if (logSection.classList.contains('m-expanded')) {
-      if (t.closest('.log-head h2')) logSection.classList.remove('m-expanded');
+      if (t.closest('.log-head h2')) {
+        logSection.classList.remove('m-expanded');
+        // Re-pin on the way DOWN too, not just on expand. Folding shrinks the window
+        // from a full sheet back to a two-line band while the reader's scroll offset
+        // stays where they left it — so the band came back showing whatever ancient
+        // line happened to sit at that offset (measured ~1300px adrift) instead of
+        // the newest. The strip's whole job is "the latest line" (P18).
+        logLines.scrollTop = logLines.scrollHeight;
+        logPinnedToBottom = true;
+      }
       return;
     }
     if (t.closest('button')) return;

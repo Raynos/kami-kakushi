@@ -572,6 +572,41 @@ describe('surface buttons dispatch the right Intent (battery #11 — DOM interac
     ).toBe(false);
   });
 
+  it('a surviving sliver of life still PAINTS — 1/100 never reads as a full bar (ADR-076)', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const base = createInitialState(1);
+    const combatReady: GameState = {
+      ...base,
+      flags: { ...base.flags, awake: true, ...factsForSurfaces('tab-combat') },
+    };
+    const at = (hp: number): { pct: number; numeral: string } => {
+      render(
+        { ...combatReady, character: { ...combatReady.character, hp } },
+        null,
+      );
+      return {
+        pct: Number.parseFloat(
+          root.querySelector<HTMLElement>('.vital.health .bar > span')!.style
+            .width,
+        ),
+        numeral: root.querySelector('.vital.health .value')!.textContent!,
+      };
+    };
+    // max comes from the rendered numeral (the source of truth), never a magic number.
+    const max = Number.parseInt(at(1).numeral.split('/')[1]!, 10);
+    expect(max).toBeGreaterThan(1);
+
+    // The defect: an honest 1-of-max in a 110px groove is a ~1px sliver — invisible,
+    // so the bar read FULL while its numeral said 1/100. Any SURVIVING hp must clear
+    // the visibility floor. (Goes RED if fillWidth's floor is removed.)
+    expect(at(1).pct).toBeGreaterThanOrEqual(3);
+    // ...but the floor must not swallow the difference between nearly-dead and
+    // healthy, nor paint anything at a true zero.
+    expect(at(0).pct).toBe(0);
+    expect(at(max).pct).toBe(100);
+    expect(at(1).pct).toBeLessThan(at(max).pct / 2);
+  });
+
   it('FB-335 — the body meter carries an exact number + a hover name (never a mystery strip)', () => {
     const render = mount(root, () => {}, noopHooks());
     const base = createInitialState(1);

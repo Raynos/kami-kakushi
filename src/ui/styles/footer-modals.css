@@ -72,6 +72,24 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+/* Phone footer fit (≤920px). Measured at 390px: the row's natural content is
+   ~396px against ~368px of inner width, so SOMETHING has to give — and left to
+   itself the squeeze fell on the two labels, wrapping 神隠し to "神隠 / し" and
+   Settings 設定 to two lines (P6, "no clipped stacks"). The roman
+   transliteration is the honest thing to drop: at this width it is a second
+   rendering of the name standing beside 神隠し itself, and the full name still
+   lives in the About modal. Dropping it frees ~93px — the row then fits with
+   room to spare, and both labels are pinned nowrap so no future squeeze can
+   re-wrap them silently. */
+@media (max-width: 920px) {
+  .appbar-footer .game-title .roman {
+    display: none;
+  }
+  .appbar-footer .game-title .kami,
+  .appbar-footer .settings-btn {
+    white-space: nowrap;
+  }
+}
 .settings-btn {
   font-family: var(--font-body);
   font-size: var(--fs-small);

@@ -36,12 +36,14 @@
   (DEV → Prototypes → ⤢ Pictogram A/B). *(The plan left the queue —
   engaged live + archived done.)*
 - [ ]
-  [`docs/plans/fable-2026-07-18-phone-shell-defects.md`](../docs/plans/fable-2026-07-18-phone-shell-defects.md)
-  — three 390px shell defects the estate blind readers caught in
-  passing (log clips the Standing panel · season pill occludes the
-  footer · 1/100 life bar reads full); small fix plan, no design
-  forks. *(The estate craft-pass plan left the queue — you walked
-  its rulings live this morning; its result is the HR-30 addendum.)*
+  [`project/audit/reports/2026-07-18-phone-shell-defects.md`](audit/reports/2026-07-18-phone-shell-defects.md)
+  — the three 390px shell defects are **fixed** (built autonomously,
+  s219; the plan left the queue archived done). Worth your eye for
+  one thing: diagnosing the footer turned up a **fourth** defect —
+  the `End the … 季` button was unclickable at **every** viewport, so
+  the manual season wheel had never been reachable by a player. Also
+  fixed, but it means no shipped build's R2+ season turn was ever
+  exercised through the UI.
 
 > **What belongs here** — a durable doc whose purpose is for you to read
 > or sign off: a **plan** (`docs/plans/`), a **brainstorm /

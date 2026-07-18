@@ -23,6 +23,21 @@ interface VitalPair {
   value: HTMLElement;
 }
 
+/** The smallest fill a meter may paint while still holding a NON-ZERO value, in % of
+ *  the track. At 1/100 the honest 1% is 1.1px inside a 110px groove — invisible, so
+ *  the bar read FULL (the silver ring around the track is the only thing the eye
+ *  caught) while its numeral said 1/100. That is a TST4 miss: the player guessed
+ *  state, and life-or-death is exactly where they must not (ADR-076). The floor is
+ *  presentation only — the exact number beside the bar stays the precise value, and
+ *  a true ZERO still paints nothing, so "empty" and "nearly empty" stay distinct. */
+const MIN_VISIBLE_FILL_PCT = 3;
+
+/** Width for a meter fill: 0 stays 0, anything above it clears the visibility floor. */
+function fillWidth(frac: number): string {
+  const pct = Math.max(0, Math.min(1, frac)) * 100;
+  return `${pct <= 0 ? 0 : Math.max(MIN_VISIBLE_FILL_PCT, Math.round(pct))}%`;
+}
+
 export function createVitalsView(ctx: {
   els: {
     coin: VitalPair;
@@ -122,7 +137,7 @@ export function createVitalsView(ctx: {
     if (!stamina.hidden) {
       const max = satietyMax(state);
       const frac = state.character.satiety / max;
-      staminaFill.style.width = `${Math.round(frac * 100)}%`;
+      staminaFill.style.width = fillWidth(frac);
       staminaBar.classList.toggle('low', staminaRate(state) < 0.99);
       // FB-387 (revising FB-335) — bars only in the header; the exact number lives on
       // the hover title. The unit reads "body" everywhere (FB-334), never "satiety".
@@ -140,7 +155,7 @@ export function createVitalsView(ctx: {
     if (!belly.hidden) {
       const max = hungerMax(state);
       const frac = max > 0 ? state.character.hunger / max : 0;
-      bellyFill.style.width = `${Math.round(frac * 100)}%`;
+      bellyFill.style.width = fillWidth(frac);
       bellyBar.classList.toggle('low', restQuality(state) < 0.99);
       // FB-387 — bars only (the FB-335 numeral moved to the hover title); the unit reads
       // "belly" everywhere (FB-334's law), never the internal field name.
@@ -159,7 +174,7 @@ export function createVitalsView(ctx: {
       const max = hpMax(state);
       const hp = state.character.hp;
       const frac = max > 0 ? hp / max : 0;
-      healthFill.style.width = `${Math.round(frac * 100)}%`;
+      healthFill.style.width = fillWidth(frac);
       healthBar.classList.toggle('low', frac <= 0.3);
       healthNum.textContent = `${hp}/${max}`;
     }

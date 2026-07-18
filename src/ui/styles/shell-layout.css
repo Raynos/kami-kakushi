@@ -83,6 +83,15 @@
   border-right: 1px solid var(--key);
   pointer-events: none;
 }
+/* The dock is a PASSIVE overlay on the rail's foot — `pointer-events: none` above
+   keeps it from eating a nav-tab tap it visually covers. But it holds ONE real
+   control, the season wheel, which inherited that `none` and was therefore DEAD at
+   every viewport (the click fell through to the rail on desktop / Settings on
+   phone). Re-arm exactly that button — not the dock — so the passive-overlay
+   property survives. PH6: an unreachable verb does not exist. */
+.shell > .clock-dock .season-end {
+  pointer-events: auto;
+}
 /* FB-173 — pre-unlock (readout-clock) the calendar inside is [hidden], but the dock's
    padding + border still painted: a stray ~14px hairline "stick" above the version
    button. An empty dock paints nothing. */
@@ -125,13 +134,17 @@
   }
   .shell {
     grid-template-columns: minmax(0, 1fr);
-    /* FB-168 — the desk takes the height; the log is a one-line BAND (auto row) */
-    grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+    /* FB-168 — the desk takes the height; the log is a one-line BAND (auto row).
+       The clock dock gets its OWN row (was: stacked into the footer cell, where the
+       centred season pill painted straight over the wordmark and squeezed 神隠し into
+       a two-line wrap — P6, "no controls overlapping their own text"). */
+    grid-template-rows: auto minmax(0, 1fr) auto auto auto auto;
     grid-template-areas:
       'vitals'
       'work'
       'log'
       'nav'
+      'clock'
       'footer';
   }
   /* FB-168 — the demo's m-log-band: COLLAPSED = a single-line strip showing the
@@ -148,11 +161,27 @@
     display: none;
   }
   .shell > .log:not(.m-expanded) .log-lines {
-    max-height: 2.5em;
+    /* A FIXED two-line-box band. Two deliberate choices, both defect fixes:
+
+       `height`, not `max-height` — the band is the same size whether the log holds
+       one line or a thousand, so it never grows under the reader as entries arrive
+       (P5, stable frames).
+
+       And the base `.log-lines` top-fade mask is KEPT (this rule used to null it
+       out with `mask: none`). The band is a window onto a bottom-pinned scroll of
+       wrapped paragraphs, so its top edge lands mid-line by construction — there is
+       no height that avoids that. The fade is what makes that edge read as prose
+       scrolling up under the frame instead of a guillotined half-glyph row, which
+       is what the phone readers reported as "sliced mid-glyph" (P6). */
+    height: calc(2 * 1.45em); /* 1.45 = the .log-line line-height */
     overflow: hidden;
     padding: var(--space-1) var(--space-3);
-    -webkit-mask: none;
-    mask: none;
+    /* A deeper fade than the base 0.9em: it spans the WHOLE upper line box, so the
+       partial row the window cuts is dissolved rather than merely dimmed, and the
+       newest line below it reads crisp and alone — which is the single-line strip
+       FB-168 asked for, with history visibly dissolving above it. */
+    -webkit-mask: linear-gradient(to bottom, transparent 0, #000 1.45em);
+    mask: linear-gradient(to bottom, transparent 0, #000 1.45em);
   }
   .shell > .log.m-expanded {
     position: fixed;
@@ -176,14 +205,18 @@
     letter-spacing: 0.08em;
     color: var(--silver-dim);
   }
-  /* FB-172 — on the phone the rail is the bottom BAR: the calendar dock moves to
-     the footer area's centre instead (the version sits left, Settings right). */
+  /* FB-172 — on the phone the rail is the bottom BAR, so the calendar dock moves
+     down here. It takes its OWN band directly above the footer (NOT the footer's
+     cell — see the grid-areas note): at 390px the footer's wordmark + version +
+     Settings + the DEV corner already fill the row, so a dock centred on top of
+     them could only occlude. Its own band is the honest space. */
   .shell > .clock-dock {
-    grid-area: footer;
+    grid-area: clock;
     align-self: center;
     justify-self: center;
     border-right: 0;
-    padding: 0;
+    padding: var(--space-1) var(--space-3);
+    pointer-events: auto;
   }
   .clock-dock .vital.clock {
     flex-direction: row;
@@ -358,7 +391,16 @@
   background: linear-gradient(90deg, #8a7a4f, #c7b06a 60%, #e6d79a);
   box-shadow: 0 0 6px rgba(199, 176, 106, 0.3);
 }
-.bar.low > span {
+/* The LOW alarm (ADR-076) — one rule, one declaration, but it has to NAME each meter
+   to fire. `.bar.low > span` alone is (0,2,1) and every per-meter fill colour above
+   is (0,3,1): the alarm simply lost, so a 1/100 life bar painted calm silver while
+   its numeral screamed. Specificity, not source order, was the bug — no reordering
+   could have fixed it. Naming the meter in each arm (0,4,1) puts the exception above
+   the rules it must override. */
+.bar.low > span,
+.vital.health .bar.low > span,
+.vital.stamina .bar.low > span,
+.vital.belly .bar.low > span {
   background: linear-gradient(90deg, var(--shu-deep), var(--shu-hi));
   box-shadow: 0 0 6px rgba(222, 90, 58, 0.4);
 }

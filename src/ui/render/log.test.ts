@@ -529,3 +529,62 @@ describe('devRederivedEntry — keyed log prose re-derives under the active take
     expect(devRederivedEntry(unkeyed)).toBe(unkeyed); // identity — no key, no derive
   });
 });
+
+// ── FB-168 phone log band — folding the sheet must land the strip back on the NEWEST
+//    line. The band is a two-line window onto a bottom-pinned scroll; expanding it
+//    re-pinned, but folding left the reader's offset untouched, so the strip came back
+//    showing whatever ancient line sat at that offset (~1300px adrift, measured at
+//    390×844). Goes RED against the pre-fix build, which only re-pinned on expand. ──
+describe('FB-168 — the phone log band re-pins to the newest line when folded', () => {
+  let root: HTMLElement;
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    localStorage.clear();
+    // the phone band only arms under the ≤920px query
+    window.matchMedia = (q: string): MediaQueryList =>
+      ({
+        matches: true,
+        media: q,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        addListener: () => {},
+        removeListener: () => {},
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList;
+    root = document.createElement('div');
+    document.body.append(root);
+  });
+
+  it('lands on the foot after expand → fold, not on the stale offset', () => {
+    const render = mount(root, () => {}, noopHooks());
+    const base = createInitialState(1);
+    render({ ...base, flags: { ...base.flags, awake: true } }, null);
+
+    const section = root.querySelector<HTMLElement>('.log')!;
+    const lines = root.querySelector<HTMLElement>('.log-lines')!;
+    // jsdom lays nothing out, so give the scroller a real geometry — without this the
+    // assertion would pass against 0 === 0 and prove nothing.
+    Object.defineProperty(lines, 'scrollHeight', {
+      value: 5000,
+      configurable: true,
+    });
+    Object.defineProperty(lines, 'clientHeight', {
+      value: 42,
+      configurable: true,
+    });
+
+    section.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(section.classList.contains('m-expanded')).toBe(true);
+
+    // the reader scrolls back through history inside the open sheet...
+    lines.scrollTop = 1200;
+    // ...then folds it by its header.
+    root
+      .querySelector('.log-head h2')!
+      .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    expect(section.classList.contains('m-expanded')).toBe(false);
+    expect(lines.scrollTop).toBe(5000); // pinned to the foot, not the stale 1200
+  });
+});
