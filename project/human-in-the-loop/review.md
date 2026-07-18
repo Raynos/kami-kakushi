@@ -147,6 +147,69 @@ Travelling market"):
 > [`../brainstorms/2026-07-10-estate-upgrades-redesign.md`](../brainstorms/2026-07-10-estate-upgrades-redesign.md)
 > + [`../BACKLOG.md`](../BACKLOG.md).
 
+### HR-46 🔲 [R2+ · record] — Seal-book 朱印帳 record strip — pick a variant (ADR-075, ADR-201)
+
+The E3 stamp book at its ruled scale (ADR-201, your live grill,
+session 214): a COMPACT seal-strip section opening the Character tab —
+pressed seals on the run's ink thread, the NEXT rung named with its
+requirement count, the rest blank silhouettes (your "pokemon gym
+badges" steer, ≤20% of the screen, no full-screen modal). All three
+variants render the same `stripFromState` derivation over the new v16
+run record (dated presses + dated falls); the per-seal inspect popover
+(whose hand · season/day · falls on the way) is a shared primitive.
+The afterglow presentation (the book showing itself after a rank
+ceremony) is the plan's named NEXT step, not in this bundle.
+
+  - **Taste brief (pass 1):** P1 one home (proto stays DEV-ref) · P2
+    brush.ts + .frame/skill-head idioms, ONE popover primitive · P4
+    keyed repaint only (press/fall/req) · P5 fixed frame, popover
+    overlays · P6 complete at 390px (internal scroll) · P9 rides the
+    tab's reveal, never forces it early · P15-shape future slots
+    carry no identity (data-enforced) · P17 pressed/next/future
+    distinct · P19 seals breathe, captions chrome-tight · P20 ≤180px
+    drawing, no raw vw · TST2 seeded, never re-jitters · ADR-139 no
+    fiction prose freehanded (popover = registry facts only)
+  - [ ] **stamp-book-a — concertina strip** _(self-picked prod
+    default; ships)_ — the folded book as a right→left panorama:
+    seals on the thread, knots + thin lean ink, scrolls to the
+    frontier.
+    - **Scorecard (A):** 11✔ · 1✘ · 9—
+      - ✘ P10 [briefed] — NAMED CUT: no story line names the
+        seal-book yet — it appears with the tab, un-introduced. The
+        afterglow beat + an ADR-139 intro line are the plan's named
+        next step; until then this is a visible, revertable debt.
+      - ✔-borderline P5 — a press re-scrolls the strip to the
+        frontier (the new seal IS the frontier); idle never moves it.
+      - ✔-borderline P20 — card ≈190px ≈ 22% of an 860px viewport
+        (≤17% at 1080p); at the ruling's edge, named.
+  - [ ] **stamp-book-b — badge rail** _(built; DEV-only)_ — the pure
+    collection register: eight seals as a dense grid, no thread, no
+    book fiction; gym badges at their most literal.
+    - **Scorecard (B):** 11✔ · 1✘ · 9—
+      - ✘ P10 [briefed] — same named cut as A.
+      - note: the thread grammar (knots · lean ink) is absent by
+        APPROACH — falls surface only in the popover here.
+  - [ ] **stamp-book-c — open pages** _(built; DEV-only)_ — the book
+    as an object: a small open spread, page-edge stacks, ‹ › leafing;
+    depth by leafing instead of panorama.
+    - **Scorecard (C):** 11✔ · 1✘ · 9—
+      - ✘ P10 [briefed] — same named cut as A.
+      - ✔-borderline TST4 — only two slots visible at once; the
+        "n of 8 pressed" head carries the whole-run glance.
+      - note: C's 390px scaling is reasoned (360-unit viewBox ≈ 1:1),
+        not capture-proven — flag it if the phone pass disagrees.
+  - **Why A was picked (§5 rubric):** A 20 · B 20 · C 17 weighted;
+    tie A/B broken conservative on Intentionality — A keeps the
+    thread grammar + the folded-book object (the fiction this
+    surface exists to carry); B is the cleanest mobile read and the
+    one to pick if you want pure legibility; C is the strongest
+    object fiction at the cost of the whole-run glance.
+  - **How to look:** DEV → Scenarios → `rung-R4` (mid-run: dated
+    presses, one fall, a lean stretch) → Character tab. DEV → Review →
+    Variants → **stamp-book** to switch. Screenshots:
+    `project/audit/screens/2026-07-18-stamp-book-diverge/`.
+  - **Verdict:** _(awaiting your pick)_
+
 ## ▸ R3 · combat & the wider house (Combat/Inventory tabs reveal)
 
 ### HR-2B 🔲 [R3 · fills R7] — House-Influence panel (家威 grade) — pick a variant (ADR-075)
@@ -527,6 +590,34 @@ commissioned work wears the gold 新):
     toggle.
   - **In the DEV panel:** Review → Variants → **estate-house** <!--
     dev-tags: kept true by the review-link gate -->
+  - **Addendum (2026-07-18, session 212 — the craft pass; the review
+    ground got BETTER, not different · TST2):** variant A's three ✘s
+    are answered under the rulings you locked in the walk-through
+    (craft-only · tap-to-maximize · full Andon furniture · proto door
+    retired). What changed on A:
+    - **TST4 ✘ → fixed:** ONE closed convention — plan rooms shutter
+      with the same vertical boards + tie the legend and wall faces
+      teach (the 45° hatch is gone).
+    - **P2 ✘ → fixed:** the 凡例 is an Andon strip beside the drawing
+      (brush-drawn marks, app type; rides into the study view with
+      the Reopened line). The diegetic cartouche stays ON the sheet —
+      H1 needs the 母屋 lie told by the document itself.
+    - **P20 ✘ → fixed:** ⛶ study opens a full-viewport pan/zoom view
+      on the shared map-viewer engine; portrait opens on the
+      compound; pinch-worded hint on touch.
+    - **After blind pass (fresh readers): 5/5 M · 4/4 S** (baseline
+      4/5 · 3/4 — E3 "household smaller than its house" and E6
+      fold-up now land). Reports:
+      `project/audit/reports/2026-07-18-estate-craft-{baseline,after}.md`.
+    - **Re-scorecard (A): 20✔ · 1✘** — ✘ P2 [briefed, NAMED CUT]:
+      the study-chip CSS is a third copy of the small-chip idiom
+      (`t0v2-zoom` · `sheetmap-zoom`); consolidating touches both
+      map modules mid-review, deferred to your call.
+    - **Needs your call (found by the after pass, out of craft
+      scope):** the Reopened caption announces 工房/板倉 that the
+      sheet never DRAWS — draw them (geometry, was frozen by your
+      craft-only ruling) or caption only drawn rooms (info loss)?
+    - The pin was deliberately regenerated; B/C untouched.
   - **Verdict:** _(awaiting your read)_
 
 ### HR-32b 🔲 [R2+ · zones] — how a zone ANNOUNCES itself: VN-only, or VN + map-ink (ADR-184)

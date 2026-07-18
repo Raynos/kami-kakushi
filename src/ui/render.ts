@@ -709,6 +709,10 @@ export function mount(
   const characterBody = el('div', 'character-body');
   const characterTrain = el('div', 'character-train');
   const characterBestiary = el('div', 'character-bestiary');
+  // ADR-201 — the seal-book record strip: the Character tab's opening section
+  // (the run's record before the live vitals). Own container so it is a
+  // build-once/keyed-repaint surface (P4/FB-81).
+  const characterRecord = el('div', 'character-record');
   // Order matters for FEEL (spatial model, v0.3.1): the node-specific LABOUR (`actions`) is the HERO
   // — what you walked to this node to DO — so it leads "What you can do", with the rung ladder as
   // progress-context right below it and the global "spend-coin" panes (estate/market/storehouse)
@@ -735,6 +739,7 @@ export function mount(
     zoneBanner,
     actions,
     whosPane,
+    characterRecord,
     characterBody,
     skillsPane,
     characterTrain,
@@ -1150,6 +1155,7 @@ export function mount(
     isPaused: () => hooks.isPaused(),
   });
   const { renderSkills, renderCharacterSheet } = createCharacterView({
+    characterRecord,
     characterBody,
     characterTrain,
     characterBestiary,

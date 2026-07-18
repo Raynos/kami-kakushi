@@ -54,6 +54,9 @@ import {
   VOICE_SEAL,
 } from '../render';
 import { FLAVOR } from '../../core/content/flavor';
+import { stripFromState } from '../stamp-book/from-state';
+import { paintRail } from '../stamp-book/rail';
+import { paintPages } from '../stamp-book/pages';
 
 // ── the alternate (non-default) variant renderers — DEV-only, stripped from prod ──
 
@@ -82,7 +85,37 @@ export function renderSurfaceVariant(
     return renderEstateHouseVariant(variantId, container, state);
   if (surface === 'talk')
     return renderTalkVariant(variantId, container, state, dispatch);
+  if (surface === 'stamp-book')
+    return renderStampBookVariant(variantId, container, state);
   return false;
+}
+
+// ── the ADR-201 seal-book record strip (B / C) — DEV-only, stripped from prod.
+//    Default A (concertina) ships inline in render/character.ts; both alternates
+//    render the SAME stripFromState derivation (AC-6 shape — approaches differ,
+//    the claims cannot). ──
+function renderStampBookVariant(
+  variantId: string,
+  container: HTMLElement,
+  state: GameState,
+): boolean {
+  if (variantId !== 'stamp-book-b' && variantId !== 'stamp-book-c')
+    return false;
+  const data = stripFromState(state);
+  const card = el('div', 'weapon-card frame sbc-card');
+  const head = el('div', 'skill-head');
+  head.append(el('span', 'skill-name', 'Seal-book 朱印帳'));
+  const count = el('span', 'skill-lvl');
+  const pressed = data.slots.filter((s) => s.state === 'pressed').length;
+  count.textContent = `${pressed} of ${data.slots.length} pressed`;
+  head.append(count);
+  card.append(head);
+  const host = el('div', 'sbc-host');
+  card.append(host);
+  container.append(card);
+  if (variantId === 'stamp-book-b') paintRail(host, data);
+  else paintPages(host, data);
+  return true;
 }
 
 // ── the FB-415 talk surface (B / C) — DEV-only, stripped from prod. Default A (in-row

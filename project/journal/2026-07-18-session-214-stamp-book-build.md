@@ -37,13 +37,90 @@ BUILD: the plan went ACTIVE and the compact stamp-book build started.
   slots carry no identity). 7 tests in `from-state.test.ts`
   (registry-derived expectations; real engine drives, no pokes).
 
+## Taste Pass 1 — the constraint brief (before authoring any variant)
+
+Full 21-walk; n/a skipped silently (P3 voice, P7 A±, P8 crash, P11/P12
+typewriter+VN, P13 rewards, P16 log routing, P18 transcripts, P21
+app-info — no log/scene/text-flow surface here).
+
+- **P1** — the Record panel is the ONE player home for the run record;
+  the full-screen proto stays a DEV-reference door only, never a
+  second home. The header rung readout stays CURRENT-status; the strip
+  is the RECORD (history + future) — distinct capabilities, no dup.
+- **P2** — reuse brush.ts primitives + Andon tokens + the `.frame` /
+  `skill-head` section idiom; ONE shared popover primitive serves all
+  variants; no local forks of seal drawing between variants (shared
+  compact-draw helpers).
+- **P4** — never wholesale-reset on tick: prod path is build-once +
+  repaint ONLY when the derived key (rung, record length, defeats,
+  reqs-done, season) changes; idle ticks churn nothing.
+- **P5** — the strip is a fixed-height card; the popover OVERLAYS
+  (absolute), never reflows the strip; C's leafing repaints in place
+  at fixed size.
+- **P6** — complete at 390px: the strip keeps a min drawing width and
+  scrolls inside its own box (opens at the frontier end); no ghost
+  boxes (section absent until its tab shows).
+- **P9/TST3** — no new spawn machinery: the section rides the
+  Character tab's existing reveal; the afterglow ceremony beat is a
+  NAMED follow-up step (plan), not silently dropped.
+- **P15-shape** — no spoilers: future slots blank silhouettes, next
+  slot named only — enforced IN THE DATA (from-state gives variants
+  no future identity).
+- **P17** — pressed / next / future visually distinct at a glance; the
+  inspected seal highlights while its popover is open; dismiss =
+  outside-click/Esc.
+- **P19** — two registers inside one card: the seals + thread breathe
+  (ceremony), the captions/dates are tight tiny chrome type.
+- **P20** — bounded: card height ≤ ~180px (≤20% of a laptop viewport,
+  the ADR-201 ruling), no raw `vw`, internal scroll only.
+- **TST4** — the glance answers: how many pressed (n/8), what's next
+  (name), how close (reqs n/m) — all visible without interaction.
+- **V-TST2 (derived)** — seeded-deterministic jitter per seal id: the
+  strip NEVER re-jitters between repaints (same state ⇒ same pixels).
+- **V-ADR-139 (derived)** — this pass adds NO fiction-voiced prose:
+  popover text is mechanical labels + registry facts (title, kanji,
+  granter name, date); the book's remembered-notes lines are a named
+  ADR-139 unit deferred to the HR bundle.
+
+## The compact diverge landed (same session)
+
+- **Three working variants** over the ONE `stripFromState`
+  derivation: **A · concertina** (ships inline —
+  `render/character.ts` + `stamp-book/concertina.ts`), **B · badge
+  rail** + **C · open pages** (DEV-only, `variant-renderers.ts` +
+  `stamp-book/rail.ts`/`pages.ts`). Shared craft in
+  `stamp-book/compact-draw.ts` (seal press · await frame ·
+  silhouette · thread stretch · the ONE inspect popover).
+- **Home wired:** `characterRecord` pane opens the Character tab
+  (`render.ts` sliceDo), build-once + keyed repaint (P4);
+  `characterHasContent` deliberately untouched — the record never
+  forces the tab open early.
+- **Registry + queue:** `dev-surfaces.ts` row (`stamp-book`, rung 2,
+  HR-46) + the HR-46 bundle in review.md (brief + per-variant
+  scorecards + why-A). Mid-build the review-link gate REDed the
+  tree on the not-yet-filed HR-46 — w8:p1 + w3:p3 pinged; filed
+  immediately, gate re-verified green, both notified (herdr
+  protocol: get → send → Enter → read).
+- **Verification:** golden pin per variant
+  (`compact-golden.test.ts` + `.hash.json`, UPDATE_STAMP_GOLDEN
+  regen); headless captures (a/b/c at rung-R4, R7, 390px mobile,
+  popover) in `project/audit/screens/2026-07-18-stamp-book-diverge/`
+  (git-ignored, local); `verify-dev-strip.sh` green (T0 mode:
+  server-coupled markers absent; client DEV tools ship default-off
+  by design — the generic diverge step-9 "0 hits" expectation is
+  superseded by this repo's T0 contract).
+- **Pass 2 scorecards:** A/B/C each 11✔ · 1✘ · 9— — the one ✘ is
+  shared and NAMED (P10: no story line names the book yet; the
+  afterglow beat + an ADR-139 intro line are the plan's next step).
+  P17's inspected-highlight was a knew-and-missed caught in
+  scoring and FIXED before filing (markEl + `.sbc-inspected`).
+  §5 rubric: A 20 · B 20 · C 17; tie broken conservative on
+  Intentionality → A stays the default.
+
 ## Next intended steps
 
-1. Step 1 — E3.1 spec in `src/ui/stamp-book/README.md`, rewritten to
-   the compact ruling (fiction + stamp grammar + blind rubric).
-2. Step 2 — the state feed: minimal additive rung-date record in
-   core (promotions are currently undated), schema bump + migration
-   + fixtures regen in ONE commit.
-3. Step 4 — the compact diverge (2–3 working variants, DEV Review
-   toggle, dev-surfaces row) + the HR bundle.
-4. Golden pin per variant, derivation test, blind pass.
+1. The afterglow beat (ADR-201 ruling 1's ceremony half) + the
+   ADR-139 story unit naming the book — the plan's remaining step.
+2. Blind pass: fresh readers grade the strip against the README
+   rubric; report to `project/audit/reports/`.
+3. HR-46 awaits the human's variant pick; alternates stay DEV-only.

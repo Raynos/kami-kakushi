@@ -1,0 +1,125 @@
+/* The seal-book record strip (ADR-201, E3 compact) — the Character tab's
+   opening section. Compact by ruling: the card stays under ~180px of drawing,
+   scrolls internally, and the inspect popover overlays without reflow (P5).
+   Andon tokens only; the drawing itself is SVG via map-sheets/brush. */
+
+.sbc-card {
+  padding-bottom: 0.45rem;
+}
+.sbc-host,
+.sbc-devpane {
+  position: relative; /* the popover's anchor frame */
+}
+
+/* variant A — the concertina strip: natural drawing width, internal
+   horizontal scroll (P6/P20); opens at the frontier (JS sets scrollLeft). */
+.sbc-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  border: 1px solid var(--silver-faint);
+  background: var(--void);
+}
+.sbc-scroll svg {
+  display: block;
+}
+.sbc-hot {
+  cursor: pointer;
+}
+/* P17 — the inspected slot reads inspected while its popover is open. */
+rect.sbc-inspected {
+  fill: var(--silver-faint);
+}
+.sbc-cell.sbc-inspected {
+  background: var(--steel-hi);
+}
+
+/* variant B — the badge rail: dense grid, right→left reading order,
+   wraps to two rows at narrow widths. */
+.sbc-rail {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+  direction: rtl;
+  gap: 0.3rem;
+  border: 1px solid var(--silver-faint);
+  background: var(--void);
+  padding: 0.35rem;
+}
+.sbc-cell {
+  direction: ltr;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.2rem 0.1rem;
+}
+.sbc-cell-seal {
+  width: 52px;
+  height: 52px;
+}
+.sbc-cell-name {
+  font-size: var(--fs-micro);
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.15;
+  min-height: 2em;
+}
+.sbc-cell-future .sbc-cell-name {
+  color: var(--ink-faint);
+}
+.sbc-cell-sub {
+  font-size: var(--fs-micro);
+  color: var(--ink-soft);
+}
+
+/* variant C — the open pages: a fixed small frame, leafing buttons top-right. */
+.sbc-pages {
+  position: relative;
+  border: 1px solid var(--silver-faint);
+  background: var(--void);
+}
+.sbc-pages-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 176px;
+}
+.sbc-leaf {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.35rem;
+  display: flex;
+  gap: 0.2rem;
+}
+.sbc-leaf-btn {
+  min-width: 1.6rem;
+}
+
+/* the ONE inspect popover (ruling 4) — a small overlay card, never a reflow. */
+.sbc-pop {
+  position: absolute;
+  z-index: 30;
+  background: var(--steel-2);
+  padding: 0.45rem 0.55rem;
+  font-size: var(--fs-micro);
+}
+.sbc-pop-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.25rem;
+}
+.sbc-pop-kanji {
+  color: var(--shu);
+  font-family: var(--font-head);
+  font-size: 1.05rem;
+}
+.sbc-pop-title {
+  color: var(--ink);
+}
+.sbc-pop-row {
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+.sbc-pop-faint {
+  color: var(--ink-faint);
+}

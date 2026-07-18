@@ -25,11 +25,15 @@ import {
   toggle,
 } from '../reconcile';
 import { renderBestiary, buildBestiaryCard, patchBestiaryCard } from './combat';
+import { stripFromState } from '../stamp-book/from-state';
+import { stripKey } from '../stamp-book/compact-draw';
+import { paintConcertina } from '../stamp-book/concertina';
 import type { DevApi } from '../dev';
 
 type Dispatch = (intent: Intent) => void;
 
 export function createCharacterView(ctx: {
+  characterRecord: HTMLElement;
   characterBody: HTMLElement;
   characterTrain: HTMLElement;
   characterBestiary: HTMLElement;
@@ -42,6 +46,7 @@ export function createCharacterView(ctx: {
   renderCharacterSheet(state: GameState): void;
 } {
   const {
+    characterRecord,
     characterBody,
     characterTrain,
     characterBestiary,
@@ -49,6 +54,44 @@ export function createCharacterView(ctx: {
     dispatch,
     dev,
   } = ctx;
+
+  // ── the SEAL-BOOK record strip (ADR-201, E3 compact) — the run's pressed
+  //    seals + the next slot + the mystery future, VARIANT A (concertina)
+  //    inline as the shipped default (ADR-075; B/C in dev/variant-renderers).
+  //    Build-once + KEYED repaint (P4): only a press / a fall / a completed
+  //    requirement repaints the drawing — idle ticks churn nothing. Rides the
+  //    Character tab's own reveal; it never forces the tab open early
+  //    (characterHasContent is deliberately untouched). ──
+  let recordRefs: {
+    count: HTMLElement;
+    stripHost: HTMLElement;
+    key: string;
+  } | null = null;
+
+  function buildRecordCard(host: HTMLElement): {
+    count: HTMLElement;
+    stripHost: HTMLElement;
+  } {
+    const card = el('div', 'weapon-card frame sbc-card');
+    const head = el('div', 'skill-head');
+    head.append(el('span', 'skill-name', 'Seal-book 朱印帳'));
+    const count = el('span', 'skill-lvl');
+    head.append(count);
+    card.append(head);
+    const stripHost = el('div', 'sbc-host');
+    card.append(stripHost);
+    host.append(card);
+    return { count, stripHost };
+  }
+
+  function paintRecord(
+    refs: { count: HTMLElement; stripHost: HTMLElement },
+    data: ReturnType<typeof stripFromState>,
+  ): void {
+    const pressed = data.slots.filter((s) => s.state === 'pressed').length;
+    setText(refs.count, `${pressed} of ${data.slots.length} pressed`);
+    paintConcertina(refs.stripHost, data);
+  }
 
   // characterRefs — the Character tab's SPLIT-OUT halves of combat (training attrs + bestiary),
   // each a build-once/patch surface (FB-81). Reveal at R3 (`readout-combat-level` / `panel-bestiary`).
@@ -131,6 +174,35 @@ export function createCharacterView(ctx: {
   function renderCharacterSheet(state: GameState): void {
     const onCharacter = ctx.activeTab() === 'character';
     const devMode = __DEV_TOOLS__ && dev;
+
+    // ── the SEAL-BOOK record (ADR-201) — first section of the tab: who you
+    //    have been, at a glance, before the live vitals below. ──
+    toggle(characterRecord, onCharacter);
+    if (devMode) {
+      // DEV wholesale path (mirrors the bestiary branch): rebuild fresh so
+      // the variant toggle takes a clean container.
+      recordRefs = null;
+      characterRecord.textContent = '';
+      if (onCharacter) {
+        const pane = el('div', 'sbc-devpane');
+        characterRecord.append(pane);
+        if (!dev.renderVariant('stamp-book', pane, state, dispatch)) {
+          const refs = buildRecordCard(pane);
+          paintRecord(refs, stripFromState(state));
+        }
+      }
+    } else if (onCharacter) {
+      if (!recordRefs) {
+        const built = buildRecordCard(characterRecord);
+        recordRefs = { ...built, key: '' };
+      }
+      const data = stripFromState(state);
+      const key = stripKey(data);
+      if (key !== recordRefs.key) {
+        recordRefs.key = key;
+        paintRecord(recordRefs, data);
+      }
+    }
 
     // ── BODY (R2, with the Character tab itself) — FB-343/FB-369 (human-ruled 2026-07-11):
     //    the food verbs' ONE home, beside the Body 体/Belly 腹 readouts they feed (TST3/TST4;

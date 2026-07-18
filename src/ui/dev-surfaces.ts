@@ -84,6 +84,36 @@ export const SURFACES: SurfaceDef[] = [
     ],
   },
   {
+    // ADR-201 (E3 compact) — the seal-book record strip on the Character tab.
+    // A (concertina) ships inline in render/character.ts; B/C live in
+    // variant-renderers, DEV-only. All three render the same stripFromState
+    // derivation; the per-seal inspect popover is a shared primitive.
+    id: 'stamp-book',
+    hr: 'HR-46',
+    rung: 2,
+    label: 'Seal-book 朱印帳 (record strip)',
+    variants: [
+      {
+        id: 'stamp-book-a',
+        label: 'A · concertina strip',
+        blurb:
+          'shipped default — the folded book as a right→left panorama: pressed seals on the thread, the next slot named, the rest mystery; scrolls to the frontier',
+      },
+      {
+        id: 'stamp-book-b',
+        label: 'B · badge rail',
+        blurb:
+          'the pure collection register — eight seals as a dense grid, no thread, no book fiction; dates in tiny type (gym badges at their most literal)',
+      },
+      {
+        id: 'stamp-book-c',
+        label: 'C · open pages',
+        blurb:
+          'the book as an object — a small open spread (older press right, frontier left), page-edge stacks, ‹ › leafing; depth by leafing instead of panorama',
+      },
+    ],
+  },
+  {
     id: 'influence',
     hr: 'HR-2B',
     rung: 3,
