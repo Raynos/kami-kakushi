@@ -1,7 +1,9 @@
 # Estate sheet craft pass — past "needs more work" (#5)
 
-**Status:** ▶️ IN-PROGRESS (2026-07-18, session 212 — rulings locked
-in the walk-through below; building)
+**Status:** ✅ DONE (2026-07-18, session 212 — all five steps landed;
+after blind pass 5/5 M · 4/4 S vs baseline 4/5 · 3/4; HR-30 addendum
+filed, HR-30 itself stays OPEN for the human's variant pick.
+Follow-on: `fable-2026-07-18-phone-shell-defects.md`)
 **Confidence:** ( 20% Opus, 80% Fable ) — ink craft + taste judgment;
 only the mobile-layout mechanics are routine.
 **Template:** build

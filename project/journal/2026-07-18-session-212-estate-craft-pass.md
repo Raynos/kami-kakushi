@@ -113,12 +113,26 @@ P21 → 7 with P7 scored ✔-borderline below).
   TST3 (cartouche + 凡例 stay diegetic), TST4 (one closed
   convention, legend-decoded).
 
+## Close-out (all five steps landed)
+
+- **Step 4** — after blind pass with FRESH readers: **5/5 M · 4/4 S**
+  (baseline 4/5 · 3/4; E3 + E6 now land). Post-read nits fixed in
+  the craft commit (portrait opens on the compound; pinch hint;
+  Reopened line + legend ride the study view; plate clears DEV).
+  Report: `project/audit/reports/2026-07-18-estate-craft-after.md`.
+- **Step 5** — HR-30 dated addendum filed (rulings, per-✘ fixes,
+  re-scorecard 20✔ · 1✘ named cut, the 工房/板倉 caption/drawing
+  mismatch as an open human call). Pin regen rode the craft commit.
+- Discovered out-of-scope work homed per the queue law:
+  `docs/plans/fable-2026-07-18-phone-shell-defects.md` (three 390px
+  shell defects) — queued for the human, NOT started this session
+  (one-session-per-plan).
+- Commits: e86c08e2 (rulings) · 631a54fe (register) · d79588c0
+  (dev-server law v2 + guard fix) · f41f6e9e (baseline) · f675f81e
+  (craft trio) · c3d18bd1 (proto door) · + this checkpoint.
+
 ## Next intended steps
 
-1. Step 1 — register truth fix (graphics-concepts row 5).
-2. Step 2 — blind-pass baseline on TODAY'S from-state sheet
-   (`?fixture=rung-R6` / `rung-R7` / `wealthy-idler`).
-3. Step 3a–d — the four fixes, each independently committable behind
-   the golden pin, taste-scorecard Pass 1 first.
-4. Step 4 — re-verify (blind pass + re-scorecard variant A).
-5. Step 5 — HR-30 dated addendum + deliberate pin regen.
+1. The phone-shell-defects plan (fresh session).
+2. HR-30 stays with the human — variant pick + the two addendum
+   calls (chip-CSS consolidation · the works-not-drawn caption).

@@ -38,9 +38,12 @@
   — #8+10 resumed ("yeah good, continue later"): spec → state feed →
   home HD → the ADR-075 look diverge; the Plan-B gate is satisfied.
 - [ ]
-  [`docs/plans/fable-2026-07-18-estate-sheet-craft-pass.md`](../docs/plans/fable-2026-07-18-estate-sheet-craft-pass.md)
-  — #5 past "needs more work": the three HR-30 scorecard ✘s (mobile ·
-  shutters · idiom), additive under the open review, pin + blind-pass.
+  [`docs/plans/fable-2026-07-18-phone-shell-defects.md`](../docs/plans/fable-2026-07-18-phone-shell-defects.md)
+  — three 390px shell defects the estate blind readers caught in
+  passing (log clips the Standing panel · season pill occludes the
+  footer · 1/100 life bar reads full); small fix plan, no design
+  forks. *(The estate craft-pass plan left the queue — you walked
+  its rulings live this morning; its result is the HR-30 addendum.)*
 - [ ]
   [`docs/plans/fable-2026-07-18-bestiary-plates.md`](../docs/plans/fable-2026-07-18-bestiary-plates.md)
   — #4 pulled forward: code-drawn field-guide plates for the HR-5

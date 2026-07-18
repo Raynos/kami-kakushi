@@ -67,11 +67,10 @@ Settled design graduates to [`../living/`](../living); the chronological "how it
 got here" log is [`../../project/journal/`](../../project/journal).
 
 <!-- gen:begin active-plans (pnpm run checkpoint — do not edit inside) -->
-**6 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
+**5 active plans** (generated — done / superseded plans graduate to [`../../project/archive/`](../../project/archive)):
 
 - [`fable-2026-07-17-talk-system-redesign.md`](fable-2026-07-17-talk-system-redesign.md) — IN-PROGRESS
 - [`fable-2026-07-18-bestiary-plates.md`](fable-2026-07-18-bestiary-plates.md) — PROPOSED
-- [`fable-2026-07-18-estate-sheet-craft-pass.md`](fable-2026-07-18-estate-sheet-craft-pass.md) — IN-PROGRESS
 - [`fable-2026-07-18-phone-shell-defects.md`](fable-2026-07-18-phone-shell-defects.md) — PROPOSED
 - [`fable-2026-07-18-pictogram-ab.md`](fable-2026-07-18-pictogram-ab.md) — PROPOSED
 - [`fable-2026-07-18-stamp-book-resume.md`](fable-2026-07-18-stamp-book-resume.md) — IN-PROGRESS
