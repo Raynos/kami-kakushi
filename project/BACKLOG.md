@@ -224,3 +224,14 @@ Deliberately not built; each says why. Never nagged.
   (the human counts a skill-less grilling as a FAIL); the fix is one
   nudge line each at the relevant AGENTS.md bullet. Evidence:
   [`2026-07-14-skills-audit.md` §Rulings](audit/reports/2026-07-14-skills-audit.md).
+
+- **`md-wrap` merges an HTML comment into following prose
+  (session-218, 2026-07-18).** `pnpm run md:wrap` on
+  `narrative/flavor.md` reflowed the ENTIRE file (not just the new
+  lines) and joined a `-->` comment close with the paragraph after it
+  (`flavor.md:195`), which REDs the narrative parse ("indented
+  continuation with nothing open above it"). Worked around by revert +
+  hand-wrapping; the md-prose-width hook still RECOMMENDS the tool.
+  Fix when touched: make `md-wrap.ts` treat comment-close as a hard
+  paragraph boundary and/or reflow only over-width lines. Evidence:
+  journal s218 §1 Landmines.

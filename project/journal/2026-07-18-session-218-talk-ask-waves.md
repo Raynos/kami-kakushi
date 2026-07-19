@@ -114,15 +114,23 @@ HR-45 gains the on-sign-off note (pick → prune variants + run
 the queue). Story-bible D5 presence-matrix ripple: not touched —
 the waves authored no presence changes.
 
+## 4 · Exit checkpoint (prepare-to-exit)
+
+Tree clean, nothing unpushed (co-agents carried the close commit out;
+`origin/main` green). Leftover-work sweep: the md-wrap comment-merge
+defect graduated from this journal's Landmines to `BACKLOG.md` (the
+journal is a record, not a queue); every other deferral is homed —
+HR-45 (surface pick → prune + /prd-ripple), HR-49/50/51 (take picks →
+bundle pruning), plan archived. No background work left running.
+
 <!-- append further entries below, in order -->
 
 ---
 
 ## Next intended steps (current)
 
-1. Push `main` (`pnpm run push` — full-suite lane) once the co-agent
-   window allows.
-2. Session done after the checkpoint — one plan per session.
+1. Nothing — the plan is DONE, pushed, and archived; the session ends
+   here (one plan per session). Next work starts from `docs/plans/`.
 
 ## Landmines (current)
 
@@ -131,5 +139,5 @@ the waves authored no presence changes.
   numbers race (s216/s217 taken mid-session).
 - HR numbers race with co-agents — claim them by editing review.md
   LATE, immediately before the commit that files them.
-- `md:wrap` reflows whole files — never run it on flavor.md again;
-  hand-wrap new sections.
+- `md:wrap` merges a comment-close into prose when reflowing —
+  hand-wrap narrative sources; the fix is queued in `BACKLOG.md`.
