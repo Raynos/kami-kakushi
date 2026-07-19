@@ -90,3 +90,22 @@ Two things surfaced while grounding it:
 
 That second point is the durable one, and it generalises past this bug:
 **every** control the ratchet "covers" carries the same blind spot.
+
+## Checkpoint — the leftover-work sweep
+
+Three things this session produced but did not build, each given a home
+a human actually reads (a journal line is a record, not a queue):
+
+- **The unreachable-verb audit** →
+  [`docs/plans/opus-2026-07-18-unreachable-verb-audit.md`](../../docs/plans/opus-2026-07-18-unreachable-verb-audit.md)
+  (reading queue).
+- **Nothing gates the LAYOUT half of the s219 fixes.** The two
+  behavioural fixes got unit tests; the footer collision and the log
+  band were proven by measurement + capture only, so the footer could
+  silently re-collide. The s219 plan made an e2e assertion conditional
+  and it did not fit then — folded into the audit plan's step 3, where
+  the reachability spec is already being written.
+- **The `.bar` track's ring** → [`BACKLOG.md`](../BACKLOG.md), parked
+  with its re-open condition (a future meter with no numeral beside it).
+  Deliberately not fixed: shared token, wide blast radius, and the read
+  is unambiguous now.

@@ -40,16 +40,16 @@ specced, not built** ([`prd.md`](../../docs/living/prd.md)).
   re-renders EVERYTHING (logged lines incl.); takes gen-compile to
   flat maps behind a HARD prose-only gate; ten setters → ONE overlay.
 - **✅ SEAL-BOOK STRIP (ADR-201, s214):** the run record as a compact
-  Character-tab strip (v16 record; 3 variants, blind-passed) + the
-  afterglow beat + the R1 intro line. Picks: **HR-46 · HR-47**.
+  Character-tab strip + afterglow + R1 line. **HR-46 · HR-47**.
+- **✅ SHELL DEFECTS — and a DEAD VERB (s219):** three 390px defects
+  fixed; **`End the 季` was unclickable at EVERY viewport** — the season
+  wheel was never reachable. Audit queued (jsdom can't hit-test).
 - **✅ PICTOGRAM A/B (#15, s216):** 11 marks both ways, blind-passed:
   **picto 10/11 PASS · emoji 8/11 FAIL**. Verdict: **HR-48**.
-- **⏸️ BEAST REGISTER (#4, s217):** 獣譜 plates built, blind-passed ×2
-  (8/9 naming, facture short) → kill switch: **PARKED as DEV ref**;
-  prose picked + held. **HR-5 addendum** = verdict + un-park options.
-- **✅ TALK SYSTEM COMPLETE (FB-415/ADR-200, s210+s218):** asks at
-  every person; the waves landed — 18 labels + answers at pick voice,
-  3 NEW discovery-hint asks. Picks: **HR-45 · HR-49/50/51**.
+- **⏸️ BEAST REGISTER (#4, s217):** 獣譜 plates blind-passed ×2 (8/9,
+  facture short) → **PARKED as DEV ref**; **HR-5 addendum** = verdict.
+- **✅ TALK SYSTEM COMPLETE (FB-415/ADR-200, s210+s218):** asks at every
+  person; 18 labels + answers, 3 discovery hints. **HR-45 · HR-49/50/51**.
 - **✅ BODY SPLIT (ADR-178) · ESTATE (ADR-177):** works chain
   (**HR-27**) · diverges (**HR-29/HR-30**). **✅ FOUNDATIONS:** bible
   (ADR-150) · PRD freeze cancelled (ADR-168) · UI-v2/taste lock
@@ -109,12 +109,12 @@ FB-257. `dev`·`build`·`/ship`.
    server on localhost:5264 (never spawn/kill your own). **`?dev=no`**
    for the true player layout; the page NEVER auto-reloads (FB-257).
 3. Drive **headless-only** (hook-enforced): `window.__qa` / `node src/scripts/qa-shots.mjs`.
-4. **Next (autonomous):** the live `docs/plans/` queue (pictogram
-   follow-ups; bestiary plates PARKED → HR-5); the talk plan is DONE
-   + archived.
+4. **Next (autonomous):** the live `docs/plans/` queue — the s219
+   **unreachable-verb audit** (were R2+ bands signed against a season
+   turn no player could make?); pictogram follow-ups; bestiary PARKED.
 5. **Shared tree (ADR-196 locks live):** pathspec commits only; push
    with **`pnpm run push`** (bare `git push` is blocked; lane held →
    commits stay local by design). Render-split LANDED (session 203):
    surface work goes in `src/ui/render|dev/`, not the shells.
 
-<!-- rewrite-debt: 17/20 · last full rewrite: 2026-07-13 -->
+<!-- rewrite-debt: 18/20 · last full rewrite: 2026-07-13 -->

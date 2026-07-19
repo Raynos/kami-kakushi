@@ -50,37 +50,37 @@
   `decisions.md` was `c1ccf9b2`). **Not done:**
   `docs/living/decisions.md` (**1838** genuinely over-wide lines) and
   the PRD sections under `docs/living/prd/` (**~4300** between them);
-  smaller: `fun-factor.md` 269 · `ui-design.md` 205 · `CHANGELOG.md`
-  203 · `roadmap.md` 200 · `AGENTS.md` 343 · `repo-map.md` 122. The
-  tool is committed — `python3 src/scripts/reflow-md.py <file.md>` —
-  and it is content-preserving (verify per its header: token stream
-  identical with `>` prefixes stripped, NUL-free, width in CHARACTERS
-  not bytes). *Parked, not planned:* the human was asked and had not
-  called it — it is a **large diff across canon** and wants a **quiet
-  tree** (a mass rewrite over a co-agent's open files rewrites their
-  work under them, exactly like the `printWidth` 100→80 flip already
-  waiting in `todo-human.md`). Pull the two forward together.
+  smaller: `fun-factor.md` 269 · `ui-design.md` 205 · `CHANGELOG.md` 203
+  · `roadmap.md` 200 · `AGENTS.md` 343 · `repo-map.md` 122. The tool is
+  committed — `python3 src/scripts/reflow-md.py <file.md>` — and it is
+  content-preserving (verify per its header: token stream identical with
+  `>` prefixes stripped, NUL-free, width in CHARACTERS not bytes).
+  *Parked, not planned:* the human was asked and had not called it — it
+  is a **large diff across canon** and wants a **quiet tree** (a mass
+  rewrite over a co-agent's open files rewrites their work under them,
+  exactly like the `printWidth` 100→80 flip already waiting in
+  `todo-human.md`). Pull the two forward together.
 
 ## Engineering — parked (session 192, 2026-07-13)
 
 Deliberately not built; each says why. Never nagged.
 
 - [ ] **Audio returns with REAL samples, never synth (ADR-193,
-  2026-07-13).** T0 ships silent by the human's own call (the synth
-  cues read comedic; `sfx.ts` stays parked in-tree as the attempt
-  record). When audio work resumes it is a NEW plan — a small curated
+  2026-07-13).** T0 ships silent by the human's own call (the synth cues
+  read comedic; `sfx.ts` stays parked in-tree as the attempt record).
+  When audio work resumes it is a NEW plan — a small curated
   original/CC0 sample set (ambient beds + UI/event cues, the ADR-068
   palette intent as its brief), human-gated on taste. Parked until the
   human wants sound.
 
 - [ ] **The storehouse rice DEPOSIT row is still vestigial (H3 sweep,
-  session 198).** ADR-163 made rice kura-only, so carried rice is
-  always 0 and "Store all rice" renders permanently disabled; the
-  session-198 H3 fix retired only the WITHDRAW row (the ruled scope).
-  Retiring the deposit row (+ its `deposit` rice branch and the
-  ADR-145 stores-deed hook audit) is a one-sitting render cleanup —
-  parked because the disabled button is harmless and the barn-filling
-  model may yet give it a real use.
+  session 198).** ADR-163 made rice kura-only, so carried rice is always
+  0 and "Store all rice" renders permanently disabled; the session-198
+  H3 fix retired only the WITHDRAW row (the ruled scope). Retiring the
+  deposit row (+ its `deposit` rice branch and the ADR-145 stores-deed
+  hook audit) is a one-sitting render cleanup — parked because the
+  disabled button is harmless and the barn-filling model may yet give it
+  a real use.
 
 - [ ] **No gate proves "an old save still opens."** Session 192 bumped
   the save schema (v11 → v12, log lines re-addressed by NAME) and the
@@ -94,14 +94,14 @@ Deliberately not built; each says why. Never nagged.
   time a schema bump breaks a save silently — that is the day it pays
   for itself. Recipe is in the session-192 journal.
 
-- [x] ~~**A new story-takes bundle renumbers every SV tag after
-  it.**~~ **DONE same day (ADR-192, session 196)** — it bit a second
-  time within hours (the hd41 prune shifted three more tags, and the
-  human went looking for "SV18" and concluded the bundle was gone), so
-  the human ruled the whole positional scheme out. Tags are dead: the
-  reference is the surface/bundle **id** (`market`, `sleep-announce`),
-  which never renumbers; `review-link` now checks ids both ways
-  (including citations of pruned ids).
+- [x] ~~**A new story-takes bundle renumbers every SV tag after it.**~~
+  **DONE same day (ADR-192, session 196)** — it bit a second time within
+  hours (the hd41 prune shifted three more tags, and the human went
+  looking for "SV18" and concluded the bundle was gone), so the human
+  ruled the whole positional scheme out. Tags are dead: the reference is
+  the surface/bundle **id** (`market`, `sleep-announce`), which never
+  renumbers; `review-link` now checks ids both ways (including citations
+  of pruned ids).
 
 - [ ] **The scene path's stat-bonus line still logs on `system`.**
   `scenes.ts` emits `scene.<id>.opt.<id>.bonus` on the **`system`**
@@ -116,12 +116,12 @@ Deliberately not built; each says why. Never nagged.
 
 
 - [ ] **T0 sheet R9 secondary reads weakly in blind passes (s208,
-  2026-07-17).** 2/3 blind readers miss the orchard/woodlot rows
-  being planted as courtyards aligned to the ruin, and the bamboo
-  grove pressuring the vegetable rows (map-spec §5 R9, a SECONDARY
-  line — the pass still scored PASS, 7/7 mandatory). Pre-existing,
-  untouched by the s208 caption fixes. Pull forward only with other
-  T0 sheet craft work (map-sheets skill + pin regen); evidence:
+  2026-07-17).** 2/3 blind readers miss the orchard/woodlot rows being
+  planted as courtyards aligned to the ruin, and the bamboo grove
+  pressuring the vegetable rows (map-spec §5 R9, a SECONDARY line — the
+  pass still scored PASS, 7/7 mandatory). Pre-existing, untouched by the
+  s208 caption fixes. Pull forward only with other T0 sheet craft work
+  (map-sheets skill + pin regen); evidence:
   `project/audit/reports/2026-07-17-t0-map-blind-pass.md`.
 
 ## Graphics concepts — parked shelves live in their register
@@ -141,13 +141,13 @@ Deliberately not built; each says why. Never nagged.
 
 ## T2
 
-- [ ] **Relationship/favor lever for talk (ruled OUT of T0, s208
-  grill D1).** The FB-415 grill considered per-person trust/favor
-  gating prices/quests/beats and the human ruled it out of the talk
-  redesign — info + story beats only. Revisit as a T1+ system if the
-  shipped ask system leaves people feeling stateless; the grill
-  capture (`project/brainstorms/2026-07-17-talk-system-redesign.md`,
-  Q1) holds the reasoning.
+- [ ] **Relationship/favor lever for talk (ruled OUT of T0, s208 grill
+  D1).** The FB-415 grill considered per-person trust/favor gating
+  prices/quests/beats and the human ruled it out of the talk redesign —
+  info + story beats only. Revisit as a T1+ system if the shipped ask
+  system leaves people feeling stateless; the grill capture
+  (`project/brainstorms/2026-07-17-talk-system-redesign.md`, Q1) holds
+  the reasoning.
 
 - [ ] **Inn rumours board as a discovery-rumor source** — when the
   village inn + rumours board reveal (PRD §2.13, T2), the board becomes
@@ -163,9 +163,9 @@ Deliberately not built; each says why. Never nagged.
   escape/ledger matrix for `guard-git-add-all.sh` ran green at build
   time but live in git-ignored `tmp/` (`guard-proof.sh`,
   `escape-proof.py`); a regex edit to either hook currently has no
-  regression net. Fix = port them to a vitest spec that shells the
-  hooks with fixture stdin (fast, COMMIT lane). Parked because the
-  hooks just shipped verified and change rarely.
+  regression net. Fix = port them to a vitest spec that shells the hooks
+  with fixture stdin (fast, COMMIT lane). Parked because the hooks just
+  shipped verified and change rarely.
 
 - **index.lock retry wrapper** (ruled OUT of ADR-196 v1 — the locks
   plan's Non-goals, session-199). 133 transient index.lock mentions
@@ -173,65 +173,76 @@ Deliberately not built; each says why. Never nagged.
   Revisit only if the ledger/journals show it still biting.
 
 - **The repair bind's only exit is the free season verb (found
-  session-200, e2e fallout).** Banked wood is deliberately
-  unreachable (spend-from-store) while `repair` consumes CARRIED
-  wood only — with a node's site pool drained, a Battered-blade
-  player's sole recovery is `advance_season` (free today). Harmless
-  while the season verb stays free; **re-open this if seasons ever
-  gain a cost or a gate** (then: either repair spends banked wood,
-  or a wood-withdraw row returns). Evidence: session-200 journal
-  ("the sickroom land's e2e fallout").
+  session-200, e2e fallout).** Banked wood is deliberately unreachable
+  (spend-from-store) while `repair` consumes CARRIED wood only — with a
+  node's site pool drained, a Battered-blade player's sole recovery is
+  `advance_season` (free today). Harmless while the season verb stays
+  free; **re-open this if seasons ever gain a cost or a gate** (then:
+  either repair spends banked wood, or a wood-withdraw row returns).
+  Evidence: session-200 journal ("the sickroom land's e2e fallout").
 
 - **Render-split heat re-check (session 203, 2026-07-13).** Around
   2026-07-18 re-run `tmp/hotfiles.py` (or recreate it from the
-  contention-analysis brainstorm) to confirm the commit heat
-  actually dispersed off the old god-files onto the
-  `src/ui/render|dev/` modules — the split's whole point. While
-  there: `render/variant-renderers.ts` sits at 1,199 lines (the
-  wc-l cap); if a new ADR-075 diverge grows it, split it
-  per-surface then.
+  contention-analysis brainstorm) to confirm the commit heat actually
+  dispersed off the old god-files onto the `src/ui/render|dev/` modules
+  — the split's whole point. While there: `render/variant-renderers.ts`
+  sits at 1,199 lines (the wc-l cap); if a new ADR-075 diverge grows it,
+  split it per-surface then.
 
-- **A worktree agent can't playtest through `:5264` (found
-  session-206, ADR-199).** The shared dev server runs from the MAIN
-  tree root, so a job isolated in a worktree cannot reach its own
-  changes in the live playtest — a PH6 collision. Today's answer is
-  documented, not tooled: playtest AFTER landing on `main`, or hand-run
-  a private vite on another port (`KAMI_ALLOW_MULTI_DEV=1`), never
-  killing the shared server. **Re-open if worktree opt-in actually gets
-  used often** — then a `pnpm run dev:worktree` (auto-picks a free port,
-  guard-aware) is the obvious fix. Parked because worktrees are opt-in
-  and rare by design; the ceremony isn't worth it for a path nobody
-  walks yet. Evidence:
+- **A worktree agent can't playtest through `:5264` (found session-206,
+  ADR-199).** The shared dev server runs from the MAIN tree root, so a
+  job isolated in a worktree cannot reach its own changes in the live
+  playtest — a PH6 collision. Today's answer is documented, not tooled:
+  playtest AFTER landing on `main`, or hand-run a private vite on
+  another port (`KAMI_ALLOW_MULTI_DEV=1`), never killing the shared
+  server. **Re-open if worktree opt-in actually gets used often** — then
+  a `pnpm run dev:worktree` (auto-picks a free port, guard-aware) is the
+  obvious fix. Parked because worktrees are opt-in and rare by design;
+  the ceremony isn't worth it for a path nobody walks yet. Evidence:
   [`shared-tree-git.md` §6](../docs/guides/shared-tree-git.md).
 
-- **Cohesion steer awaits its ADR lock (session-213, 2026-07-18).**
-  The human's cohesion ruling (every element earns its place on ALL
-  THREE axes — game/story/fun; the founding steer of the
+- **Cohesion steer awaits its ADR lock (session-213, 2026-07-18).** The
+  human's cohesion ruling (every element earns its place on ALL THREE
+  axes — game/story/fun; the founding steer of the
   `kami-cohesion-campaign` skill) is recorded verbatim in
   [`feedback-human/2026-07-18-skill-library-rulings.md`](feedback-human/2026-07-18-skill-library-rulings.md)
-  (R1) but not yet locked as an ADR (ADR-022 — a steer this
-  load-bearing belongs in the decision log). The campaign's Phase 0
-  does it (reserve via `tree-claim.ts adr`); parked here until the
-  human starts that campaign.
+  (R1) but not yet locked as an ADR (ADR-022 — a steer this load-bearing
+  belongs in the decision log). The campaign's Phase 0 does it (reserve
+  via `tree-claim.ts adr`); parked here until the human starts that
+  campaign.
 
 - **Skill-trigger boosts may need an AGENTS.md rung (session-207,
   2026-07-14).** The human wants `battery` (cheap modes), `tdd`, and
-  `grill-me` to fire MORE; their frontmatter descriptions were
-  rewritten to self-invoke framing (the description IS always-loaded
-  trigger surface). Deliberately NOT added: a one-line AGENTS.md nudge
-  per skill — always-loaded cost, and the descriptions may suffice.
-  **Re-open if the three still under-fire over the next sessions**
-  (the human counts a skill-less grilling as a FAIL); the fix is one
-  nudge line each at the relevant AGENTS.md bullet. Evidence:
-  [`2026-07-14-skills-audit.md` §Rulings](audit/reports/2026-07-14-skills-audit.md).
+  `grill-me` to fire MORE; their frontmatter descriptions were rewritten
+  to self-invoke framing (the description IS always-loaded trigger
+  surface). Deliberately NOT added: a one-line AGENTS.md nudge per skill
+  — always-loaded cost, and the descriptions may suffice. **Re-open if
+  the three still under-fire over the next sessions** (the human counts
+  a skill-less grilling as a FAIL); the fix is one nudge line each at
+  the relevant AGENTS.md bullet. Evidence: [`2026-07-14-skills-audit.md`
+  §Rulings](audit/reports/2026-07-14-skills-audit.md).
 
-- **`md-wrap` merges an HTML comment into following prose
-  (session-218, 2026-07-18).** `pnpm run md:wrap` on
-  `narrative/flavor.md` reflowed the ENTIRE file (not just the new
-  lines) and joined a `-->` comment close with the paragraph after it
-  (`flavor.md:195`), which REDs the narrative parse ("indented
-  continuation with nothing open above it"). Worked around by revert +
-  hand-wrapping; the md-prose-width hook still RECOMMENDS the tool.
-  Fix when touched: make `md-wrap.ts` treat comment-close as a hard
-  paragraph boundary and/or reflow only over-width lines. Evidence:
-  journal s218 §1 Landmines.
+- **`md-wrap` merges an HTML comment into following prose (session-218,
+  2026-07-18).** `pnpm run md:wrap` on `narrative/flavor.md` reflowed
+  the ENTIRE file (not just the new lines) and joined a `-->` comment
+  close with the paragraph after it (`flavor.md:195`), which REDs the
+  narrative parse ("indented continuation with nothing open above it").
+  Worked around by revert + hand-wrapping; the md-prose-width hook still
+  RECOMMENDS the tool. Fix when touched: make `md-wrap.ts` treat
+  comment-close as a hard paragraph boundary and/or reflow only
+  over-width lines. Evidence: journal s218 §1 Landmines.
+
+- **The `.bar` track's ring reads faintly bar-like when empty
+  (session-219, 2026-07-18).** Every meter's track paints an outer
+  `box-shadow: 0 0 0 1px var(--silver-faint)`, so at 6px tall an EMPTY
+  groove still shows a thin light outline the eye can read as a filled
+  bar. This was one half of why a 1/100 life bar read full. The other
+  halves are fixed (a 3% visibility floor + the `.bar.low` alarm now
+  actually painting vermilion), and with a red pip and an exact numeral
+  the read is unambiguous — so the ring was **deliberately left alone**:
+  `--silver-faint` is a shared token and every meter, card and groove
+  would move with it. **Re-open if** a future meter is added with no
+  numeral beside it (the numeral is what disambiguates today), or if the
+  empty-vs-full read is queried again in a playtest. Evidence:
+  [`2026-07-18-phone-shell-defects.md` §Pass
+  2](audit/reports/2026-07-18-phone-shell-defects.md).

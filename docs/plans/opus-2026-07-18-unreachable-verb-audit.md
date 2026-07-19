@@ -112,6 +112,18 @@ Surveyed 2026-07-18 at `bb039cd0` (this session, files read directly):
    occlusion, or zero size. Start with the season wheel at both
    profiles; this is the check that WOULD have gone RED. Keep it small —
    a full intent sweep in Playwright would not fit the lane.
+
+   **Carry the s219 layout defects in with it.** That session fixed the
+   footer collision and the log band by measurement + capture, and
+   covered the two behavioural fixes with unit tests — but **nothing
+   gates the LAYOUT half**, so the footer could silently re-collide.
+   The s219 plan made an e2e assertion conditional ("only if it fits
+   the existing spec shape") and it did not; this is where it fits. Two
+   cheap 390px assertions belong beside the reachability one:
+   the footer's `foot-left` stays a single line (it wrapped before), and
+   `.clock-dock` does not intersect `.appbar-footer` (they shared a grid
+   cell before). Both go RED against the pre-fix cascade, which is the
+   same mutation proof this step already demands.
 4. **Point the jsdom ratchet at its own limit.** Add a comment block to
    `affordance-coverage.test.ts` stating what it can and cannot prove,
    naming the e2e lane as the reachability half. A future reader must
